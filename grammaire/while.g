@@ -15,5 +15,6 @@ definition
 	
 	
 exprbase:	 ('nil'|variable|symbol) | ('(' 'cons' lexpr ')' | '(' 'list' lexpr ')') | ('(' 'hd' exprbase ')' | '(' 'tl' exprbase ')') | ('(' symbol lexpr ')')  ;
-
+expression :	 exprbase | (exprbase '=?' exprbase);;
+lexpr	:	 exprbase lexpr;
 
