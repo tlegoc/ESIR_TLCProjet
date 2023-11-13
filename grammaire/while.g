@@ -1,5 +1,12 @@
 grammar while;
 
+WS  :   ( ' '
+        | '\t'
+        | '\r'
+        | '\n'
+        ) {$channel=HIDDEN;}
+    ;
+    
 Min 	:	'a'..'z';
 Maj 	:	'A'..'Z';
 Dec 	:	'0'..'9';
