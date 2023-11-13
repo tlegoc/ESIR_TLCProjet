@@ -25,7 +25,7 @@ while	:	'while'expression'do'commands'od';
 for	:	'for'expression'do'commands'od';
 foreach	:	'foreach'variable'in'expression'do'commands'od';
 exprbase:	 ('nil'|variable|symbol) | ('(' 'cons' lexpr ')' | '(' 'list' lexpr ')') | ('(' 'hd' exprbase ')' | '(' 'tl' exprbase ')') | ('(' symbol lexpr ')')  ;
-expression :	 exprbase | (exprbase '=?' exprbase);;
+expression :	 exprbase | (exprbase '=?' exprbase);
 lexpr	:	 (exprbase lexpr)|'';
 
 	
