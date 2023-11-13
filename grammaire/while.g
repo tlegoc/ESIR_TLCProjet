@@ -11,3 +11,9 @@ program :	function program | function;
 function:	'function' symbol ':'definition;
 definition  
 	: 'read' input '%' commands '%''write'output;
+	
+	
+	
+exprbase:	 ('nil'|variable|symbol) | ('(' 'cons' lexpr ')' | '(' 'list' lexpr ')') | ('(' 'hd' exprbase ')' | '(' 'tl' exprbase ')') | ('(' symbol lexpr ')')  ;
+
+
