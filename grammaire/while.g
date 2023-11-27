@@ -23,6 +23,12 @@ WS  :   ( ' '
         | '\n'
         ) {$channel=HIDDEN;}
     ;
+    
+COMMENT
+    :   '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
+    |   '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
+    ;
+    
 fragment    
 Min 	:	'a'..'z';
 fragment
