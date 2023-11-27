@@ -39,6 +39,4 @@ foreach_	:	'foreach'Variable'in'expression'do'commands'od';
 exprbase:	 ('nil'|Variable|Symbol) | ('(' 'cons' lexpr ')' | '(' 'list' lexpr ')') | ('(' 'hd' exprbase ')' | '(' 'tl' exprbase ')') | ('(' Symbol lexpr ')')  ;
 expression :	 exprbase('=?' exprbase)*;
 lexpr	:	 (exprbase lexpr)?;
-start_rule: 	program; 
-	
-	
+start_rule: 	program;
