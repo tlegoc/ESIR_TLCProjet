@@ -1,0 +1,11 @@
+function main:
+read
+
+//Test enchainement de commandes
+nop;
+nop;
+Test1:=(true);
+Test2:=(false);
+nop;nop
+
+write Result
