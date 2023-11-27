@@ -4,6 +4,7 @@ output = AST;
 
 }
 tokens {
+LEXPR;
 COMMANDS;
 PARAM;
 OUTPUT;
@@ -64,6 +65,6 @@ exprbase:
  | ('(' 'hd' exprbase ')'-> ^(HD exprbase) | '(' 'tl' exprbase ')' -> ^(TL exprbase))
  | ('(' Symbol lexpr ')')  -> ^(SYMBOL lexpr) ;
 expression :	 exprbase('=?' exprbase)* -> exprbase+;
-lexpr	:	 exprbase+;
+lexpr	:	 exprbase+ -> exprbase+;
 start_rule: 	program; 
 	
