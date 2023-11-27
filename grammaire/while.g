@@ -4,6 +4,8 @@ output = AST;
 
 }
 tokens {
+PARAM;
+OUTPUT;
 SYMBOL;
 TL;
 HD;
@@ -36,10 +38,10 @@ Variable 	:	Maj(Maj|Min|Dec)*('?'|'!')?;
 program :	function+;
 function:	'function' i = Symbol ':'definition->^($i definition);
 definition  : 	'read' input '%' commands '%''write'output -> ^(FUNC input commands output);
-input 	:	inputSub?;
+input 	:	inputSub -> ^(PARAM inputSub)| -> ^(PARAM);
 
 inputSub :	Variable(','Variable)*-> Variable+;
-output 	:	Variable(','Variable)* -> Variable+;
+output 	:	Variable(','Variable)* -> ^(OUTPUT Variable+);
 commands :	 command(';'command)* -> command+;
 command:	'nop'|(vars':='exprs) -> ^(EGALITE vars exprs)|if_|while_|for_|foreach_;
 vars	:	Variable(','Variable)*-> Variable+;
