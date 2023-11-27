@@ -4,6 +4,7 @@ output = AST;
 
 }
 tokens {
+COMMANDS;
 PARAM;
 OUTPUT;
 SYMBOL;
@@ -43,7 +44,7 @@ Symbol 	:	Min(Maj|Min|Dec)*('?'|'!')?;
 Variable 	:	Maj(Maj|Min|Dec)*('?'|'!')?;
 program :	function+;
 function:	'function' i = Symbol ':'definition->^($i definition);
-definition  : 	'read' input '%' commands '%''write'output -> ^(FUNC input commands output);
+definition  : 	'read' input '%' commands '%''write'output -> ^(FUNC input ^(COMMANDS commands) output);
 input 	:	inputSub -> ^(PARAM inputSub)| -> ^(PARAM);
 
 inputSub :	Variable(','Variable)*-> Variable+;
@@ -53,10 +54,10 @@ command:	'nop'|(vars':='exprs) -> ^(EGALITE vars exprs)|if_|while_|for_|foreach_
 vars	:	Variable(','Variable)*-> Variable+;
 
 exprs	:	expression(','expression)* -> expression+;
-if_	:	'if'expression'then'commands ('else'commands)?'fi'-> ^(IF expression commands+) ;
-while_	:	'while'expression'do'commands'od' -> ^(WHILE expression commands);
-for_	:	'for'expression'do'commands'od' -> ^(FOR expression commands);
-foreach_	:	'foreach' i = Variable'in'expression'do'commands'od' -> ^(FOREACH $i expression commands);
+if_	:	'if'expression'then'commands ('else'commands)?'fi'-> ^(IF expression ^(COMMANDS commands+)) ;
+while_	:	'while'expression'do'commands'od' -> ^(WHILE expression ^(COMMANDS commands));
+for_	:	'for'expression'do'commands'od' -> ^(FOR expression ^(COMMANDS commands));
+foreach_	:	'foreach' i = Variable'in'expression'do'commands'od' -> ^(FOREACH $i expression ^(COMMANDS commands));
 exprbase:	 
 ('nil'|Variable|Symbol)
  | ('(' 'cons' lexpr ')' -> ^(CONS lexpr) | '(' 'list' lexpr ')' -> ^(LIST lexpr))
