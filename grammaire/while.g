@@ -24,7 +24,7 @@ inputSub :	Variable(','Variable)*;
 output 	:	Variable(','Variable)*;
 commands :	 command(';'command)*;
 command:	'nop'|(vars':='exprs)|if_|while_|for_|foreach_;
-vars	:	Variable|(Variable','vars);
+vars	:	Variable(','Variable)*;
 exprs	:	expression(','expression)*;
 if_	:	'if'expression'then'commands('else'commands)?'fi';
 while_	:	'while'expression'do'commands'od';
