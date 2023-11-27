@@ -1,4 +1,3 @@
-// true constant (for lisibility)
 function true :
 read
 %
@@ -6,7 +5,6 @@ read
 %
 write Result
 
-// false constant (for lisibility)
 function false :
 read
 %
@@ -14,7 +12,6 @@ read
 %
 write Result
 
-// Logical not
 function not :
 read Op1
 %
@@ -22,7 +19,6 @@ read Op1
 %
 write Result
 
-// Logical and
 function and :
 read Op1, Op2
 %
