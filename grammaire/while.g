@@ -23,12 +23,6 @@ WS  :   ( ' '
         | '\n'
         ) {$channel=HIDDEN;}
     ;
-    
-COMMENT
-    :   '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
-    |   '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
-    ;
-    
 fragment    
 Min 	:	'a'..'z';
 fragment
@@ -51,7 +45,7 @@ command:	'nop'|(vars':='exprs) -> ^(EGALITE vars exprs)|if_|while_|for_|foreach_
 vars	:	Variable(','Variable)*-> Variable+;
 
 exprs	:	expression(','expression)* -> expression+;
-if_	:	'if'expression'then'commands('else'commands -> commands)?'fi' -> ^(IF expression commands);
+if_	:	'if'expression'then'commands ('else'commands)?'fi'-> ^(IF expression commands+) ;
 while_	:	'while'expression'do'commands'od' -> ^(WHILE expression commands);
 for_	:	'for'expression'do'commands'od' -> ^(FOR expression commands);
 foreach_	:	'foreach' i = Variable'in'expression'do'commands'od' -> ^(FOREACH $i expression commands);
@@ -61,6 +55,6 @@ exprbase:
  | ('(' 'hd' exprbase ')'-> ^(HD exprbase) | '(' 'tl' exprbase ')' -> ^(TL exprbase))
  | ('(' Symbol lexpr ')')  -> ^(SYMBOL lexpr) ;
 expression :	 exprbase('=?' exprbase)* -> exprbase+;
-lexpr	:	 (exprbase lexpr)?;
+lexpr	:	 exprbase+;
 start_rule: 	program; 
 	
