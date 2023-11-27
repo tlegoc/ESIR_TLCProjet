@@ -11,6 +11,11 @@ nop;
 nop;
 Test1:=(true);
 Test2:=(false);
-nop;nop
+nop;nop;
+
+//Test if then fi 
+if nil then nop fi;
+
+
 %
 write Result
