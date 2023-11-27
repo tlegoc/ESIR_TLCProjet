@@ -1,0 +1,16 @@
+function main:
+read
+%
+//Test creation variables
+X:=(cons nil nil);
+Y:=X;
+X:=nil;
+
+//Test enchainement de commandes
+nop;
+nop;
+Test1:=(true);
+Test2:=(false);
+nop;nop
+%
+write Result
