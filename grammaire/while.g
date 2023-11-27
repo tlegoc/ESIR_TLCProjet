@@ -4,7 +4,7 @@ output = AST;
 
 }
 tokens {
-LEXPR;
+EXPR;
 COMMANDS;
 PARAM;
 OUTPUT;
@@ -63,8 +63,8 @@ exprbase:
 ('nil'|Variable|Symbol)
  | ('(' 'cons' lexpr ')' -> ^(CONS lexpr) | '(' 'list' lexpr ')' -> ^(LIST lexpr))
  | ('(' 'hd' exprbase ')'-> ^(HD exprbase) | '(' 'tl' exprbase ')' -> ^(TL exprbase))
- | ('(' Symbol lexpr ')')  -> ^(SYMBOL lexpr) ;
+ | ('(' s=Symbol lexpr ')'  -> ^(SYMBOL $s lexpr));
 expression :	 exprbase('=?' exprbase)* -> exprbase+;
-lexpr	:	 exprbase+ -> exprbase+;
+lexpr	:	 exprbase+ -> ^(EXPR exprbase+) | -> ^(EXPR);
 start_rule: 	program; 
 	
