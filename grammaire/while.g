@@ -4,7 +4,7 @@ output = AST;
 
 }
 tokens {
-EXPR;
+VIDE;
 COMMANDS;
 PARAM;
 OUTPUT;
@@ -15,6 +15,7 @@ CONS;
 LIST;
 EGALITE;
 FUNC;
+BODY;
 IF;
 WHILE;
 FOR;
@@ -44,8 +45,8 @@ Dec 	:	'0'..'9';
 Symbol 	:	Min(Maj|Min|Dec)*('?'|'!')?;
 Variable 	:	Maj(Maj|Min|Dec)*('?'|'!')?;
 program :	function+;
-function:	'function' i = Symbol ':'definition->^($i definition);
-definition  : 	'read' input '%' commands '%''write'output -> ^(FUNC input ^(COMMANDS commands) output);
+function:	'function' i = Symbol ':'definition->^(FUNC $i definition);
+definition  : 	'read' input '%' commands '%''write'output -> ^(BODY input ^(COMMANDS commands) output);
 input 	:	inputSub -> ^(PARAM inputSub)| -> ^(PARAM);
 
 inputSub :	Variable(','Variable)*-> Variable+;
@@ -65,6 +66,6 @@ exprbase:
  | ('(' 'hd' exprbase ')'-> ^(HD exprbase) | '(' 'tl' exprbase ')' -> ^(TL exprbase))
  | ('(' s=Symbol lexpr ')'  -> ^(SYMBOL $s lexpr));
 expression :	 exprbase('=?' exprbase)* -> exprbase+;
-lexpr	:	 exprbase+ -> ^(EXPR exprbase+) | -> ^(EXPR);
+lexpr	:	 exprbase+ -> exprbase+ | -> ^(VIDE);
 start_rule: 	program; 
 	
