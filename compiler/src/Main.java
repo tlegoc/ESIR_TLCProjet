@@ -1,41 +1,38 @@
+import org.antlr.runtime.ANTLRFileStream;
+import org.antlr.runtime.CharStream;
+import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.RecognitionException;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.io.*;
 
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello world!");
 
-        Tree t1 = Tree.stringToTree("Hello world!");
+    public static void main(String[] args) throws IOException, RecognitionException {
+        System.out.println("While Compiler v0.1a");
 
-        // Doit afficher Hello world!
-        System.out.println(t1);
-        // Doit afficher true
-        System.out.println(t1.toBoolean());
-        // Doit afficher 11
-        System.out.println(t1.toInt());
+//        if (args.length <= 0) {
+//            System.out.println("No input specified! Please input a file using -i FILE");
+//            return;
+//        }
 
-        Tree ttrue = new Node();
+        // Open file from first argument
+//        String filename = args[0];
 
-        // Doit afficher ""
-        System.out.println(ttrue);
-        // Doit afficher true
-        System.out.println(ttrue.toBoolean());
-        // Doit afficher 1
-        System.out.println(ttrue.toInt());
+        String filename = "test1.while";
 
-        Tree tfalse = new Nil();
+        CharStream input = new ANTLRFileStream(filename);
 
-        // Doit afficher ""
-        System.out.println(tfalse);
-        // Doit afficher false
-        System.out.println(tfalse.toBoolean());
-        // Doit afficher 0
-        System.out.println(tfalse.toInt());
+        whileLexer lex = new whileLexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lex);
+        whileParser pars = new whileParser(tokens);
 
-        // Doit afficher "a"
-        System.out.println(new Symbol('a'));
-        // Doit afficher false
-        System.out.println(new Symbol('a').toBoolean());
-        // Doit afficher 0
-        System.out.println(new Symbol('a').toInt());
+        whileParser.start_rule_return src = pars.start_rule();
+
+        Object ast = src.getTree();
+
+        WhileASTVisitor visitor = new VisitorTest();
+        visitor.visit(ast);
     }
 }
