@@ -32,7 +32,9 @@ public class Main {
 
         Object ast = src.getTree();
 
-        WhileASTVisitor visitor = new VisitorTest();
+        ThreeAddrVisitor visitor = new ThreeAddrVisitor();
         visitor.visit(ast);
+
+        System.out.println(visitor.getProgram());
     }
 }
