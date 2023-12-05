@@ -57,7 +57,7 @@ public class VisitorTA {
                 program.addLine(Line.Op.FUNCEND, new Symbol(String.valueOf(tree.getChild(0))));
                 break;
             case "OUTPUT":
-                program.addLine(Line.Op.RETURN, new Symbol(String.valueOf(tree.getChild(0))));
+                program.addLine(Line.Op.OUTPUT, new Symbol(String.valueOf(tree.getChild(0))));
                 break;
             case "PARAM":
                 for (int i = 0; i < tree.getChildCount(); i++) {
@@ -115,6 +115,18 @@ public class VisitorTA {
                 program.addLine(Line.Op.WHILEBEGIN, new Symbol(String.valueOf(tree.getChild(0))));
                 visit(tree.getChild(1));
                 program.addLine(Line.Op.WHILEEND, new Symbol(String.valueOf(tree.getChild(0))));
+                break;
+            case "IF":
+                Argument condition = visit(tree.getChild(0));
+                program.addLine(Line.Op.IFBEGIN, condition);
+                visit(tree.getChild(1));
+                program.addLine(Line.Op.IFEND, condition);
+                if (tree.getChildCount() > 2)
+                {
+                    program.addLine(Line.Op.ELSEBEGIN, condition);
+                    visit(tree.getChild(2));
+                    program.addLine(Line.Op.ELSEEND, condition);
+                }
                 break;
             default:
                 // Edge case for root program leaf

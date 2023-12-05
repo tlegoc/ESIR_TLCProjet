@@ -18,8 +18,7 @@ public class Program {
 
     List<Line> lines = new ArrayList<>();
 
-    public void addLine(Line.Op op, Argument res)
-    {
+    public void addLine(Line.Op op, Argument res) {
         addLine(op, res, new EmptyArgument(), new EmptyArgument());
     }
 
@@ -31,8 +30,7 @@ public class Program {
         lines.add(l);
     }
 
-    public void addComment(String comment)
-    {
+    public void addComment(String comment) {
         addLine(Line.Op.IGNORE, new Symbol(comment));
     }
 
@@ -46,18 +44,13 @@ public class Program {
         for (Line line : lines) {
             if (line.op == Line.Op.FUNCBEGIN || line.op == Line.Op.FUNCEND || line.op == Line.Op.PARAM)
                 result.append(ANSI_GREEN);
-            else if (line.op == Line.Op.FORBEGIN || line.op == Line.Op.FOREND || line.op == Line.Op.WHILEBEGIN || line.op == Line.Op.WHILEEND)
+            else if (line.op == Line.Op.FORBEGIN || line.op == Line.Op.FOREND || line.op == Line.Op.WHILEBEGIN || line.op == Line.Op.WHILEEND || line.op == Line.Op.IFBEGIN || line.op == Line.Op.IFEND || line.op == Line.Op.ELSEBEGIN || line.op == Line.Op.ELSEEND)
                 result.append(ANSI_YELLOW);
-            else if (line.op == Line.Op.CALL || line.op == Line.Op.PARAMSET)
-                result.append(ANSI_RED);
-            else if (line.op == Line.Op.RETURN)
-                result.append(ANSI_BLUE);
-            else if (line.op == Line.Op.ASSIGN)
-                result.append(ANSI_PURPLE);
-            else if (line.op == Line.Op.IGNORE)
-                result.append(ANSI_CYAN);
-            else
-                result.append(ANSI_RESET);
+            else if (line.op == Line.Op.CALL || line.op == Line.Op.PARAMSET) result.append(ANSI_RED);
+            else if (line.op == Line.Op.OUTPUT) result.append(ANSI_BLUE);
+            else if (line.op == Line.Op.ASSIGN) result.append(ANSI_PURPLE);
+            else if (line.op == Line.Op.IGNORE) result.append(ANSI_CYAN);
+            else result.append(ANSI_RESET);
             result.append(line.op).append(" ".repeat(10 - String.valueOf(line.op).length())).append(":\t").append(line.res);
             if (!(line.arg1 instanceof EmptyArgument)) {
                 result.append(",\t").append(line.arg1);
