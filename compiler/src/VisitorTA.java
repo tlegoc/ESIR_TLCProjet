@@ -23,10 +23,6 @@ public class VisitorTA {
                         break;
                     case 1:
                         Argument arg = visit(tree.getChild(0));
-                        if (arg instanceof Symbol && Objects.equals(((Symbol) arg).name, "VIDE")) {
-                            program.addLine(Line.Op.CONS, cons_res);
-                            break;
-                        }
                         program.addLine(Line.Op.CONS, cons_res, arg, new EmptyArgument());
                         break;
 
@@ -85,6 +81,8 @@ public class VisitorTA {
             case "SYMBOL":
                 for (int i = 1; i < tree.getChildCount(); i++) {
                     Argument param_v = visit(tree.getChild(i));
+                    if (param_v instanceof EmptyArgument)
+                        continue;
                     program.addLine(Line.Op.PARAMSET, param_v);
                 }
                 Registre fc_res = new Registre();
@@ -128,6 +126,8 @@ public class VisitorTA {
                     program.addLine(Line.Op.ELSEEND, condition);
                 }
                 break;
+            case "VIDE":
+                return new EmptyArgument();
             default:
                 // Edge case for root program leaf
                 // Should not give any problems since any leaf node with "nil"
