@@ -40,9 +40,15 @@ public class Program {
 
     @Override
     public String toString() {
+        return getProgramString();
+    }
+
+    public String getProgramString(boolean colored)
+    {
         StringBuilder result = new StringBuilder();
         for (Line line : lines) {
-            if (line.op == Line.Op.FUNCBEGIN || line.op == Line.Op.FUNCEND || line.op == Line.Op.PARAM)
+            if (!colored); // Blocking if
+            else if (line.op == Line.Op.FUNCBEGIN || line.op == Line.Op.FUNCEND || line.op == Line.Op.PARAM)
                 result.append(ANSI_GREEN);
             else if (line.op == Line.Op.FORBEGIN || line.op == Line.Op.FOREND || line.op == Line.Op.WHILEBEGIN || line.op == Line.Op.WHILEEND || line.op == Line.Op.IFBEGIN || line.op == Line.Op.IFEND || line.op == Line.Op.ELSEBEGIN || line.op == Line.Op.ELSEEND)
                 result.append(ANSI_YELLOW);
@@ -51,17 +57,22 @@ public class Program {
             else if (line.op == Line.Op.ASSIGN) result.append(ANSI_PURPLE);
             else if (line.op == Line.Op.IGNORE) result.append(ANSI_CYAN);
             else result.append(ANSI_RESET);
-            result.append(line.op).append(" ".repeat(10 - String.valueOf(line.op).length())).append(":\t").append(line.res);
+            result.append(line.op).append(" ".repeat(10 - String.valueOf(line.op).length())).append("\t").append(line.res);
             if (!(line.arg1 instanceof EmptyArgument)) {
-                result.append(",\t").append(line.arg1);
+                result.append("\t").append(line.arg1);
                 if (!(line.arg2 instanceof EmptyArgument)) {
-                    result.append(",\t").append(line.arg2);
+                    result.append("\t").append(line.arg2);
                 }
             }
             result.append("\n");
         }
 
         return result.toString();
+    }
+
+    public String getProgramString()
+    {
+        return getProgramString(false);
     }
 
     public Line getLastLine(int i) {

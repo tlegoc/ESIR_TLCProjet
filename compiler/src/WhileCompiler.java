@@ -69,6 +69,6 @@ public class WhileCompiler {
     public void printProgram()
     {
         if (program == null) System.out.println("Programme pas encore compilé. Veuillez appeller .compile()");
-        System.out.println(program);
+        System.out.println(program.getProgramString(true));
     }
 }
