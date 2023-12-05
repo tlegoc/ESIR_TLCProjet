@@ -20,6 +20,7 @@ IF;
 WHILE;
 FOR;
 FOREACH;
+THEN;
 }
 
 WS  :   ( ' '
