@@ -13,13 +13,12 @@ TL;
 HD;
 CONS;
 LIST;
-ASSIGNATION;
+EGALITE;
 FUNC;
 IF;
 WHILE;
 FOR;
 FOREACH;
-THEN;
 }
 
 WS  :   ( ' '
@@ -52,12 +51,11 @@ input 	:	inputSub -> ^(PARAM inputSub)| -> ^(PARAM);
 inputSub :	Variable(','Variable)*-> Variable+;
 output 	:	Variable(','Variable)* -> ^(OUTPUT Variable+);
 commands :	 command(';'command)* -> command+;
-command:	'nop'|(vars':='exprs) -> ^(ASSIGNATION vars exprs)|if_|while_|for_|foreach_;
+command:	'nop'|(vars':='exprs) -> ^(EGALITE vars exprs)|if_|while_|for_|foreach_;
 vars	:	Variable(','Variable)*-> Variable+;
 
 exprs	:	expression(','expression)* -> expression+;
-if_	:	'if'expression'then'then_ ('else'then_)?'fi'-> ^(IF expression ^(COMMANDS then_+)) ;
-then_ 	:	commands -> ^(THEN commands);
+if_	:	'if'expression'then'commands ('else'commands)?'fi'-> ^(IF expression ^(COMMANDS commands+)) ;
 while_	:	'while'expression'do'commands'od' -> ^(WHILE expression ^(COMMANDS commands));
 for_	:	'for'expression'do'commands'od' -> ^(FOR expression ^(COMMANDS commands));
 foreach_	:	'foreach' i = Variable'in'expression'do'commands'od' -> ^(FOREACH $i expression ^(COMMANDS commands));
