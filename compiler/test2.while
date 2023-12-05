@@ -12,6 +12,7 @@ function sub :
 read Op1, Op2
 %
     Result := Op1;
+    Result := (tl (cons nil nil));
     for Op2 do
         Result := (tl Result)
     od

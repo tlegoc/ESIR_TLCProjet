@@ -1,3 +1,5 @@
+package old_runtime;
+
 public class Symbol extends Tree {
 
     public Symbol(char v)

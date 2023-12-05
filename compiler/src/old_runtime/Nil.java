@@ -1,3 +1,5 @@
+package old_runtime;
+
 public class Nil extends Tree {
 
     public Tree copy() {

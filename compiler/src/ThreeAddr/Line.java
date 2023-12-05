@@ -4,17 +4,21 @@ public class Line {
 
     public enum Op {
         PARAM,
-        FUNC,
+        PARAMSET,
+        FUNCBEGIN,
+        FUNCEND,
+        RETURN,
         CONS,
-        EGALITE,
+        ASSIGN,
         TL,
         HD,
         LIST,
         IF,
         WHILE,
-        FOR,
-        FOREACH,
-        OUTPUT
+        FORBEGIN,
+        FOREND,
+        OUTPUT,
+        CALL
     }
     public Argument res;
     public Argument arg1;

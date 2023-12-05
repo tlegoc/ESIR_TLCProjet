@@ -8,7 +8,7 @@ public class Registre implements Argument {
     public Registre()
     {
         Random r = new Random();
-        name = "res" + r.nextInt(1000000);
+        name = "reg_" + r.nextInt(100000000);
     }
 
     @Override

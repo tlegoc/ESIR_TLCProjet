@@ -1,3 +1,5 @@
+package old_runtime;
+
 public abstract class Tree {
     public abstract Tree copy();
 

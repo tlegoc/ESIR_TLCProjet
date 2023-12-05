@@ -12,15 +12,12 @@ public class Main {
     public static void main(String[] args) throws IOException, RecognitionException {
         System.out.println("While Compiler v0.1a");
 
-//        if (args.length <= 0) {
-//            System.out.println("No input specified! Please input a file using -i FILE");
-//            return;
-//        }
+        if (args.length <= 0) {
+            System.out.println("No input specified! Please input a file using -i FILE");
+            return;
+        }
 
-        // Open file from first argument
-//        String filename = args[0];
-
-        String filename = "test1.while";
+        String filename = args[0];
 
         CharStream input = new ANTLRFileStream(filename);
 
@@ -32,9 +29,11 @@ public class Main {
 
         Object ast = src.getTree();
 
-        ThreeAddrVisitor visitor = new ThreeAddrVisitor();
-        visitor.visit(ast);
+        VisitorTA vst = new VisitorTA();
 
-        System.out.println(visitor.getProgram());
+        vst.visit(ast);
+
+        System.out.println("Programme: ");
+        System.out.println(vst.getProgram());
     }
 }
