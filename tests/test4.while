@@ -1,0 +1,28 @@
+function add :
+read Op1, Op2
+%
+    Result := Op1 ;
+    for Op2 do
+        Result := ( cons nil Result )
+    od
+%
+write Result
+
+function test:
+read Op1, Op2
+%
+    Result := (cons);
+    Result := (add Result (cons));
+    Result := (add Result (cons));
+    Result := (add Result (cons));
+    Result := (add Result (cons));
+    Result := (tl Result);
+    Result := (hd Result);
+    Result := (list Result Result Result Result);
+
+    while Op2
+    do
+        Result := (list Result)
+    od
+%
+write Result

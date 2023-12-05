@@ -23,6 +23,8 @@ FOREACH;
 THEN;
 }
 
+start_rule: 	program; 
+
 WS  :   ( ' '
         | '\t'
         | '\r'
@@ -69,5 +71,4 @@ exprbase:
  | ('(' s=Symbol lexpr ')'  -> ^(SYMBOL $s lexpr));
 expression :	 exprbase('=?' exprbase)* -> exprbase+;
 lexpr	:	 exprbase+ -> exprbase+ | -> ^(VIDE);
-start_rule: 	program; 
 	

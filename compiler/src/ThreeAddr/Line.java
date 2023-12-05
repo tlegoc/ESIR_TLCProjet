@@ -14,11 +14,13 @@ public class Line {
         HD,
         LIST,
         IF,
-        WHILE,
+        WHILEBEGIN,
+        WHILEEND,
         FORBEGIN,
         FOREND,
         OUTPUT,
-        CALL
+        CALL,
+        IGNORE
     }
     public Argument res;
     public Argument arg1;
