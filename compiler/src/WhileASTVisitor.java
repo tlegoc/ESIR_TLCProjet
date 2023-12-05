@@ -6,12 +6,15 @@ public abstract class WhileASTVisitor extends TreeWizard.Visitor {
     public void visit(Object o) {
         CommonTree tree = (CommonTree) o;
 
-        process(tree);
+        processBegin(tree);
         for (int i = 0; i < tree.getChildCount(); i++)
         {
             visit(tree.getChild(i));
         }
+        processEnd(tree);
     }
 
-    public abstract void process(CommonTree o);
+    public abstract void processBegin(CommonTree o);
+    public abstract void processEnd(CommonTree o);
+
 }

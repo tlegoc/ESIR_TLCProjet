@@ -2,7 +2,6 @@ import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.io.*;
@@ -32,7 +31,7 @@ public class Main {
 
         Object ast = src.getTree();
 
-        WhileASTVisitor visitor = new VisitorTest();
-        visitor.visit(ast);
+        //VisitorTS visitor = new VisitorTS(ast);
+        //visitor.visit(ast);
     }
 }
