@@ -19,13 +19,12 @@ public class Main {
 
         boolean succes = compiler.compile(true);
 
-        if (!succes) return;
+        if (!succes) {
+            System.out.println("Error");
+            return;
+        }
 
-        compiler.printProgram();
-
-        BufferedWriter writer = new BufferedWriter(new FileWriter("compiled.w3a"));
-        writer.write(compiler.getProgram().getProgramString().toLowerCase());
-
-        writer.close();
+//        compiler.printProgram();
+//        compiler.saveProgram(filename);
     }
 }

@@ -56,7 +56,12 @@ public class WhileCompiler {
             if (runOptimizations) program.optimize();
 
             // COMPILATION EN C PUIS APPEL DE GCC
-            callGCC("test.c");
+            List<String> params = new ArrayList<>();
+            params.add("test.cpp");
+            params.add("-Bstatic");
+            params.add("-Llibwhile");
+//            params.add("");
+            callGCC(params, "test");
 
             visitor.clean();
         } catch (RecognitionException recognitionException) {
@@ -71,23 +76,26 @@ public class WhileCompiler {
     }
 
     public void callGCC() throws IOException {
-        callGCC("");
+        callGCC("", "");
     }
 
-    public void callGCC(String file) throws IOException
-    {
-        callGCC(Arrays.asList(file.split(" ")));
+    public void callGCC(String file, String output) throws IOException {
+        callGCC(Arrays.asList(file.split(" ")), output);
     }
 
-    public void callGCC(List<String> params) throws IOException {
+    public void callGCC(List<String> params, String output) throws IOException {
         System.out.println("---\tGCC");
         List<String> command = new ArrayList<>();
         if (System.getProperty("os.name").contains("Windows")) {
             command.add("cmd");
             command.add("/c");
-            command.add("gcc");
+            command.add("g++");
+        } else command.add("g++");
+
+        if (!output.isEmpty()) {
+            command.add("-o");
+            command.add(output);
         }
-        else command.add("gcc");
 
         command.addAll(params);
 
@@ -114,8 +122,16 @@ public class WhileCompiler {
         return program;
     }
 
-    public Boolean isGccInstalled()
-    {
+    public Boolean isGccInstalled() {
         return true;
+    }
+
+    public void saveProgram(String name) throws IOException {
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(name + ".w3a"));
+        writer.write(getProgram().getProgramString().toLowerCase());
+
+        writer.close();
+
     }
 }
