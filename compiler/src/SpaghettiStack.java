@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class SpaghettiStack {
     private ArrayList<Info> line = new ArrayList<Info>();
     private ArrayList<SpaghettiStack> children = new ArrayList<SpaghettiStack>();
-
+    public SpaghettiStack papa;
     public SpaghettiStack() {}
     
     public ArrayList<Info> getLine() {
@@ -37,12 +37,13 @@ public class SpaghettiStack {
         for (int j = 0; j < i; j++){
             s += " ";
         }
-        s += "BLOC"+i+"{\n";
-        for (Info str : line) {
+
+        s += "BLOC {\n";
+        for (Info info : line) {
             for (int j = 0; j <= i; j++){
                 s += " ";
             }
-            s += str.toString() + "\n";
+            s += info.toString() + "\n";
         }
         for (SpaghettiStack child : children) {
             s += child.toStringAux(i + 1);

@@ -12,19 +12,37 @@ public class VisitorTS{
             case "FUNC":
                 SpaghettiStack spagetti = new SpaghettiStack();
                 actual.addChild(spagetti);
+                actual.addToLine(tree.getChild(0).toString()); // Le nom de la fonction
+                actual = spagetti;
+                tree = (CommonTree) tree.getChild(1);
+                actual.addToLine(String.valueOf(tree.getChild(0).getChildCount())); // nombre de parametres
+                actual.addToLine(String.valueOf(tree.getChild(2).getChildCount())); // nombre de retours
+                for(int i =0; i<tree.getChild(0).getChildCount(); i++){
+                    actual.addToLine(tree.getChild(0).getChild(i).toString()); // les parametres
+                }
+                tree = (CommonTree) tree.getChild(1); // Le bloc
                 for(int i =0; i<tree.getChildCount(); i++){
-                    visitAux(tree.getChild(i), actual.getChild(actual.getChildrenCount()-1));
+                    visitAux(tree.getChild(i), actual);
                 }
+                break;
+            case "FOR" :
+                spagetti = new SpaghettiStack();
+                actual.addChild(spagetti);
+                actual = spagetti;
+                tree = (CommonTree) tree.getChild(1);
+                for(int i =0; i<tree.getChildCount(); i++){
+                    visitAux(tree.getChild(i), actual);
+                }
+                break;
+            case "ASSIGN" :
+                String n = tree.getChild(0).toString();
+                if(!actual.getLine().contains(n)) actual.addToLine(n);
+                break;
             default:
-                if(tree.getChildCount() == 0 &&
-                        !tree.toString().equals("VIDE") &&
-                        !tree.toString().equals("PARAM") ) {
-                    actual.addToLine(tree.toString());
-                }else{
-                    for(int i =0; i<tree.getChildCount(); i++){
-                        visitAux(tree.getChild(i), actual);
-                    }
+                for(int i =0; i<tree.getChildCount(); i++){
+                    visitAux(tree.getChild(i), actual);
                 }
+
         }
     }
     public void visit(Object o) {
