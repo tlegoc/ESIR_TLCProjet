@@ -25,10 +25,20 @@ public class VisitorTA {
                         Argument arg = visit(tree.getChild(0));
                         program.addLine(Line.Op.CONS, cons_res, arg, new EmptyArgument());
                         break;
-
-                    // Should never happen
                     default:
-                        program.addLine(Line.Op.CONS, cons_res);
+                        // USED IN DEBUGGING
+                        //TODO REMOVE
+                        program.addComment("CONST CONVERSION START");
+                        program.addLine(Line.Op.ASSIGN, cons_res, visit(tree.getChild(tree.getChildCount() - 2)), new EmptyArgument());
+                        for (int i = tree.getChildCount() - 2; i >= 0; i--) {
+                            Registre tmp = new Registre();
+                            program.addLine(Line.Op.CONS, tmp, visit(tree.getChild(i)), cons_res);
+                            cons_res = tmp;
+                        }
+
+                        // USED IN DEBUGGING
+                        //TODO REMOVE
+                        program.addComment("CONST CONVERSION END (result in " + cons_res.name + ")");
                         break;
                 }
                 return cons_res;
@@ -81,8 +91,7 @@ public class VisitorTA {
             case "SYMBOL":
                 for (int i = 1; i < tree.getChildCount(); i++) {
                     Argument param_v = visit(tree.getChild(i));
-                    if (param_v instanceof EmptyArgument)
-                        continue;
+                    if (param_v instanceof EmptyArgument) continue;
                     program.addLine(Line.Op.PARAMSET, param_v);
                 }
                 Registre fc_res = new Registre();
@@ -119,8 +128,7 @@ public class VisitorTA {
                 program.addLine(Line.Op.IFBEGIN, condition);
                 visit(tree.getChild(1));
                 program.addLine(Line.Op.IFEND, condition);
-                if (tree.getChildCount() > 2)
-                {
+                if (tree.getChildCount() > 2) {
                     program.addLine(Line.Op.ELSEBEGIN, condition);
                     visit(tree.getChild(2));
                     program.addLine(Line.Op.ELSEEND, condition);
@@ -147,8 +155,7 @@ public class VisitorTA {
         return program;
     }
 
-    public void clean()
-    {
+    public void clean() {
         program = null;
     }
 }

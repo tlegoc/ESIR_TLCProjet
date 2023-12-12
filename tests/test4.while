@@ -19,6 +19,7 @@ read Op1, Op2
     Result := (tl Result);
     Result := (hd Result);
     Result := (list Result Result Result Result);
+    Result := (cons Result Result Result Result);
 
     while Op2
     do
