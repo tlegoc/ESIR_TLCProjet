@@ -4,9 +4,11 @@ import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class WhileCompiler {
@@ -27,12 +29,13 @@ public class WhileCompiler {
 
     private Program program;
 
-    public WhileCompiler(String file)
-    {
+    public WhileCompiler(String file) {
         filename = file;
     }
 
     public boolean compile(boolean runOptimizations) throws IOException {
+        if (!isGccInstalled()) return false;
+
         CharStream input = new ANTLRFileStream(filename);
 
         whileLexer lex = new whileLexer(input);
@@ -50,12 +53,13 @@ public class WhileCompiler {
 
             program = visitor.getProgram();
 
-            if (runOptimizations)
-                program.optimize();
+            if (runOptimizations) program.optimize();
+
+            // COMPILATION EN C PUIS APPEL DE GCC
+            callGCC("test.c");
 
             visitor.clean();
-        } catch (RecognitionException recognitionException)
-        {
+        } catch (RecognitionException recognitionException) {
             System.out.println(ANSI_RED + "Erreur de compilation!!!");
             System.out.println(recognitionException.getLocalizedMessage());
 
@@ -66,9 +70,52 @@ public class WhileCompiler {
         return true;
     }
 
-    public void printProgram()
+    public void callGCC() throws IOException {
+        callGCC("");
+    }
+
+    public void callGCC(String file) throws IOException
     {
+        callGCC(Arrays.asList(file.split(" ")));
+    }
+
+    public void callGCC(List<String> params) throws IOException {
+        System.out.println("---\tGCC");
+        List<String> command = new ArrayList<>();
+        if (System.getProperty("os.name").contains("Windows")) {
+            command.add("cmd");
+            command.add("/c");
+            command.add("gcc");
+        }
+        else command.add("gcc");
+
+        command.addAll(params);
+
+        ProcessBuilder pb = new ProcessBuilder();
+        pb.command(command);
+        pb.redirectErrorStream(true);
+        Process p = pb.start();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+        System.out.println("---");
+    }
+
+    public void printProgram() {
         if (program == null) System.out.println("Programme pas encore compilé. Veuillez appeller .compile()");
         System.out.println(program.getProgramString(true));
+    }
+
+    public Program getProgram() {
+        return program;
+    }
+
+    public Boolean isGccInstalled()
+    {
+        return true;
     }
 }
