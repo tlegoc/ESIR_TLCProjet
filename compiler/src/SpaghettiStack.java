@@ -1,12 +1,14 @@
+import Info.Info;
+
 import java.util.ArrayList;
 
 public class SpaghettiStack {
-    private ArrayList<String> line = new ArrayList<String>();
+    private ArrayList<Info> line = new ArrayList<Info>();
     private ArrayList<SpaghettiStack> children = new ArrayList<SpaghettiStack>();
 
     public SpaghettiStack() {}
     
-    public ArrayList<String> getLine() {
+    public ArrayList<Info> getLine() {
         return line;
     }
 
@@ -26,7 +28,7 @@ public class SpaghettiStack {
         children.add(child);
     }
 
-    public void addToLine(String str) {
+    public void addToLine(Info str) {
         this.line.add(str);
     }
 
@@ -36,11 +38,11 @@ public class SpaghettiStack {
             s += " ";
         }
         s += "BLOC"+i+"{\n";
-        for (String str : line) {
+        for (Info str : line) {
             for (int j = 0; j <= i; j++){
                 s += " ";
             }
-            s += str + "\n";
+            s += str.toString() + "\n";
         }
         for (SpaghettiStack child : children) {
             s += child.toStringAux(i + 1);

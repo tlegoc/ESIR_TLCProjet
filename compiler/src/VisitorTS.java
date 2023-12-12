@@ -9,7 +9,7 @@ public class VisitorTS{
     private void visitAux(Object o, SpaghettiStack actual){
         CommonTree tree = (CommonTree) o;
         switch (tree.toString()){
-            case "FUNC", "FOR", "IF", "WHILE", "FOREACH","COMMANDS", "THEN":
+            case "FUNC":
                 SpaghettiStack spagetti = new SpaghettiStack();
                 actual.addChild(spagetti);
                 for(int i =0; i<tree.getChildCount(); i++){
