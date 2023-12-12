@@ -19,7 +19,7 @@ public class Main {
         // Open file from first argument
 //        String filename = args[0];
 
-        String filename = "test1.while";
+        String filename = "./compiler/test2.while";
 
         CharStream input = new ANTLRFileStream(filename);
 
@@ -31,7 +31,8 @@ public class Main {
 
         Object ast = src.getTree();
 
-        //VisitorTS visitor = new VisitorTS(ast);
-        //visitor.visit(ast);
+        VisitorTS visitor = new VisitorTS();
+        visitor.visit(ast);
+        visitor.display_ts();
     }
 }

@@ -30,4 +30,29 @@ public class SpaghettiStack {
         this.line.add(str);
     }
 
+    private String toStringAux(int i){
+        String s = "";
+        for (int j = 0; j < i; j++){
+            s += " ";
+        }
+        s += "BLOC"+i+"{\n";
+        for (String str : line) {
+            for (int j = 0; j <= i; j++){
+                s += " ";
+            }
+            s += str + "\n";
+        }
+        for (SpaghettiStack child : children) {
+            s += child.toStringAux(i + 1);
+        }
+        for (int j = 0; j < i; j++){
+            s += " ";
+        }
+        s += "}\n";
+        return s;
+    }
+    public String toString() {
+        return toStringAux(0);
+    }
+
 }

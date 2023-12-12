@@ -6,36 +6,31 @@ import java.util.HashMap;
 
 public class VisitorTS{
     SpaghettiStack ts = new SpaghettiStack();
-    SpaghettiStack actual = null;
-    public void visit(Object o){
+    private void visitAux(Object o, SpaghettiStack actual){
         CommonTree tree = (CommonTree) o;
-        switch (tree.getText()){
+        switch (tree.toString()){
             case "FUNC", "FOR", "IF", "WHILE", "FOREACH","COMMANDS", "THEN":
                 SpaghettiStack spagetti = new SpaghettiStack();
-                actual = spagetti;
-                ts.addChild(spagetti);
+                actual.addChild(spagetti);
                 for(int i =0; i<tree.getChildCount(); i++){
-                    visit(tree.getChild(i));
-                    actual = spagetti;
+                    visitAux(tree.getChild(i), actual.getChild(actual.getChildrenCount()-1));
                 }
-                break;
-            case "PARAMS", "OUTPUT", "ASSIGNATION", "CONS", "TL", "SYMBOL":
-                for(int i =0; i<tree.getChildCount(); i++){
-                    if(!tree.getChild(i).getText().equals("TL") || !tree.getChild(i).getText().equals( "CONS") || !tree.getChild(i).getText().equals("SYMBOL"))
-                        actual.addToLine(tree.getChild(i).getText());
-                }
-                break;
-
             default:
-                for(int i =0; i<tree.getChildCount(); i++){
-                    visit(tree.getChild(i));
+                if(tree.getChildCount() == 0 &&
+                        !tree.toString().equals("VIDE") &&
+                        !tree.toString().equals("PARAM") ) {
+                    actual.addToLine(tree.toString());
+                }else{
+                    for(int i =0; i<tree.getChildCount(); i++){
+                        visitAux(tree.getChild(i), actual);
+                    }
                 }
-                break;
         }
     }
-
-
-    public void build_ts() {
-
+    public void visit(Object o) {
+        visitAux(o, ts);
+    }
+    public void display_ts() {
+       System.out.println(ts.toString());
     }
 }
