@@ -26,6 +26,7 @@ public class SpaghettiStack {
 
     public void addChild(SpaghettiStack child) {
         children.add(child);
+        child.papa = this;
     }
 
     public void addToLine(Info str) {
@@ -41,7 +42,7 @@ public class SpaghettiStack {
         s += "BLOC {\n";
         for (Info info : line) {
             for (int j = 0; j <= i; j++){
-                s += " ";
+                s += "  ";
             }
             s += info.toString() + "\n";
         }

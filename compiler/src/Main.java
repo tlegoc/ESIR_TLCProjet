@@ -19,7 +19,7 @@ public class Main {
         // Open file from first argument
 //        String filename = args[0];
 
-        String filename = "./compiler/test2.while";
+        String filename = "./compiler/test1.while";
 
         CharStream input = new ANTLRFileStream(filename);
 
