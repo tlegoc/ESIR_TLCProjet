@@ -24,7 +24,7 @@ public class Main {
             return;
         }
 
-//        compiler.printProgram();
+        compiler.printProgram();
 //        compiler.saveProgram(filename);
     }
 }
