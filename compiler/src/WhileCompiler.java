@@ -5,7 +5,6 @@ import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,9 +24,11 @@ public class WhileCompiler {
 
     private String filename;
 
-    private VisitorTA visitor;
+    private VisitorTA visitorTA;
+    private VisitorTS visitorTS;
 
     private Program program;
+    private SpaghettiStack SymbolsTable;
 
     public WhileCompiler(String file) {
         filename = file;
@@ -47,11 +48,11 @@ public class WhileCompiler {
 
             Object ast = src.getTree();
 
-            visitor = new VisitorTA();
+            visitorTA = new VisitorTA();
 
-            visitor.visit(ast);
+            visitorTA.visit(ast);
 
-            program = visitor.getProgram();
+            program = visitorTA.getProgram();
 
             if (runOptimizations) program.optimize();
 
@@ -63,7 +64,13 @@ public class WhileCompiler {
 //            params.add("");
             callGCC(params, "test");
 
-            visitor.clean();
+            visitorTA.clean();
+
+            visitorTS = new VisitorTS();
+            visitorTS.visit(ast);
+
+            SymbolsTable = visitorTS.get_ts();
+
         } catch (RecognitionException recognitionException) {
             System.out.println(ANSI_RED + "Erreur de compilation!!!");
             System.out.println(recognitionException.getLocalizedMessage());
@@ -118,6 +125,11 @@ public class WhileCompiler {
         System.out.println(program.getProgramString(true));
     }
 
+    public void printSymbolTable()
+    {
+        System.out.println(SymbolsTable);
+    }
+
     public Program getProgram() {
         return program;
     }
@@ -132,6 +144,5 @@ public class WhileCompiler {
         writer.write(getProgram().getProgramString().toLowerCase());
 
         writer.close();
-
     }
 }

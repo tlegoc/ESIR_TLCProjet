@@ -30,7 +30,8 @@ public class Main {
             return;
         }
 
-        compiler.printProgram();
+//        compiler.printProgram();
+        compiler.printSymbolTable();
 //        compiler.saveProgram(filename);
 
     }
