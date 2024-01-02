@@ -23,6 +23,36 @@ public class SymbolTable {
         if (!exists) symbols.add(entry);
     }
 
+    public List<STEntry> getEntriesForScope(int currentScope) {
+        if (currentScope > getScopeCount()) return new ArrayList<STEntry>();
+
+        List<STEntry> entries = new ArrayList<STEntry>();
+
+        int scope = 0;
+        for (int i = 0; i < symbols.size() && scope < currentScope + 1 && scope < getScopeCount(); i++) {
+            if (symbols.get(i) instanceof STBlockStart || symbols.get(i) instanceof STBlockEnd) {
+                scope++;
+                continue;
+            }
+
+            if (scope == currentScope) {
+                if (symbols.get(i) instanceof STVariable && !((STVariable) symbols.get(i)).isParam)
+                    entries.add(symbols.get(i));
+            }
+        }
+
+        return entries;
+    }
+
+    public int getScopeCount() {
+        int res = 0;
+        for (int i = 0; i < symbols.size(); i++) {
+            if (symbols.get(i) instanceof STBlockStart || symbols.get(i) instanceof STBlockEnd) res++;
+        }
+
+        return res;
+    }
+
     public void printSymbolTable() {
         StringBuilder s = new StringBuilder();
 

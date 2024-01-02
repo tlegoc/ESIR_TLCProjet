@@ -13,6 +13,15 @@ void Nil(std::shared_ptr<Node> res) {
     res->val = "";
 }
 
+std::shared_ptr<Node> Nil()
+{
+    std::shared_ptr<Node> res = std::make_shared<Node>();
+    res->left_child = nullptr;
+    res->right_child = nullptr;
+    res->val = "";
+    return res;
+}
+
 void Symbol(std::shared_ptr<Node> res, std::string val) {
     res = std::make_shared<Node>();
     res->left_child = nullptr;

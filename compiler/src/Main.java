@@ -23,7 +23,7 @@ public class Main {
 
         WhileCompiler compiler = new WhileCompiler(filename);
 
-        boolean succes = compiler.compile(true, false);
+        boolean succes = compiler.compile("falsefunc", true, false);
 
         if (!succes) {
             System.out.println("Error, could not compile program");

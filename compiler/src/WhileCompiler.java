@@ -46,7 +46,7 @@ public class WhileCompiler {
      * @return true if the program compiled, false otherwise
      * @throws IOException
      */
-    public boolean compile(boolean compileToExe, boolean runOptimizations) throws IOException {
+    public boolean compile(String mainFunc, boolean compileToExe, boolean runOptimizations) throws IOException {
         if (!isGccInstalled()) return false;
 
         CharStream input = new ANTLRFileStream(filename);
@@ -65,10 +65,14 @@ public class WhileCompiler {
             visitorTA.visit(ast);
             program = visitorTA.getProgram();
 
+//            System.out.println(program.getProgramString(true));
+
             // Creating symbol table
             visitorTS = new VisitorTS();
             visitorTS.visit(ast);
             symbolTable = visitorTS.getST();
+
+//            symbolTable.printSymbolTable();
 
             WhileValidator wv = new WhileValidator(program, symbolTable);
 
@@ -87,7 +91,7 @@ public class WhileCompiler {
                 return true;
             }
 
-            convert3AtoCPP();
+            convert3AtoCPP(mainFunc);
 
             Path filepath = Paths.get(filename);
             BufferedWriter writer = new BufferedWriter(new FileWriter(filepath.getFileName() + ".cpp"));
@@ -98,7 +102,8 @@ public class WhileCompiler {
             List<String> params = new ArrayList<>();
             params.add(filepath.getFileName() + ".cpp");
             params.add("-Bstatic");
-            params.add("-Llibwhile");
+            params.add("-L./");
+            params.add("-lwhile");
 //            params.add("");
             // Trash way to get the filename without the extension, to replace
             callGCC(params, filename + ".exe");
@@ -132,12 +137,12 @@ public class WhileCompiler {
             command.add("g++");
         } else command.add("g++");
 
+        command.addAll(params);
+
         if (!output.isEmpty()) {
             command.add("-o");
             command.add(output);
         }
-
-        command.addAll(params);
 
         ProcessBuilder pb = new ProcessBuilder();
         pb.command(command);
@@ -153,8 +158,8 @@ public class WhileCompiler {
         System.out.println("---");
     }
 
-    public void convert3AtoCPP(){
-        Convert convert = new Convert(getProgram());
+    public void convert3AtoCPP(String mainFunc){
+        Convert convert = new Convert(getProgram(), symbolTable, mainFunc);
         cpp_output = convert.convert();
     }
 

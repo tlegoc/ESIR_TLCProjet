@@ -29,6 +29,8 @@ struct Node {
 
 void Nil(std::shared_ptr<Node> res);
 
+std::shared_ptr<Node> Nil();
+
 void Symbol(std::shared_ptr<Node> res, std::string val);
 
 bool isLeaf(std::shared_ptr<Node> res);

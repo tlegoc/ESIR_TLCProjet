@@ -15,4 +15,9 @@ public class STFunc extends STEntry {
     public String toString() {
         return "Func name: " + name + "; Param count: " + paramCount + "; return var: " + return_var;
     }
+
+    public String getSymbol()
+    {
+        return name;
+    }
 }

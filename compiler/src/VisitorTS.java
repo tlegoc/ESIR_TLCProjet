@@ -40,11 +40,11 @@ public class VisitorTS {
             case "PARAM":
                 for (int i = 0; i < tree.getChildCount(); i++)
                 {
-                    st.add(new STVariable(tree.getChild(i).toString()));
+                    st.add(new STVariable(tree.getChild(i).toString(), true));
                 }
                 break;
             case "ASSIGN":
-                st.add(new STVariable(tree.getChild(0).toString()));
+                st.add(new STVariable(tree.getChild(0).toString(), false));
                 break;
             default:
                 for (int i = 0; i < tree.getChildCount(); i++) {
