@@ -96,6 +96,8 @@ public class WhileValidator {
 
         // Verfier qu'on utilise une variable qui existe
 
+        // Verifier que le main existe et qu'il ne prend pas de parametres
+
 //        return false;
         return !not_valid;
     }
