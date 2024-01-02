@@ -75,6 +75,14 @@ public class Program {
         return getProgramString(false);
     }
 
+    public int getLineCount() {
+        return lines.size();
+    }
+
+    public Line getLine(int i){
+        return lines.get(i);
+    }
+
     public Line getLastLine(int i) {
         return lines.get(lines.size() - 1 - i);
     }

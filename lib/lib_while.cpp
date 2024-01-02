@@ -46,3 +46,28 @@ void hd(std::shared_ptr<Node> res, std::shared_ptr<Node> T) {
 void tl(std::shared_ptr<Node> res, std::shared_ptr<Node> T) {
     res = T->right_child;
 }
+
+
+int toInt(std::shared_ptr<Node> node) {
+    if(node == nullptr || isLeaf(node)){
+        return 0;
+    } else {
+        return 1 + toInt_rec(node->right_child);
+    }
+}
+
+bool toBool(std::shared_ptr<Node> node) {
+    return !(node == nullptr || isLeaf(node))
+}
+
+std::string toString(std::shared_ptr<Node> node) {
+    if(node == nullptr) {
+        return "";
+    }
+    else if(isLeaf(node)) {
+        return node->val;
+    }
+    else {
+        return node->val + toString(node->right_child);
+    }
+}

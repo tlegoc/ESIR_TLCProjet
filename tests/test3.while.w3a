@@ -1,0 +1,58 @@
+funcbegin 	add
+param     	op1
+param     	op2
+assign    	result	op1
+forbegin  	op2
+cons      	reg_0	nil	result
+assign    	result	reg_0
+forend    	op2
+output    	result
+funcend   	add
+funcbegin 	sub
+param     	op1
+param     	op2
+assign    	result	op1
+forbegin  	op2
+tl        	reg_1	result
+assign    	result	reg_1
+forend    	op2
+output    	result
+funcend   	sub
+funcbegin 	mul
+param     	op1
+param     	op2
+forbegin  	op1
+paramset  	result
+paramset  	op2
+call      	reg_2	add
+assign    	result	reg_2
+forend    	op1
+output    	result
+funcend   	mul
+funcbegin 	test
+param     	op1
+param     	op2
+cons      	reg_3
+assign    	result	reg_3
+paramset  	result
+cons      	reg_4
+paramset  	reg_4
+call      	reg_5	add
+assign    	result	reg_5
+paramset  	result
+cons      	reg_6
+paramset  	reg_6
+call      	reg_7	add
+assign    	result	reg_7
+paramset  	result
+cons      	reg_8
+paramset  	reg_8
+call      	reg_9	add
+assign    	result	reg_9
+paramset  	result
+cons      	reg_10
+paramset  	reg_10
+call      	reg_11	add
+assign    	result	reg_11
+output    	result
+funcend   	test

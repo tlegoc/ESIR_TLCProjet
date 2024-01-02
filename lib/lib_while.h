@@ -23,6 +23,8 @@ struct Node {
 
         val = copy.val;
     }
+
+
 };
 
 void Nil(std::shared_ptr<Node> res);
@@ -41,4 +43,9 @@ void hd(std::shared_ptr<Node> res, std::shared_ptr<Node> T);
 
 void tl(std::shared_ptr<Node> res, std::shared_ptr<Node> T);
 
+int toInt(std::shared_ptr<Node> node);
+
+bool toBool(std::shared_ptr<Node> node);
+
+std::string toString(std::shared_ptr<Node> node);
 #endif //LIB_LIB_WHILE_H

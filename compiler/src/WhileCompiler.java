@@ -30,6 +30,8 @@ public class WhileCompiler {
     private Program program;
     private SpaghettiStack SymbolsTable;
 
+    private String output;
+
     public WhileCompiler(String file) {
         filename = file;
     }
@@ -120,6 +122,11 @@ public class WhileCompiler {
         System.out.println("---");
     }
 
+    public void convert3AtoCPP(){
+        Convert convert = new Convert(getProgram());
+        output = convert.convert();
+    }
+
     public void printProgram() {
         if (program == null) System.out.println("Programme pas encore compilé. Veuillez appeller .compile()");
         System.out.println(program.getProgramString(true));
@@ -142,7 +149,12 @@ public class WhileCompiler {
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(name + ".w3a"));
         writer.write(getProgram().getProgramString().toLowerCase());
+        writer.close();
+    }
 
+    public void saveCPP(String name) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(name + ".cpp"));
+        writer.write(output);
         writer.close();
     }
 }

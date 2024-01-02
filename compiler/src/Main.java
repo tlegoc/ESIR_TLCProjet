@@ -11,7 +11,7 @@ import java.io.*;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        System.out.println("While Compiler alpha");
+        System.out.println("While Compiler cyberviking 2019");
 
         if (args.length <= 0) {
             System.out.println("No input specified! Please input a file.");
@@ -29,10 +29,13 @@ public class Main {
             System.out.println("Error");
             return;
         }
+        compiler.printProgram();
+        compiler.convert3AtoCPP();
+        compiler.saveCPP(filename);
 
-//        compiler.printProgram();
-        compiler.printSymbolTable();
-//        compiler.saveProgram(filename);
+        //compiler.printProgram();
+        //compiler.printSymbolTable();
+        //compiler.saveProgram(filename);
 
     }
 }
