@@ -22,7 +22,7 @@ public class Convert {
 
             switch (actualLine.op) {
                 case PARAM:
-                    res.append("Node ").append(actualLine.res);
+                    res.append("std::shared_ptr<Node> ").append(actualLine.res);
                     if (program.getLine(i + 1).op != Line.Op.PARAM) {
                         indent++;
                         res.append(" ) {\n");
@@ -35,7 +35,7 @@ public class Convert {
                     params.add(actualLine.res.toString());
                     break;
                 case FUNCBEGIN:
-                    res.append("Node ").append(actualLine.res).append("(");
+                    res.append("std::shared_ptr<Node> ").append(actualLine.res).append("(");
                     if (program.getLine(i + 1).op != Line.Op.PARAM) {
                         indent++;
                         res.append(" ) {\n");
