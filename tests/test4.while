@@ -61,37 +61,37 @@ read Op1, Op2
 %
 write Result
 
-function true :
+function truefunc :
 read
 %
     Result := (cons nil nil)
 %
 write Result
 
-function false :
+function falsefunc :
 read
 %
     Result := nil
 %
 write Result
 
-function not :
+function notfunc :
 read Op1
 %
-    if Op1 then Result := (false) else Result := (true) fi
+    if Op1 then Result := (falsefunc) else Result := (truefunc) fi
 %
 write Result
 
-function and :
+function andfunc :
 read Op1, Op2
 %
-    if (not Op1) then
-        Result := (false)
+    if (notfunc Op1) then
+        Result := (falsefunc)
     else
-        if (not Op2) then
-            Result := (false)
+        if (notfunc Op2) then
+            Result := (falsefunc)
         else
-            Result := (true)
+            Result := (truefunc)
         fi
     fi
 %
