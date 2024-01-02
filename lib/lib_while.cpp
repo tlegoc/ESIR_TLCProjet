@@ -52,12 +52,12 @@ int toInt(std::shared_ptr<Node> node) {
     if(node == nullptr || isLeaf(node)){
         return 0;
     } else {
-        return 1 + toInt_rec(node->right_child);
+        return 1 + toInt(node->right_child);
     }
 }
 
 bool toBool(std::shared_ptr<Node> node) {
-    return !(node == nullptr || isLeaf(node))
+    return !(node == nullptr || isLeaf(node));
 }
 
 std::string toString(std::shared_ptr<Node> node) {
