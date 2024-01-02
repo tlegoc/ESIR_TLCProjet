@@ -19,8 +19,16 @@ public class VisitorTS {
                 st.add(new STFunc(tree.getChild(0).toString(), tree.getChild(1).getChild(0).getChildCount(), tree.getChild(1).getChild(2).getChild(0).toString()));
                 visit(tree.getChild(1));
                 break;
+            case "OUTPUT":
+                st.add(new STVariable(tree.getChild(0).toString(), false));
+                break;
             case "BODY":
                 st.add(new STBlockStart());
+                // Always make sure the return variable exists.
+                // This is a necessary fix if we want the compiler
+                // to behave the way we were told to make it
+                visit(tree.getChild(2));
+                // Parameters
                 visit(tree.getChild(0));
 
                 for (int i = 0; i < tree.getChild(1).getChildCount(); i++)

@@ -80,8 +80,7 @@ public class WhileCompiler {
             WhileValidator wv = new WhileValidator(program, symbolTable);
 
             // Validation
-            if (!wv.validate())
-            {
+            if (!wv.validate()) {
                 System.out.println("Error, could not validate program");
                 return false;
             }
@@ -90,7 +89,6 @@ public class WhileCompiler {
 
             // Convert to cpp
             if (!compileToExe) {
-                visitorTA.clean();
                 return true;
             }
 
@@ -108,10 +106,12 @@ public class WhileCompiler {
             params.add("-L./");
             params.add("-lwhile");
 //            params.add("");
-            // Trash way to get the filename without the extension, to replace
             callGCC(params, filename + ".exe");
 
-            visitorTA.clean();
+            // delete temporary
+            File toDel = new File(filepath.getFileName() + ".cpp");
+            if (toDel.exists() && !toDel.isDirectory())
+                toDel.delete();
 
             return true;
 
@@ -162,7 +162,7 @@ public class WhileCompiler {
         System.out.println("Done.");
     }
 
-    public void convert3AtoCPP(String mainFunc){
+    public void convert3AtoCPP(String mainFunc) {
         Convert convert = new Convert(getProgram(), symbolTable, mainFunc);
         cpp_output = convert.convert();
     }
@@ -172,8 +172,7 @@ public class WhileCompiler {
         System.out.println(program.getProgramString(true));
     }
 
-    public void printSymbolTable()
-    {
+    public void printSymbolTable() {
         symbolTable.printSymbolTable();
     }
 

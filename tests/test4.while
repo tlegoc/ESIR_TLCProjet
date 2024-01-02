@@ -44,7 +44,6 @@ write Result
 function mul :
 read Op1, Op2
 %
-    Result := nil;
     for Op1 do
         Result := (add Result Op2)
     od
@@ -79,7 +78,6 @@ write Result
 function notfunc :
 read Op1
 %
-    Result := nil;
     if Op1 then Result := (falsefunc) else Result := (truefunc) fi
 %
 write Result
@@ -87,7 +85,6 @@ write Result
 function andfunc :
 read Op1, Op2
 %
-    Result := nil;
     if (notfunc Op1) then
         Result := (falsefunc)
     else
