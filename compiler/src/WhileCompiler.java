@@ -47,7 +47,10 @@ public class WhileCompiler {
      * @throws IOException
      */
     public boolean compile(String mainFunc, boolean compileToExe, boolean runOptimizations) throws IOException {
-        if (!isGccInstalled()) return false;
+        if (!isGccInstalled()) {
+            System.out.println("Error: GCC is not installed.");
+            return false;
+        }
 
         CharStream input = new ANTLRFileStream(filename);
 
@@ -129,7 +132,7 @@ public class WhileCompiler {
     }
 
     public void callGCC(List<String> params, String output) throws IOException {
-        System.out.println("---\tGCC");
+        System.out.println("Calling g++...");
         List<String> command = new ArrayList<>();
         if (System.getProperty("os.name").contains("Windows")) {
             command.add("cmd");
@@ -155,7 +158,8 @@ public class WhileCompiler {
         while ((line = reader.readLine()) != null) {
             System.out.println(line);
         }
-        System.out.println("---");
+
+        System.out.println("Done.");
     }
 
     public void convert3AtoCPP(String mainFunc){
@@ -178,11 +182,37 @@ public class WhileCompiler {
     }
 
     public Boolean isGccInstalled() {
+        try {
+            List<String> command = new ArrayList<>();
+            if (System.getProperty("os.name").contains("Windows")) {
+                command.add("cmd");
+                command.add("/c");
+                command.add("g++");
+            } else command.add("g++");
+
+            command.add("--h");
+
+            ProcessBuilder pb = new ProcessBuilder();
+            pb.command(command);
+            pb.redirectErrorStream(true);
+            Process p = pb.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+            }
+            if (p.exitValue() != 0) return false;
+        } catch (IOException e) {
+            System.out.println(e);
+            return false;
+        }
+
         return true;
     }
 
     public void saveProgram(String name) throws IOException {
-
         BufferedWriter writer = new BufferedWriter(new FileWriter(name + ".w3a"));
         writer.write(getProgram().getProgramString().toLowerCase());
         writer.close();
