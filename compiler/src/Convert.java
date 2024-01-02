@@ -88,6 +88,7 @@ public class Convert {
                     res.append("\t".repeat(indent));
                     break;
                 case CALL:
+                    res.append("std::shared_ptr<Node> ").append(actualLine.res).append(" = std::make_shared<Node>();\n");
                     res.append(actualLine.res).append(" = ").append(actualLine.arg1).append("(");
                     for(int param = 0; param < params.size(); param ++) {
                         res.append(params.get(param));
@@ -99,7 +100,7 @@ public class Convert {
                     res.append("); \n");
                     res.append("\t".repeat(indent));
                     params = new ArrayList<>();
-                case IGNORE:
+                    break;
                 case CONS:
                     res.append("std::shared_ptr<Node> ").append(actualLine.res).append(" = std::make_shared<Node>();\n");
                     res.append("\t".repeat(indent));
@@ -124,6 +125,7 @@ public class Convert {
                     res.append("hd(").append(actualLine.res).append(", ").append(actualLine.arg1).append(");\n");
                     res.append("\t".repeat(indent));
                     break;
+                case IGNORE:
                 default:
                     break;
             }
