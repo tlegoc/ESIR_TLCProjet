@@ -1,5 +1,6 @@
 import ThreeAddr.Line;
 import ThreeAddr.Program;
+import ThreeAddr.Registre;
 import org.stringtemplate.v4.ST;
 
 import java.util.ArrayList;
@@ -52,8 +53,19 @@ public class Convert {
                     res.append("\t".repeat(indent));
                     break;
                 case ASSIGN:
-                    res.append(actualLine.res).append(" = ").append(actualLine.arg1).append(";\n");
-                    res.append("\t".repeat(indent));
+                    if (actualLine.res instanceof Registre)
+                    {
+                        res.append("std::shared_ptr<Node> ").append(actualLine.res).append(" = std::make_shared<Node>();\n");
+                    }
+                    // Fix for assigning to nil
+                    if (actualLine.arg1.toString().equals("nil"))
+                    {
+                        res.append("Nil(").append(actualLine.res).append(");\n");
+                        res.append("\t".repeat(indent));
+                    } else {
+                        res.append(actualLine.res).append(" = ").append(actualLine.arg1).append(";\n");
+                        res.append("\t".repeat(indent));
+                    }
                     break;
                 case IFBEGIN:
                     indent++;
@@ -88,7 +100,10 @@ public class Convert {
                     res.append("\t".repeat(indent));
                     break;
                 case CALL:
-                    res.append("std::shared_ptr<Node> ").append(actualLine.res).append(" = std::make_shared<Node>();\n");
+                    if (actualLine.res instanceof Registre)
+                    {
+                        res.append("std::shared_ptr<Node> ").append(actualLine.res).append(" = std::make_shared<Node>();\n");
+                    }
                     res.append(actualLine.res).append(" = ").append(actualLine.arg1).append("(");
                     for(int param = 0; param < params.size(); param ++) {
                         res.append(params.get(param));
@@ -102,7 +117,10 @@ public class Convert {
                     params = new ArrayList<>();
                     break;
                 case CONS:
-                    res.append("std::shared_ptr<Node> ").append(actualLine.res).append(" = std::make_shared<Node>();\n");
+                    if (actualLine.res instanceof Registre)
+                    {
+                        res.append("std::shared_ptr<Node> ").append(actualLine.res).append(" = std::make_shared<Node>();\n");
+                    }
                     res.append("\t".repeat(indent));
                     res.append("Cons(").append(actualLine.res);
                     if(!actualLine.arg1.toString().equals("EMPTY")){
@@ -114,13 +132,19 @@ public class Convert {
                     res.append(");\n").append("\t".repeat(indent));
                     break;
                 case TL:
-                    res.append("std::shared_ptr<Node> ").append(actualLine.res).append(" = std::make_shared<Node>();\n");
+                    if (actualLine.res instanceof Registre)
+                    {
+                        res.append("std::shared_ptr<Node> ").append(actualLine.res).append(" = std::make_shared<Node>();\n");
+                    }
                     res.append("\t".repeat(indent));
                     res.append("tl(").append(actualLine.res).append(", ").append(actualLine.arg1).append(");\n");
                     res.append("\t".repeat(indent));
                     break;
                 case HD:
-                    res.append("std::shared_ptr<Node> ").append(actualLine.res).append(" = std::make_shared<Node>();\n");
+                    if (actualLine.res instanceof Registre)
+                    {
+                        res.append("std::shared_ptr<Node> ").append(actualLine.res).append(" = std::make_shared<Node>();\n");
+                    }
                     res.append("\t".repeat(indent));
                     res.append("hd(").append(actualLine.res).append(", ").append(actualLine.arg1).append(");\n");
                     res.append("\t".repeat(indent));
