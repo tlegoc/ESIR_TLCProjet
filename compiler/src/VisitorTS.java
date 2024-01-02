@@ -1,76 +1,56 @@
-import Info.FuncInfo;
-import Info.VarInfo;
-import org.antlr.runtime.Token;
+import SymbolTable.*;
 import org.antlr.runtime.tree.CommonTree;
-//import org.antlr.runtime.tree.TreeWizard;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class VisitorTS {
-    SpaghettiStack ts = new SpaghettiStack();
 
-    private void visitAux(Object o, SpaghettiStack actual) {
-        CommonTree tree = (CommonTree) o;
-        String token = tree.toString();
+    private SymbolTable st = new SymbolTable();
 
-        if (token.equals("FUNC")) {
-            String ID = String.valueOf(tree.getChild(0));
-            tree = (CommonTree) tree.getChild(1);
-            int inputs = tree.getChild(0).getChildCount();
-            int outputs = tree.getChild(2).getChildCount();
-            FuncInfo func = new FuncInfo(ID, inputs, outputs);
-            actual.addToLine(func);
-            SpaghettiStack block = new SpaghettiStack();
-            actual.addChild(block);
-            actual = block;
-            for (int i = 0; i < tree.getChild(0).getChildCount(); i++) {
-                String id = tree.getChild(0).getChild(i).toString();
-                VarInfo param = new VarInfo(id, true);
-                actual.getLine().add(param);
-            }
-            for (int i = tree.getChild(1).getChildCount() - 1; i >= 0; i--) {
-                visitAux(tree.getChild(1).getChild(i), actual);
-            }
-        } else if (token.equals("COMMANDS")) {
-            SpaghettiStack block = new SpaghettiStack();
-            actual.addChild(block);
-            actual = block;
-            for (int i = 0; i < tree.getChildCount(); i++) {
-                visitAux(tree.getChild(i), actual);
-            }
-        } else if (token.equals("PARAM")) {
-            for (int i = 0; i < tree.getChildCount(); i++) {
-                String id = tree.getChild(i).toString();
-                VarInfo param = new VarInfo(id, true);
-                actual.getChild(0).getLine().add(param);
-            }
-        } else if (token.equals("ASSIGN")) {
-            String n = tree.getChild(0).toString(); // la variable declaree / modifiee
-            VarInfo info = new VarInfo(n, false);
-            boolean isDeclared = false;
-            for (int i = 0; i < actual.getLine().size(); i++) {
-                if (actual.getLine().get(i).ID.equals(n)) {
-                    isDeclared = true;
-                    break;
-                }
-            }
-            if (!isDeclared) actual.addToLine(info);
-        } else {
-            for (int i = 0; i < tree.getChildCount(); i++) {
-                visitAux(tree.getChild(i), actual);
-            }
-        }
+    public SymbolTable getST()
+    {
+        return st;
     }
 
     public void visit(Object o) {
-        visitAux(o, ts);
-    }
+        CommonTree tree = (CommonTree) o;
+        String token = tree.toString();
 
-    public void display_ts() {
-        System.out.println(ts.toString());
-    }
+        switch (token) {
+            case "FUNC":
+                st.add(new STFunc(tree.getChild(0).toString(), tree.getChild(1).getChild(0).getChildCount(), tree.getChild(1).getChild(2).getChild(0).toString()));
+                visit(tree.getChild(1));
+                break;
+            case "BODY":
+                st.add(new STBlockStart());
+                visit(tree.getChild(0));
 
-    public SpaghettiStack get_ts() {
-        return ts;
+                for (int i = 0; i < tree.getChild(1).getChildCount(); i++)
+                {
+                    visit(tree.getChild(1).getChild(i));
+                }
+                st.add(new STBlockEnd());
+                break;
+            case "COMMANDS":
+                st.add(new STBlockStart());
+                for (int i = 0; i < tree.getChildCount(); i++)
+                {
+                    visit(tree.getChild(i));
+                }
+                st.add(new STBlockEnd());
+                break;
+            case "PARAM":
+                for (int i = 0; i < tree.getChildCount(); i++)
+                {
+                    st.add(new STVariable(tree.getChild(i).toString()));
+                }
+                break;
+            case "ASSIGN":
+                st.add(new STVariable(tree.getChild(0).toString()));
+                break;
+            default:
+                for (int i = 0; i < tree.getChildCount(); i++) {
+                    visit(tree.getChild(i));
+                }
+                break;
+        }
     }
 }

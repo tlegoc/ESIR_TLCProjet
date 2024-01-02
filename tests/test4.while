@@ -23,8 +23,11 @@ read Op1, Op2
 
     while Op2
     do
-        Result := (list Result)
-    od
+        Result := (list Result);
+        Test := (cons)
+    od;
+
+    Test := (cons)
 %
 write Result
 

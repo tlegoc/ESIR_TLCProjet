@@ -1,3 +1,4 @@
+import SymbolTable.SymbolTable;
 import ThreeAddr.Program;
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CharStream;
@@ -5,6 +6,8 @@ import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,15 +31,22 @@ public class WhileCompiler {
     private VisitorTS visitorTS;
 
     private Program program;
-    private SpaghettiStack SymbolsTable;
+    private SymbolTable symbolTable;
 
-    private String output;
+    private String cpp_output;
 
     public WhileCompiler(String file) {
         filename = file;
     }
 
-    public boolean compile(boolean runOptimizations) throws IOException {
+    /***
+     * Compile the select .while file
+     * @param compileToExe If set to true, an exe will be created with the name filename.exe
+     * @param runOptimizations If set to true, the compiler will try to optimize the three address code
+     * @return true if the program compiled, false otherwise
+     * @throws IOException
+     */
+    public boolean compile(boolean compileToExe, boolean runOptimizations) throws IOException {
         if (!isGccInstalled()) return false;
 
         CharStream input = new ANTLRFileStream(filename);
@@ -50,28 +60,52 @@ public class WhileCompiler {
 
             Object ast = src.getTree();
 
+            // Creating intermediate code
             visitorTA = new VisitorTA();
-
             visitorTA.visit(ast);
-
             program = visitorTA.getProgram();
+
+            // Creating symbol table
+            visitorTS = new VisitorTS();
+            visitorTS.visit(ast);
+            symbolTable = visitorTS.getST();
+
+            WhileValidator wv = new WhileValidator(program, symbolTable);
+
+            // Validation
+            if (!wv.validate())
+            {
+                System.out.println("Error, could not validate program");
+                return false;
+            }
 
             if (runOptimizations) program.optimize();
 
+            // Convert to cpp
+            if (!compileToExe) {
+                visitorTA.clean();
+                return true;
+            }
+
+            convert3AtoCPP();
+
+            Path filepath = Paths.get(filename);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filepath.getFileName() + ".cpp"));
+            writer.write(cpp_output);
+            writer.close();
+
             // COMPILATION EN C PUIS APPEL DE GCC
             List<String> params = new ArrayList<>();
-            params.add("test.cpp");
+            params.add(filepath.getFileName() + ".cpp");
             params.add("-Bstatic");
             params.add("-Llibwhile");
 //            params.add("");
-            callGCC(params, "test");
+            // Trash way to get the filename without the extension, to replace
+            callGCC(params, filename + ".exe");
 
             visitorTA.clean();
 
-            visitorTS = new VisitorTS();
-            visitorTS.visit(ast);
-
-            SymbolsTable = visitorTS.get_ts();
+            return true;
 
         } catch (RecognitionException recognitionException) {
             System.out.println(ANSI_RED + "Erreur de compilation!!!");
@@ -79,9 +113,6 @@ public class WhileCompiler {
 
             return false;
         }
-
-
-        return true;
     }
 
     public void callGCC() throws IOException {
@@ -124,7 +155,7 @@ public class WhileCompiler {
 
     public void convert3AtoCPP(){
         Convert convert = new Convert(getProgram());
-        output = convert.convert();
+        cpp_output = convert.convert();
     }
 
     public void printProgram() {
@@ -134,7 +165,7 @@ public class WhileCompiler {
 
     public void printSymbolTable()
     {
-        System.out.println(SymbolsTable);
+        symbolTable.printSymbolTable();
     }
 
     public Program getProgram() {
@@ -149,12 +180,6 @@ public class WhileCompiler {
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(name + ".w3a"));
         writer.write(getProgram().getProgramString().toLowerCase());
-        writer.close();
-    }
-
-    public void saveCPP(String name) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(name + ".cpp"));
-        writer.write(output);
         writer.close();
     }
 }

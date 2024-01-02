@@ -23,19 +23,11 @@ public class Main {
 
         WhileCompiler compiler = new WhileCompiler(filename);
 
-        boolean succes = compiler.compile(true);
+        boolean succes = compiler.compile(true, false);
 
         if (!succes) {
-            System.out.println("Error");
+            System.out.println("Error, could not compile program");
             return;
         }
-        compiler.printProgram();
-        compiler.convert3AtoCPP();
-        compiler.saveCPP(filename);
-
-        //compiler.printProgram();
-        //compiler.printSymbolTable();
-        //compiler.saveProgram(filename);
-
     }
 }

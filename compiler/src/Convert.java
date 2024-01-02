@@ -35,7 +35,7 @@ public class Convert {
                     params.add(actualLine.res.toString());
                     break;
                 case FUNCBEGIN:
-                    res.append("private Node ").append(actualLine.res).append("(");
+                    res.append("Node ").append(actualLine.res).append("(");
                     if (program.getLine(i + 1).op != Line.Op.PARAM) {
                         indent++;
                         res.append(" ) {\n");

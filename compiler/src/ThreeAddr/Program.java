@@ -16,7 +16,7 @@ public class Program {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
-    List<Line> lines = new ArrayList<>();
+    public List<Line> lines = new ArrayList<>();
 
     public void addLine(Line.Op op, Argument res) {
         addLine(op, res, new EmptyArgument(), new EmptyArgument());
@@ -67,7 +67,7 @@ public class Program {
             result.append("\n");
         }
 
-        return result.toString();
+        return result.append(ANSI_RESET).toString();
     }
 
     public String getProgramString()
