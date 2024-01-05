@@ -6,18 +6,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+
+// S'occupe de valider le programme à partir du code intermediaire et de
+// la table des symbols
 public class WhileValidator {
 
 
+    // TODO : Virer ces foutus codes ANSI
     private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_BLACK = "\u001B[30m";
     private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_GREEN = "\u001B[32m";
-    private static final String ANSI_YELLOW = "\u001B[33m";
-    private static final String ANSI_BLUE = "\u001B[34m";
-    private static final String ANSI_PURPLE = "\u001B[35m";
-    private static final String ANSI_CYAN = "\u001B[36m";
-    private static final String ANSI_WHITE = "\u001B[37m";
 
     private final Program program;
     private final SymbolTable symbolTable;
@@ -29,6 +26,10 @@ public class WhileValidator {
         this.mainFunc = mf;
     }
 
+    /***
+     * Validation du programme
+     * @return vrai si le programme est correct, faux sinon : ne pas compiler
+     */
     public boolean validate() {
         boolean not_valid = false;
 
@@ -83,22 +84,21 @@ public class WhileValidator {
         }
 
         // Retour de variable qui existe
+        // TODO : La variable existera toujours car ajoutee dans la table des symboles
+        // dans tous les cas. Il faudrait pluttôt verifier si dans la fonction on ecrit
+        // au moins une fois dans le resultat.
         String current_result_to_find = "";
         String current_func = "";
         for (int i = 0; i < symbolTable.symbols.size(); i++) {
-            if (symbolTable.symbols.get(i) instanceof STFunc) {
-                STFunc func = (STFunc) symbolTable.symbols.get(i);
+            if (symbolTable.symbols.get(i) instanceof STFunc func) {
 
-                if (current_result_to_find.isEmpty()) {
-                    current_result_to_find = func.return_var;
-                    current_func = func.name;
-                } else {
+                if (!current_result_to_find.isEmpty()) {
                     System.out.println(ANSI_RED + "Error: function " + current_func + "returning non existing variable " + current_result_to_find + ANSI_RESET);
                     not_valid = true;
-                    current_result_to_find = func.return_var;
-                    current_func = func.name;                }
-            } else if (symbolTable.symbols.get(i) instanceof STVariable) {
-                STVariable vari = (STVariable) symbolTable.symbols.get(i);
+                }
+                current_result_to_find = func.return_var;
+                current_func = func.name;
+            } else if (symbolTable.symbols.get(i) instanceof STVariable vari) {
 
                 if (current_result_to_find.equals(vari.name)) current_result_to_find = "";
             }
@@ -110,9 +110,6 @@ public class WhileValidator {
 
         }
 
-        // Verifier que le main existe et qu'il ne prend pas de parametres
-
-//        return false;
         return !not_valid;
     }
 }

@@ -3,7 +3,7 @@ import org.antlr.runtime.tree.CommonTree;
 
 public class VisitorTS {
 
-    private SymbolTable st = new SymbolTable();
+    private final SymbolTable st = new SymbolTable();
 
     public SymbolTable getST()
     {

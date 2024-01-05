@@ -15,6 +15,13 @@ read Op1, Op2
 %
 write Result
 
+function usingunknownvar :
+read 
+%
+    Result := (cons AhBahNon)
+%
+write Result
+
 function callfunctionthatdoesnotexist:
 read
 %

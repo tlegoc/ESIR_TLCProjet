@@ -15,15 +15,9 @@ import java.util.List;
 
 public class WhileCompiler {
 
+    // TODO : Virer ces foutus codes ANSI
     private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_BLACK = "\u001B[30m";
     private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_GREEN = "\u001B[32m";
-    private static final String ANSI_YELLOW = "\u001B[33m";
-    private static final String ANSI_BLUE = "\u001B[34m";
-    private static final String ANSI_PURPLE = "\u001B[35m";
-    private static final String ANSI_CYAN = "\u001B[36m";
-    private static final String ANSI_WHITE = "\u001B[37m";
 
     private final String filename;
     private Program program;
@@ -35,7 +29,7 @@ public class WhileCompiler {
     }
 
     /***
-     * Compile the select .while file
+     * Compile the selected .while file
      * @param compileToExe If set to true, an exe will be created with the name filename.exe
      * @param runOptimizations If set to true, the compiler will try to optimize the three address code
      * @return true if the program compiled, false otherwise
@@ -81,6 +75,9 @@ public class WhileCompiler {
 
 //            symbolTable.printSymbolTable();
 
+        // On effectue la validation apres generation du code 3 adresses car simplifie
+        // La verification.
+        // En toute logique il serait preferable de le faire avant
         WhileValidator wv = new WhileValidator(program, symbolTable, mainFunc);
 
         // Validation
@@ -89,14 +86,13 @@ public class WhileCompiler {
             return false;
         }
 
+        // TODO
         if (runOptimizations) program.optimize();
 
-        // Convert to cpp
-        if (!compileToExe) {
-            return true;
-        }
+        if (!compileToExe) return true;
 
-        convert3AtoCPP(mainFunc);
+        CPPConverter cppConverter = new CPPConverter(getProgram(), symbolTable, mainFunc);
+        cpp_output = cppConverter.convert();
 
         Path filepath = Paths.get(filename);
         try {
@@ -108,29 +104,20 @@ public class WhileCompiler {
             return false;
         }
 
-        // COMPILATION EN C PUIS APPEL DE GCC
+        // Appel de GCC
         List<String> params = new ArrayList<>();
         params.add(filepath.getFileName() + ".cpp");
         params.add("-Bstatic");
         params.add("-L./");
         params.add("-lwhile");
-//            params.add("");
         callGCC(params, filename + ".exe");
 
         // delete temporary
-//        File toDel = new File(filepath.getFileName() + ".cpp");
-//        if (toDel.exists() && !toDel.isDirectory())
-//            toDel.delete();
+        File toDel = new File(filepath.getFileName() + ".cpp");
+        if (toDel.exists() && !toDel.isDirectory())
+            toDel.delete();
 
         return true;
-    }
-
-    public void callGCC() throws IOException {
-        callGCC("", "");
-    }
-
-    public void callGCC(String file, String output) throws IOException {
-        callGCC(Arrays.asList(file.split(" ")), output);
     }
 
     public void callGCC(List<String> params, String output) {
@@ -166,11 +153,6 @@ public class WhileCompiler {
         }
     }
 
-    public void convert3AtoCPP(String mainFunc) {
-        CPPConverter cppConverter = new CPPConverter(getProgram(), symbolTable, mainFunc);
-        cpp_output = cppConverter.convert();
-    }
-
     public void printProgram() {
         if (program == null) System.out.println("Programme pas encore compilé. Veuillez appeller .compile()");
         System.out.println(program.getProgramString(true));
@@ -201,6 +183,7 @@ public class WhileCompiler {
             Process p = pb.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
+            // Necessaire pour une raison inconnue
             String line;
 
             while ((line = reader.readLine()) != null) {
@@ -215,6 +198,8 @@ public class WhileCompiler {
         return true;
     }
 
+    // Sauvegarde du code " adresse
+    // TODO : Deplacer dans Program.java
     public void saveProgram(String name) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(name + ".w3a"));
         writer.write(getProgram().getProgramString().toLowerCase());

@@ -113,7 +113,8 @@ public class CPPConverter {
         "wchar_t",
         "while",
         "xor",
-        "xor_eq"
+        "xor_eq",
+        "main", // Evite d'avoir deux fois une fonction main.
     };
 
     public CPPConverter(Program program, SymbolTable st, String mf) {
@@ -122,6 +123,12 @@ public class CPPConverter {
         this.mainFunc = mf;
     }
 
+    /***
+     * Rajoute la declaration de toutes les variables dans un
+     * block donne
+     * @param res le code cpp dans lequel on ajoute les variables
+     * @param currentScope le block actuel
+     */
     private void addVariableForScope(StringBuilder res, int currentScope) {
         List<STEntry> symbols = symbolTable.getEntriesForScope(currentScope);
 
@@ -130,7 +137,11 @@ public class CPPConverter {
         }
     }
 
-    // Allows us to use keywords as function names
+    /***
+     * Evite les caracteres qui peuvent casser g++
+     * @param symbol le symbol a nettoyer
+     * @return le symbole nettoye
+     */
     public static String sanitizeSymbol(String symbol)
     {
         if (Arrays.stream(cpp_keywords).anyMatch(symbol::equals))
@@ -145,11 +156,14 @@ public class CPPConverter {
     public String convert() {
         ArrayList<String> params = new ArrayList<>();
         StringBuilder generatedCode = new StringBuilder();
+
         generatedCode.append("#include \"lib_while.h\"\n");
+
         int currentScope = 0;
         for (int i = 0; i < program.getLineCount(); i++) {
             Line actualLine = program.getLine(i);
 
+            // Vive les switchs
             switch (actualLine.op) {
                 case PARAM:
                     generatedCode.append("std::shared_ptr<Node> ").append(sanitizeSymbol(actualLine.res.toString()));
@@ -177,7 +191,8 @@ public class CPPConverter {
                         currentScope++;
                         addVariableForScope(generatedCode, currentScope);
                     }
-                    // NOTE : Do not add function variables here, do it after PARAM!
+                    // NOTE : On ajoute les variables seulement une fois qu'on a fini
+                    // de declarer les parametres, ce pourquoi on ne le fais pas la
                     break;
                 case FUNCEND:
                     generatedCode.append("}\n");
@@ -270,6 +285,7 @@ public class CPPConverter {
                     }
                     generatedCode.append("\t".repeat(indent));
                     generatedCode.append("Cons(").append(sanitizeSymbol(actualLine.res.toString()));
+
                     if (!actualLine.arg1.toString().equals("EMPTY")) {
                         if (actualLine.arg1.toString().equals("nil"))
                             generatedCode.append(", Nil()");
@@ -307,6 +323,7 @@ public class CPPConverter {
             }
         }
 
+        // Au cas ou on a pas de fonction s'appelant main.
         generatedCode.append("int main() { ");
         generatedCode.append(sanitizeSymbol(mainFunc)).append("();");
         generatedCode.append("return 0; }");
