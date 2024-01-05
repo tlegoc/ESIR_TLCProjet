@@ -137,7 +137,9 @@ public class CPPConverter {
         {
             return symbol + "_sanitized";
         }
-        return symbol;
+
+        // Shit fix, to replace later
+        return symbol.replace("!", "pointdexclamation").replace("?", "pointdinterrogation");
     }
 
     public String convert() {

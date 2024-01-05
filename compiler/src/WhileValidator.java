@@ -19,13 +19,14 @@ public class WhileValidator {
     private static final String ANSI_CYAN = "\u001B[36m";
     private static final String ANSI_WHITE = "\u001B[37m";
 
-    private Program program;
+    private final Program program;
+    private final SymbolTable symbolTable;
+    private final String mainFunc;
 
-    private SymbolTable ts;
-
-    public WhileValidator(Program p, SymbolTable symbols) {
-        program = p;
-        ts = symbols;
+    public WhileValidator(Program p, SymbolTable symbols, String mf) {
+        this.program = p;
+        this.symbolTable = symbols;
+        this.mainFunc = mf;
     }
 
     public boolean validate() {
@@ -33,10 +34,8 @@ public class WhileValidator {
 
         // Déclaration multiple de fonctions
         Map<String, STFunc> function_names = new HashMap<>();
-        for (int i = 0; i < ts.symbols.size(); i++) {
-            if (!(ts.symbols.get(i) instanceof STFunc)) continue;
-
-            STFunc func = (STFunc) ts.symbols.get(i);
+        for (int i = 0; i < symbolTable.symbols.size(); i++) {
+            if (!(symbolTable.symbols.get(i) instanceof STFunc func)) continue;
 
             if (function_names.containsKey(func.name)) {
                 System.out.println(ANSI_RED + "Error: multiple declaration of " + func.name + ANSI_RESET);
@@ -72,12 +71,23 @@ public class WhileValidator {
             }
         }
 
+        // Check que le main existe / est valide
+        int desired_param_count = function_names.get(mainFunc) != null ? function_names.get(mainFunc).paramCount : -1;
+        if (desired_param_count == -1) {
+            System.out.println(ANSI_RED + "Error: Main calling unknown function " + mainFunc + ANSI_RESET);
+            not_valid = true;
+        }
+        else if (desired_param_count != 0) {
+            System.out.println(ANSI_RED + "Error: Main function has more than 0 parameters." + ANSI_RESET);
+            not_valid = true;
+        }
+
         // Retour de variable qui existe
         String current_result_to_find = "";
         String current_func = "";
-        for (int i = 0; i < ts.symbols.size(); i++) {
-            if (ts.symbols.get(i) instanceof STFunc) {
-                STFunc func = (STFunc) ts.symbols.get(i);
+        for (int i = 0; i < symbolTable.symbols.size(); i++) {
+            if (symbolTable.symbols.get(i) instanceof STFunc) {
+                STFunc func = (STFunc) symbolTable.symbols.get(i);
 
                 if (current_result_to_find.isEmpty()) {
                     current_result_to_find = func.return_var;
@@ -87,8 +97,8 @@ public class WhileValidator {
                     not_valid = true;
                     current_result_to_find = func.return_var;
                     current_func = func.name;                }
-            } else if (ts.symbols.get(i) instanceof STVariable) {
-                STVariable vari = (STVariable) ts.symbols.get(i);
+            } else if (symbolTable.symbols.get(i) instanceof STVariable) {
+                STVariable vari = (STVariable) symbolTable.symbols.get(i);
 
                 if (current_result_to_find.equals(vari.name)) current_result_to_find = "";
             }

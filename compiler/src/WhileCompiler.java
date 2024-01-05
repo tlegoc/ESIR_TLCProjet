@@ -81,7 +81,7 @@ public class WhileCompiler {
 
 //            symbolTable.printSymbolTable();
 
-        WhileValidator wv = new WhileValidator(program, symbolTable);
+        WhileValidator wv = new WhileValidator(program, symbolTable, mainFunc);
 
         // Validation
         if (!wv.validate()) {

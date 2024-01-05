@@ -6,8 +6,8 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("While Compiler cyberviking 2019");
 
-        if (args.length <= 1) {
-            System.out.println("No input specified! Please input a file.");
+        if (args.length <= 0) {
+            System.out.println("Wrong numbers of parameters. Please input FILE [MAIN_FUNCTION_NAME].");
             return;
         }
 
@@ -18,8 +18,11 @@ public class Main {
         } else if (f.isDirectory()) {
             System.out.println("Error: input is a directory");
         }
-        String main = args[1];
-        System.out.println("Compiling " + filename + " with main " + main);
+        String main;
+        if (args.length > 1) main = args[1];
+        else main = "main";
+
+        System.out.println("Compiling " + filename + " with main function " + main);
 
         WhileCompiler compiler = new WhileCompiler(f.getAbsolutePath());
 
