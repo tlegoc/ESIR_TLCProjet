@@ -25,14 +25,9 @@ public class WhileCompiler {
     private static final String ANSI_CYAN = "\u001B[36m";
     private static final String ANSI_WHITE = "\u001B[37m";
 
-    private String filename;
-
-    private VisitorTA visitorTA;
-    private VisitorTS visitorTS;
-
+    private final String filename;
     private Program program;
     private SymbolTable symbolTable;
-
     private String cpp_output;
 
     public WhileCompiler(String file) {
@@ -44,83 +39,90 @@ public class WhileCompiler {
      * @param compileToExe If set to true, an exe will be created with the name filename.exe
      * @param runOptimizations If set to true, the compiler will try to optimize the three address code
      * @return true if the program compiled, false otherwise
-     * @throws IOException
      */
-    public boolean compile(String mainFunc, boolean compileToExe, boolean runOptimizations) throws IOException {
+    public boolean compile(String mainFunc, boolean compileToExe, boolean runOptimizations) {
         if (!isGccInstalled()) {
             System.out.println("Error: GCC is not installed.");
             return false;
         }
 
-        CharStream input = new ANTLRFileStream(filename);
-
-        whileLexer lex = new whileLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lex);
-        whileParser pars = new whileParser(tokens);
+        Object ast;
 
         try {
+            CharStream input = new ANTLRFileStream(filename);
+
+            whileLexer lex = new whileLexer(input);
+            CommonTokenStream tokens = new CommonTokenStream(lex);
+            whileParser pars = new whileParser(tokens);
+
             whileParser.start_rule_return src = pars.start_rule();
 
-            Object ast = src.getTree();
+            ast = src.getTree();
+        } catch (IOException e) {
+            System.out.println("Error: could not open source file.");
+            return false;
+        } catch (RecognitionException e) {
+            System.out.println("Error: unknown ANTLR runtime exception.");
+            System.out.println(e.getLocalizedMessage());
+            return false;
+        }
 
-            // Creating intermediate code
-            visitorTA = new VisitorTA();
-            visitorTA.visit(ast);
-            program = visitorTA.getProgram();
+        // Creating intermediate code
+        VisitorTA visitorTA = new VisitorTA();
+        visitorTA.visit(ast);
+        program = visitorTA.getProgram();
 
-//            System.out.println(program.getProgramString(true));
+//        System.out.println(program.getProgramString(true));
 
-            // Creating symbol table
-            visitorTS = new VisitorTS();
-            visitorTS.visit(ast);
-            symbolTable = visitorTS.getST();
+        // Creating symbol table
+        VisitorTS visitorTS = new VisitorTS();
+        visitorTS.visit(ast);
+        symbolTable = visitorTS.getST();
 
 //            symbolTable.printSymbolTable();
 
-            WhileValidator wv = new WhileValidator(program, symbolTable);
+        WhileValidator wv = new WhileValidator(program, symbolTable);
 
-            // Validation
-            if (!wv.validate()) {
-                System.out.println("Error, could not validate program");
-                return false;
-            }
+        // Validation
+        if (!wv.validate()) {
+            System.out.println("Error, could not validate program");
+            return false;
+        }
 
-            if (runOptimizations) program.optimize();
+        if (runOptimizations) program.optimize();
 
-            // Convert to cpp
-            if (!compileToExe) {
-                return true;
-            }
+        // Convert to cpp
+        if (!compileToExe) {
+            return true;
+        }
 
-            convert3AtoCPP(mainFunc);
+        convert3AtoCPP(mainFunc);
 
-            Path filepath = Paths.get(filename);
+        Path filepath = Paths.get(filename);
+        try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(filepath.getFileName() + ".cpp"));
             writer.write(cpp_output);
             writer.close();
-
-            // COMPILATION EN C PUIS APPEL DE GCC
-            List<String> params = new ArrayList<>();
-            params.add(filepath.getFileName() + ".cpp");
-            params.add("-Bstatic");
-            params.add("-L./");
-            params.add("-lwhile");
-//            params.add("");
-            callGCC(params, filename + ".exe");
-
-            // delete temporary
-            File toDel = new File(filepath.getFileName() + ".cpp");
-            if (toDel.exists() && !toDel.isDirectory())
-                toDel.delete();
-
-            return true;
-
-        } catch (RecognitionException recognitionException) {
-            System.out.println(ANSI_RED + "Erreur de compilation!!!");
-            System.out.println(recognitionException.getLocalizedMessage());
-
+        } catch (IOException e) {
+            System.out.println("Error: could not write .cpp file.");
             return false;
         }
+
+        // COMPILATION EN C PUIS APPEL DE GCC
+        List<String> params = new ArrayList<>();
+        params.add(filepath.getFileName() + ".cpp");
+        params.add("-Bstatic");
+        params.add("-L./");
+        params.add("-lwhile");
+//            params.add("");
+        callGCC(params, filename + ".exe");
+
+        // delete temporary
+//        File toDel = new File(filepath.getFileName() + ".cpp");
+//        if (toDel.exists() && !toDel.isDirectory())
+//            toDel.delete();
+
+        return true;
     }
 
     public void callGCC() throws IOException {
@@ -131,7 +133,7 @@ public class WhileCompiler {
         callGCC(Arrays.asList(file.split(" ")), output);
     }
 
-    public void callGCC(List<String> params, String output) throws IOException {
+    public void callGCC(List<String> params, String output) {
         System.out.println("Calling g++...");
         List<String> command = new ArrayList<>();
         if (System.getProperty("os.name").contains("Windows")) {
@@ -150,21 +152,23 @@ public class WhileCompiler {
         ProcessBuilder pb = new ProcessBuilder();
         pb.command(command);
         pb.redirectErrorStream(true);
-        Process p = pb.start();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        try {
+            Process p = pb.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
-        String line;
+            String line;
 
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            System.out.println(ANSI_RED + "Error: unknown IO error - " + e.getLocalizedMessage() + ANSI_RESET);
         }
-
-        System.out.println("Done.");
     }
 
     public void convert3AtoCPP(String mainFunc) {
-        Convert convert = new Convert(getProgram(), symbolTable, mainFunc);
-        cpp_output = convert.convert();
+        CPPConverter cppConverter = new CPPConverter(getProgram(), symbolTable, mainFunc);
+        cpp_output = cppConverter.convert();
     }
 
     public void printProgram() {

@@ -44,7 +44,7 @@ public class WhileValidator {
             } else function_names.put(func.name, func);
         }
 
-        // Check bon nombre de parametre
+        // Check bon nombre de parametres + existance de la fonction
         for (int i = 0; i < program.lines.size(); i++) {
             if (program.lines.get(i).op == Line.Op.CALL) {
                 int j = i;
@@ -60,6 +60,7 @@ public class WhileValidator {
                 // compare actual parameter and desired parameters
                 String func_name = ((Symbol) program.lines.get(i).arg1).name;
                 int desired_param_count = function_names.get(func_name) != null ? function_names.get(func_name).paramCount : -1;
+                // Si -1 alors la fonction n'existe pas
                 if (desired_param_count == -1) {
                     System.out.println(ANSI_RED + "Error: Unknown function " + func_name + ANSI_RESET);
                     not_valid = true;
@@ -72,7 +73,6 @@ public class WhileValidator {
         }
 
         // Retour de variable qui existe
-        int depth = 0;
         String current_result_to_find = "";
         String current_func = "";
         for (int i = 0; i < ts.symbols.size(); i++) {
@@ -95,6 +95,10 @@ public class WhileValidator {
         }
 
         // Verfier qu'on utilise une variable qui existe
+        for (int i = 0; i < program.getLineCount(); i++)
+        {
+
+        }
 
         // Verifier que le main existe et qu'il ne prend pas de parametres
 
