@@ -26,5 +26,5 @@ Nous recommandons d'utiliser Intellij IDEA pour ouvrir le projet.
 - Programmer le main comme expliqué dans la spécification (à savoir entrée en paramètres, appel de la fonction nommée main dans le programme while).
 - Pretty printer.
 - Fonctions à plusieurs sorties. Actuellement le programme va correctement parser le code mais ne prendra en compte que la première valeur de retour.
-- assignation multiple (ACTUELLEMENT UNE ASSIGNATION MULTIPLE VA ASSIGNER LA PREMIERE VARIABLE A LA DEUXIEME VARIABLE ***D'ENTREE***, il serait judicieux de produire une erreur de compilation le temps que ce soit fix).
+- ~~assignation multiple (ACTUELLEMENT UNE ASSIGNATION MULTIPLE VA ASSIGNER LA PREMIERE VARIABLE A LA DEUXIEME VARIABLE ***D'ENTREE***, il serait judicieux de produire une erreur de compilation le temps que ce soit fix).~~
 - La validation ne vérifie pas que les variables existent bien quand on les utilises (à l'exception de la première variable de sortie d'une fonction).
