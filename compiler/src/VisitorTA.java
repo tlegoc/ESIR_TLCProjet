@@ -54,15 +54,17 @@ public class VisitorTA {
                 }
                 return cons_res;
             case "ASSIGN":
-                for (int i = 0; i < tree.getChild(0).getChildCount(); i++)
-                {
+//                if (tree.getChild(0).getChildCount() != tree.getChild(1).getChildCount()) {
+//                    System.out.println(ANSI_RED + "Error: assignation to " + tree.getChild(0).getChildCount() + " variables, but only " + tree.getChild(1).getChildCount() + " given." + ANSI_RESET);
+//                }
+                for (int i = 0; i < tree.getChild(0).getChildCount(); i++) {
                     Argument egal_res = visit(tree.getChild(0).getChild(i));
                     Argument egal_arg = visit(tree.getChild(1).getChild(i));
                     program.addLine(Line.Op.ASSIGN, egal_res, egal_arg, new EmptyArgument());
                 }
                 break;
 
-                // COMMANDS et BODY n'ont rien de special, on peut les grouper
+            // COMMANDS et BODY n'ont rien de special, on peut les grouper
             case "COMMANDS":
             case "BODY":
                 for (int i = 0; i < tree.getChildCount(); i++) {
