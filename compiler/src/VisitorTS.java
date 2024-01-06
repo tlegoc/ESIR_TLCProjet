@@ -52,7 +52,8 @@ public class VisitorTS {
                 }
                 break;
             case "ASSIGN":
-                st.add(new STVariable(tree.getChild(0).toString(), false));
+                for (int i = 0; i < tree.getChild(0).getChildCount(); i++)
+                    st.add(new STVariable(tree.getChild(0).getChild(i).toString(), false));
                 break;
             default:
                 for (int i = 0; i < tree.getChildCount(); i++) {

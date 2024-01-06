@@ -54,12 +54,12 @@ public class VisitorTA {
                 }
                 return cons_res;
             case "ASSIGN":
-                Argument egal_res = visit(tree.getChild(0));
-//                if (!(egal_res instanceof Symbol)) {
-//                    throw new RuntimeException("Error: cannot process assignation.");
-//                }
-                Argument egal_arg = visit(tree.getChild(1));
-                program.addLine(Line.Op.ASSIGN, egal_res, egal_arg, new EmptyArgument());
+                for (int i = 0; i < tree.getChild(0).getChildCount(); i++)
+                {
+                    Argument egal_res = visit(tree.getChild(0).getChild(i));
+                    Argument egal_arg = visit(tree.getChild(1).getChild(i));
+                    program.addLine(Line.Op.ASSIGN, egal_res, egal_arg, new EmptyArgument());
+                }
                 break;
 
                 // COMMANDS et BODY n'ont rien de special, on peut les grouper

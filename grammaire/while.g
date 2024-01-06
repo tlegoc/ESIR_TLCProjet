@@ -14,6 +14,8 @@ HD;
 CONS;
 LIST;
 ASSIGN;
+ASSIGN_VARS;
+ASSIGN_EXPR;
 FUNC;
 BODY;
 IF;
@@ -55,7 +57,7 @@ input 	:	inputSub -> ^(PARAM inputSub)| -> ^(PARAM);
 inputSub :	Variable(','Variable)*-> Variable+;
 output 	:	Variable(','Variable)* -> ^(OUTPUT Variable+);
 commands :	 command(';'command)* -> command+;
-command:	'nop'|(vars':='exprs) -> ^(ASSIGN vars exprs)|if_|while_|for_|foreach_;
+command:	'nop'|(vars':='exprs) -> ^(ASSIGN ^(ASSIGN_VARS vars) ^(ASSIGN_EXPR exprs))|if_|while_|for_|foreach_;
 vars	:	Variable(','Variable)*-> Variable+;
 
 exprs	:	expression(','expression)* -> expression+;
