@@ -44,6 +44,7 @@ public class WhileValidator {
             } else function_names.put(func.name, func);
         }
 
+        // TODO : REWRITE
         // Check bon nombre de parametres + existance de la fonction
         for (int i = 0; i < program.lines.size(); i++) {
             if (program.lines.get(i).op == Line.Op.CALL) {
@@ -59,7 +60,7 @@ public class WhileValidator {
 
                 // compare actual parameter and desired parameters
                 String func_name = ((Symbol) program.lines.get(i).arg1).name;
-                int desired_param_count = function_names.get(func_name) != null ? function_names.get(func_name).paramCount : -1;
+                int desired_param_count = function_names.get(func_name) != null ? function_names.get(func_name).parameters.length : -1;
                 // Si -1 alors la fonction n'existe pas
                 if (desired_param_count == -1) {
                     System.out.println(ANSI_RED + "Error: Unknown function " + func_name + ANSI_RESET);
@@ -72,8 +73,9 @@ public class WhileValidator {
             }
         }
 
+        // TODO : REWRITE
         // Check que le main existe / est valide
-        int desired_param_count = function_names.get(mainFunc) != null ? function_names.get(mainFunc).paramCount : -1;
+        int desired_param_count = function_names.get(mainFunc) != null ? function_names.get(mainFunc).parameters.length : -1;
         if (desired_param_count == -1) {
             System.out.println(ANSI_RED + "Error: Main calling unknown function " + mainFunc + ANSI_RESET);
             not_valid = true;
@@ -87,6 +89,7 @@ public class WhileValidator {
         // TODO : La variable existera toujours car ajoutee dans la table des symboles
         // dans tous les cas. Il faudrait pluttôt verifier si dans la fonction on ecrit
         // au moins une fois dans le resultat.
+        // TODO : REWRITE
         String current_result_to_find = "";
         String current_func = "";
         for (int i = 0; i < symbolTable.symbols.size(); i++) {
@@ -96,7 +99,7 @@ public class WhileValidator {
                     System.out.println(ANSI_RED + "Error: function " + current_func + "returning non existing variable " + current_result_to_find + ANSI_RESET);
                     not_valid = true;
                 }
-                current_result_to_find = func.return_var;
+                current_result_to_find = func.outputs[0];
                 current_func = func.name;
             } else if (symbolTable.symbols.get(i) instanceof STVariable vari) {
 
@@ -110,6 +113,7 @@ public class WhileValidator {
 
         }
 
-        return !not_valid;
+        return true;
+//        return !not_valid;
     }
 }

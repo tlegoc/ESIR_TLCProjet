@@ -66,14 +66,14 @@ public class WhileCompiler {
         visitorTA.visit(ast);
         program = visitorTA.getProgram();
 
-//        System.out.println(program.getProgramString(true));
+        System.out.println(program.getProgramString(true));
 
         // Creating symbol table
         VisitorTS visitorTS = new VisitorTS();
         visitorTS.visit(ast);
         symbolTable = visitorTS.getST();
 
-//            symbolTable.printSymbolTable();
+            symbolTable.printSymbolTable();
 
         // On effectue la validation apres generation du code 3 adresses car simplifie
         // La verification.
@@ -113,9 +113,9 @@ public class WhileCompiler {
         callGCC(params, filename + ".exe");
 
         // delete temporary
-        File toDel = new File(filepath.getFileName() + ".cpp");
-        if (toDel.exists() && !toDel.isDirectory())
-            toDel.delete();
+//        File toDel = new File(filepath.getFileName() + ".cpp");
+//        if (toDel.exists() && !toDel.isDirectory())
+//            toDel.delete();
 
         return true;
     }

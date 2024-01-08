@@ -21,6 +21,7 @@ public class Line {
         OUTPUT,
         CONS,
         ASSIGN,
+        ASSIGNSET,
         TL,
         HD,
         IFBEGIN,
@@ -58,7 +59,7 @@ public class Line {
             result.append(ANSI_YELLOW);
         else if (line.op == Line.Op.CALL || line.op == Line.Op.PARAMSET) result.append(ANSI_RED);
         else if (line.op == Line.Op.OUTPUT) result.append(ANSI_BLUE);
-        else if (line.op == Line.Op.ASSIGN) result.append(ANSI_PURPLE);
+        else if (line.op == Line.Op.ASSIGN || line.op == Line.Op.ASSIGNSET) result.append(ANSI_PURPLE);
         else if (line.op == Line.Op.IGNORE) result.append(ANSI_CYAN);
         else result.append(ANSI_RESET);
         result.append(line.op).append(" ".repeat(10 - String.valueOf(line.op).length())).append("\t").append(line.res);

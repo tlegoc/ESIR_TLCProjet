@@ -11,6 +11,7 @@ write Result
 function test:
 read Op1, Op2
 %
+    nop;
     Result := (cons);
     Result := (add Result (cons));
     Result := (add Result (cons));
@@ -61,38 +62,53 @@ read Op1, Op2
 %
 write Result
 
-function truefunc :
+function true :
 read
 %
     Result := (cons nil nil)
 %
 write Result
 
-function falsefunc :
+function false :
 read
 %
     Result := nil
 %
 write Result
 
-function notfunc :
+function not :
 read Op1
 %
-    if Op1 then Result := (falsefunc) else Result := (truefunc) fi
+    if Op1 then Result := (false) else Result := (true) fi
 %
 write Result
 
-function andfunc :
+function and :
 read Op1, Op2
 %
-    if (notfunc Op1) then
-        Result := (falsefunc)
+    if (not Op1) then
+        Result := (false)
     else
-        if (notfunc Op2) then
-            Result := (falsefunc)
+        if (not Op2) then
+            Result := (false)
         else
-            Result := (truefunc)
+            Result := (true)
         fi
     fi
 %
 write Result
+
+function testRetourMultiple :
+read Op1, Op2
+%
+    V1, V2 := Op1, Op2
+%
+write V1, V2
+
+function jeVeuxMourir:
+read Op1, Op2
+%
+    Test1, Test2, Test3 := (testRetourMultiple Op1 Op2), (cons);
+    Test4 := (cons a (cons b nil))
+%
+write Test1, Test2

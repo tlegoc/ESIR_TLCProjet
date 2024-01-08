@@ -16,106 +16,106 @@ public class CPPConverter {
     private int index_for = 0;
 
     private static String[] cpp_keywords = new String[]
-    {
-        "alignas",
-        "alignof",
-        "and",
-        "and_eq",
-        "asm",
-        "atomic_cancel",
-        "atomic_commit",
-        "atomic_noexcept",
-        "auto",
-        "bitand",
-        "bitor",
-        "bool",
-        "break",
-        "case",
-        "catch",
-        "char",
-        "char8_t ",
-        "char16_t",
-        "char32_t",
-        "class ",
-        "compl",
-        "concept ",
-        "const",
-        "consteval",
-        "constexpr",
-        "constinit",
-        "const_cast",
-        "continue",
-        "co_await ",
-        "co_return",
-        "co_yield  ",
-        "decltype ",
-        "default",
-        "delete ",
-        "do",
-        "double",
-        "dynamic_cast",
-        "else",
-        "enum",
-        "explicit",
-        "export",
-        "extern",
-        "false",
-        "float",
-        "for",
-        "friend",
-        "goto",
-        "if",
-        "inline",
-        "int",
-        "long",
-        "mutable",
-        "namespace",
-        "new",
-        "noexcept",
-        "not",
-        "not_eq",
-        "nullptr",
-        "operator",
-        "or",
-        "or_eq",
-        "private",
-        "protected",
-        "public",
-        "reflexpr",
-        "register",
-        "reinterpret_cast",
-        "requires",
-        "return",
-        "short",
-        "signed",
-        "sizeof",
-        "static",
-        "static_assert",
-        "static_cast",
-        "struct",
-        "switch",
-        "synchronized",
-        "template",
-        "this",
-        "thread_local",
-        "throw",
-        "true",
-        "try",
-        "typedef",
-        "typeid",
-        "typename",
-        "union",
-        "unsigned",
-        "using",
-        "virtual",
-        "void",
-        "volatile",
-        "wchar_t",
-        "while",
-        "xor",
-        "xor_eq",
-        "main", // Evite d'avoir deux fois une fonction main.
-    };
+            {
+                    "alignas",
+                    "alignof",
+                    "and",
+                    "and_eq",
+                    "asm",
+                    "atomic_cancel",
+                    "atomic_commit",
+                    "atomic_noexcept",
+                    "auto",
+                    "bitand",
+                    "bitor",
+                    "bool",
+                    "break",
+                    "case",
+                    "catch",
+                    "char",
+                    "char8_t ",
+                    "char16_t",
+                    "char32_t",
+                    "class ",
+                    "compl",
+                    "concept ",
+                    "const",
+                    "consteval",
+                    "constexpr",
+                    "constinit",
+                    "const_cast",
+                    "continue",
+                    "co_await ",
+                    "co_return",
+                    "co_yield  ",
+                    "decltype ",
+                    "default",
+                    "delete ",
+                    "do",
+                    "double",
+                    "dynamic_cast",
+                    "else",
+                    "enum",
+                    "explicit",
+                    "export",
+                    "extern",
+                    "false",
+                    "float",
+                    "for",
+                    "friend",
+                    "goto",
+                    "if",
+                    "inline",
+                    "int",
+                    "long",
+                    "mutable",
+                    "namespace",
+                    "new",
+                    "noexcept",
+                    "not",
+                    "not_eq",
+                    "nullptr",
+                    "operator",
+                    "or",
+                    "or_eq",
+                    "private",
+                    "protected",
+                    "public",
+                    "reflexpr",
+                    "register",
+                    "reinterpret_cast",
+                    "requires",
+                    "return",
+                    "short",
+                    "signed",
+                    "sizeof",
+                    "static",
+                    "static_assert",
+                    "static_cast",
+                    "struct",
+                    "switch",
+                    "synchronized",
+                    "template",
+                    "this",
+                    "thread_local",
+                    "throw",
+                    "true",
+                    "try",
+                    "typedef",
+                    "typeid",
+                    "typename",
+                    "union",
+                    "unsigned",
+                    "using",
+                    "virtual",
+                    "void",
+                    "volatile",
+                    "wchar_t",
+                    "while",
+                    "xor",
+                    "xor_eq",
+                    "main", // Evite d'avoir deux fois une fonction main.
+            };
 
     public CPPConverter(Program program, SymbolTable st, String mf) {
         this.program = program;
@@ -142,10 +142,8 @@ public class CPPConverter {
      * @param symbol le symbol a nettoyer
      * @return le symbole nettoye
      */
-    public static String sanitizeSymbol(String symbol)
-    {
-        if (Arrays.stream(cpp_keywords).anyMatch(symbol::equals))
-        {
+    public static String sanitizeSymbol(String symbol) {
+        if (Arrays.stream(cpp_keywords).anyMatch(symbol::equals)) {
             return symbol + "_sanitized";
         }
 
@@ -155,6 +153,8 @@ public class CPPConverter {
 
     public String convert() {
         ArrayList<String> params = new ArrayList<>();
+        ArrayList<String> assigns = new ArrayList<>();
+
         StringBuilder generatedCode = new StringBuilder();
 
         generatedCode.append("#include \"lib_while.h\"\n");
@@ -165,34 +165,44 @@ public class CPPConverter {
 
             // Vive les switchs
             switch (actualLine.op) {
-                case PARAM:
-                    generatedCode.append("std::shared_ptr<Node> ").append(sanitizeSymbol(actualLine.res.toString()));
-                    if (program.getLine(i + 1).op != Line.Op.PARAM) {
-                        indent++;
-                        generatedCode.append(" ) {\n");
-                        generatedCode.append("\t".repeat(indent));
-                        currentScope++;
-                        addVariableForScope(generatedCode, currentScope);
-                    } else {
-                        generatedCode.append(", ");
-                    }
-
-                    break;
+//                case PARAM:
+//                    generatedCode.append("std::shared_ptr<Node> ").append(sanitizeSymbol(actualLine.res.toString()));
+//                    if (program.getLine(i + 1).op != Line.Op.PARAM) {
+//                        indent++;
+//                        generatedCode.append(" ) {\n");
+//                        generatedCode.append("\t".repeat(indent));
+//                        currentScope++;
+//                        addVariableForScope(generatedCode, currentScope);
+//                    } else {
+//                        generatedCode.append(", ");
+//                    }
+//
+//                    break;
                 case PARAMSET:
                     params.add(sanitizeSymbol(actualLine.res.toString()));
                     break;
+                case ASSIGNSET:
+                    assigns.add(sanitizeSymbol(actualLine.res.toString()));
+
+                    break;
                 case FUNCBEGIN:
-                    generatedCode.append("std::shared_ptr<Node> ").append(sanitizeSymbol(actualLine.res.toString())).append("(");
-                    if (program.getLine(i + 1).op != Line.Op.PARAM) {
-                        indent++;
-                        generatedCode.append(" ) {\n");
-                        generatedCode.append("\t".repeat(indent));
-                        // If no parameter
-                        currentScope++;
-                        addVariableForScope(generatedCode, currentScope);
+                    generatedCode.append("void ").append(sanitizeSymbol(actualLine.res.toString())).append("(");
+
+                    STFunc func = symbolTable.getFunc(actualLine.res.toString());
+
+                    for (int j = 0; j < func.outputs.length; j++) {
+                        generatedCode.append("std::shared_ptr<Node> &").append(sanitizeSymbol(func.outputs[j]));
+                        if (j < func.outputs.length - 1) generatedCode.append(", ");
                     }
-                    // NOTE : On ajoute les variables seulement une fois qu'on a fini
-                    // de declarer les parametres, ce pourquoi on ne le fais pas la
+                    for (int j = 0; j < func.parameters.length; j++) {
+                        generatedCode.append(", ");
+                        generatedCode.append("std::shared_ptr<Node> ").append(sanitizeSymbol(func.parameters[j]));
+                    }
+                    indent++;
+                    generatedCode.append(" ) {\n");
+                    generatedCode.append("\t".repeat(indent));
+                    currentScope++;
+                    addVariableForScope(generatedCode, currentScope);
                     break;
                 case FUNCEND:
                     generatedCode.append("}\n");
@@ -264,6 +274,7 @@ public class CPPConverter {
                     addVariableForScope(generatedCode, currentScope);
                     break;
                 case CALL:
+                    /*
                     if (actualLine.res instanceof Registre) {
                         generatedCode.append("std::shared_ptr<Node> ").append(sanitizeSymbol(actualLine.res.toString())).append(" = std::make_shared<Node>();\n");
                     }
@@ -278,6 +289,29 @@ public class CPPConverter {
                     generatedCode.append("); \n");
                     generatedCode.append("\t".repeat(indent));
                     params = new ArrayList<>();
+                     */
+                    STFunc st_func = symbolTable.getFunc(actualLine.res.toString());
+                    int nbrAssigns = st_func.outputs.length;
+                    int nbrParams = st_func.parameters.length;
+                    generatedCode.append(actualLine.res.toString()).append("(");
+                    for(int j = 0; j < nbrAssigns; j ++) {
+                        if (j == nbrAssigns - 1) {
+                            generatedCode.append(sanitizeSymbol(assigns.removeFirst()));
+                        } else {
+                            generatedCode.append(sanitizeSymbol(assigns.removeFirst())).append(", ");
+                        }
+                    }
+                    if(nbrParams > 0) {
+                        generatedCode.append(",");
+                    }
+                    for(int j = 0; j < nbrParams; j ++) {
+                        if (j == nbrParams - 1) {
+                            generatedCode.append(sanitizeSymbol(params.removeFirst()));
+                        } else {
+                            generatedCode.append(sanitizeSymbol(params.removeFirst())).append(", ");
+                        }
+                    }
+                    generatedCode.append(")");
                     break;
                 case CONS:
                     if (actualLine.res instanceof Registre) {

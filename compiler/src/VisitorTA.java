@@ -53,17 +53,35 @@ public class VisitorTA {
                         break;
                 }
                 return cons_res;
+
+            case "ASSIGN_VARS":
+                for(int i = 0; i < tree.getChildCount(); i ++) {
+                    program.addLine(Line.Op.ASSIGNSET, visit(tree.getChild(i)), new EmptyArgument(), new EmptyArgument());
+                }
+                break;
+            case "ASSIGN_EXPR":
+                for(int i = 0; i < tree.getChildCount(); i ++) {
+                    if(tree.getChild(i).toString().equals("SYMBOL")) {
+                        visit(tree.getChild(i));
+                    } else {
+                        program.addLine(Line.Op.ASSIGN, visit(tree.getChild(i)), new EmptyArgument(), new EmptyArgument());
+                    }
+                }
+                break;
             case "ASSIGN":
 //                if (tree.getChild(0).getChildCount() != tree.getChild(1).getChildCount()) {
 //                    System.out.println(ANSI_RED + "Error: assignation to " + tree.getChild(0).getChildCount() + " variables, but only " + tree.getChild(1).getChildCount() + " given." + ANSI_RESET);
 //                }
+                /*
                 for (int i = 0; i < tree.getChild(0).getChildCount(); i++) {
                     Argument egal_res = visit(tree.getChild(0).getChild(i));
                     Argument egal_arg = visit(tree.getChild(1).getChild(i));
                     program.addLine(Line.Op.ASSIGN, egal_res, egal_arg, new EmptyArgument());
                 }
+                */
+                visit(tree.getChild(0)); // Visite assignation
+                visit(tree.getChild(1)); // Visite expressions
                 break;
-
             // COMMANDS et BODY n'ont rien de special, on peut les grouper
             case "COMMANDS":
             case "BODY":
@@ -76,15 +94,17 @@ public class VisitorTA {
                 visit(tree.getChild(1));
                 program.addLine(Line.Op.FUNCEND, new Symbol(String.valueOf(tree.getChild(0))));
                 break;
-            case "OUTPUT":
-                program.addLine(Line.Op.OUTPUT, new Symbol(String.valueOf(tree.getChild(0))));
-                break;
-            case "PARAM":
-                for (int i = 0; i < tree.getChildCount(); i++) {
-                    String p = String.valueOf(tree.getChild(i));
-                    program.addLine(Line.Op.PARAM, new Symbol(p));
-                }
-                break;
+                // Lors de la generation en code c++ on utilisera la table des symbols
+                // pour generer la signature des fonctions qui condiendra ces variables
+//            case "OUTPUT":
+//                program.addLine(Line.Op.OUTPUT, new Symbol(String.valueOf(tree.getChild(0))));
+//                break;
+//            case "PARAM":
+//                for (int i = 0; i < tree.getChildCount(); i++) {
+//                    String p = String.valueOf(tree.getChild(i));
+//                    program.addLine(Line.Op.PARAM, new Symbol(p));
+//                }
+//                break;
             case "FOR":
                 program.addLine(Line.Op.FORBEGIN, new Symbol(String.valueOf(tree.getChild(0))));
                 visit(tree.getChild(1));
@@ -103,19 +123,18 @@ public class VisitorTA {
 
             // Symbol is actually a function call
             case "SYMBOL":
+                // TODO : REWRITE
                 for (int i = 1; i < tree.getChildCount(); i++) {
                     Argument param_v = visit(tree.getChild(i));
                     if (param_v instanceof EmptyArgument) continue;
                     program.addLine(Line.Op.PARAMSET, param_v);
                 }
-                Registre fc_res = new Registre();
 
                 // Pourquoi faire un goto quand on peut faire un appel de fonction ?
                 // Autant profiter des avantages de notre langage cible
                 // Oui c'est de la triche
-                program.addLine(Line.Op.CALL, fc_res, new Symbol(String.valueOf(tree.getChild(0))), new EmptyArgument());
-                return fc_res;
-
+                program.addLine(Line.Op.CALL, new Symbol(String.valueOf(tree.getChild(0))), new EmptyArgument(), new EmptyArgument());
+                break;
             case "LIST":
                 // Pour simplifier la tache, on convertis directement LIST en appels de CONS
                 // Evite de coder des fonctions à nombre de paramètres indéterminés, meme
@@ -157,6 +176,7 @@ public class VisitorTA {
                 }
                 break;
             case "VIDE":
+            case "PARAM":
                 return new EmptyArgument();
             default:
                 // Edge case, utile surtout pour le node root

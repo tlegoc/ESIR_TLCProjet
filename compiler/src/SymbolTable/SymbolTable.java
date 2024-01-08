@@ -7,6 +7,14 @@ public class SymbolTable {
     public List<STEntry> symbols = new ArrayList<>();
 
     public void add(STEntry entry) {
+
+        // Verification que la variable n'existe pas deja
+        // pas fou
+        if (!(entry instanceof STVariable)) {
+            symbols.add(entry);
+            return;
+        }
+
         boolean exists = false;
         int found_depth = 0;
         int depth = 0;
@@ -15,18 +23,33 @@ public class SymbolTable {
             else if (symbols.get(i) instanceof STBlockEnd) {
                 depth--;
                 if (depth < found_depth) exists = false;
-            } else if (symbols.get(i) instanceof STVariable && symbols.get(i).toString().equals(entry.toString())) {
+            } else if (symbols.get(i) instanceof STVariable && symbols.get(i).getSymbol().equals(entry.getSymbol())) {
                 found_depth = depth;
                 exists = true;
+            } else if (symbols.get(i) instanceof STFunc func) {
+                for (String output : func.outputs) {
+                    if (output.equals(entry.getSymbol())) {
+                        found_depth = depth;
+                        exists = true;
+                        break;
+                    }
+                }
+                for (String params : func.parameters) {
+                    if (params.equals(entry.getSymbol())) {
+                        found_depth = depth;
+                        exists = true;
+                        break;
+                    }
+                }
             }
         }
         if (!exists) symbols.add(entry);
     }
 
     public List<STEntry> getEntriesForScope(int currentScope) {
-        if (currentScope > getScopeCount()) return new ArrayList<STEntry>();
+        if (currentScope > getScopeCount()) return new ArrayList<>();
 
-        List<STEntry> entries = new ArrayList<STEntry>();
+        List<STEntry> entries = new ArrayList<>();
 
         int scope = 0;
         for (int i = 0; i < symbols.size() && scope < currentScope + 1 && scope < getScopeCount(); i++) {
@@ -36,7 +59,7 @@ public class SymbolTable {
             }
 
             if (scope == currentScope) {
-                if (symbols.get(i) instanceof STVariable && !((STVariable) symbols.get(i)).isParam)
+                if (symbols.get(i) instanceof STVariable)
                     entries.add(symbols.get(i));
             }
         }
@@ -51,6 +74,15 @@ public class SymbolTable {
         }
 
         return res;
+    }
+
+    public STFunc getFunc(String funcName) {
+        for (STEntry symbol : symbols) {
+            if (symbol instanceof STFunc func) {
+                if (func.name.equals(funcName)) return func;
+            }
+        }
+        return null;
     }
 
     public void printSymbolTable() {

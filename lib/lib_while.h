@@ -23,9 +23,11 @@ struct Node {
 
         val = copy.val;
     }
-
-
 };
+
+void printNode(std::shared_ptr<Node> node) {
+
+}
 
 void Nil(std::shared_ptr<Node> res);
 

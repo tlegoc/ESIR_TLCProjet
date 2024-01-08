@@ -1,19 +1,18 @@
 package SymbolTable;
 
 public class STFunc extends STEntry {
-    public int paramCount;
+    public String[] parameters;
     public String name;
+    public String[] outputs;
 
-    public String return_var;
-
-    public STFunc(String n, int pc, String rv) {
+    public STFunc(String n, String[] p, String[] o) {
         name = n;
-        paramCount = pc;
-        return_var = rv;
+        parameters = p;
+        outputs = o;
     }
 
     public String toString() {
-        return "Func name: " + name + "; Param count: " + paramCount + "; return var: " + return_var;
+        return "Func name: " + name + "; Param count: " + parameters.length + "; output count : " + outputs.length;
     }
 
     public String getSymbol()
