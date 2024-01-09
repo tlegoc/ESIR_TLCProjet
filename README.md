@@ -23,6 +23,7 @@ Nous recommandons d'utiliser Intellij IDEA pour ouvrir le projet.
 
 # Erreurs connues, TODO
 
+- Variables mal assignées en C++ (lorsqu'on fait var1 = var2, on a simplement une copie du pointeur. Au final ça ne copie pas réellement la valeur).
 - Programmer le main comme expliqué dans la spécification (à savoir entrée en paramètres, appel de la fonction nommée main dans le programme while).
 - Pretty printer.
 - Fonctions à plusieurs sorties. Actuellement le programme va correctement parser le code mais ne prendra en compte que la première valeur de retour.
