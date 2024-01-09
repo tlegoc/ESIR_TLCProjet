@@ -28,3 +28,7 @@ Nous recommandons d'utiliser Intellij IDEA pour ouvrir le projet.
 - Fonctions à plusieurs sorties. Actuellement le programme va correctement parser le code mais ne prendra en compte que la première valeur de retour.
 - ~~assignation multiple (ACTUELLEMENT UNE ASSIGNATION MULTIPLE VA ASSIGNER LA PREMIERE VARIABLE A LA DEUXIEME VARIABLE ***D'ENTREE***, il serait judicieux de produire une erreur de compilation le temps que ce soit fix).~~
 - La validation ne vérifie pas que les variables existent bien quand on les utilises (à l'exception de la première variable de sortie d'une fonction).
+- Appels de fonction dans un while
+- Appels de fonction dans appel de fonction
+- Pouvoir mettre des symboles dans les arbres (`(cons a (cons b))` censé créer un string `ab`, actuellement fait ???)
+- Différentier une variable nommée `SYMBOL` du tag SYMBOL de l'ast
