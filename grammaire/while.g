@@ -9,6 +9,7 @@ COMMANDS;
 PARAM;
 OUTPUT;
 SYMBOL;
+CALL;
 TL;
 HD;
 CONS;
@@ -23,6 +24,7 @@ WHILE;
 FOR;
 FOREACH;
 THEN;
+VARIABLE;
 }
 
 start_rule: 	program; 
@@ -67,10 +69,10 @@ while_	:	'while'expression'do'commands'od' -> ^(WHILE expression ^(COMMANDS comm
 for_	:	'for'expression'do'commands'od' -> ^(FOR expression ^(COMMANDS commands));
 foreach_	:	'foreach' i = Variable'in'expression'do'commands'od' -> ^(FOREACH $i expression ^(COMMANDS commands));
 exprbase:	 
-('nil'|Variable|Symbol)
+('nil' -> ^('nil')|v=Variable -> ^(VARIABLE $v)|s=Symbol -> ^(SYMBOL $s))
  | ('(' 'cons' lexpr ')' -> ^(CONS lexpr) | '(' 'list' lexpr ')' -> ^(LIST lexpr))
  | ('(' 'hd' exprbase ')'-> ^(HD exprbase) | '(' 'tl' exprbase ')' -> ^(TL exprbase))
- | ('(' s=Symbol lexpr ')'  -> ^(SYMBOL $s lexpr));
+ | ('(' s=Symbol lexpr ')'  -> ^(CALL $s lexpr));
 expression :	 exprbase('=?' exprbase)* -> exprbase+;
 lexpr	:	 exprbase+ -> exprbase+ | -> ^(VIDE);
 	
