@@ -19,9 +19,11 @@ public class Main {
             System.out.println("Error: input is a directory");
         }
         String main;
+        /*
         if (args.length > 1) main = args[1];
         else main = "main";
-
+         */
+        main = "main";
         System.out.println("Compiling " + filename + " with main function " + main);
 
         WhileCompiler compiler = new WhileCompiler(f.getAbsolutePath());

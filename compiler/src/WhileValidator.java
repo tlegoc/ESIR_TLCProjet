@@ -1,10 +1,7 @@
 import SymbolTable.*;
 import ThreeAddr.*;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 // S'occupe de valider le programme à partir du code intermediaire et de
@@ -105,6 +102,28 @@ public class WhileValidator {
             dans tous les cas. Il faudrait pluttôt verifier si dans la fonction on ecrit
             au moins une fois dans le resultat.*/
         // TODO : REWRITE
+        List<String> outputs = new ArrayList<>();
+        STFunc func = null;
+        for(Line line : program.lines ) {
+
+            switch (line.op) {
+                case FUNCBEGIN:
+                    func = function_names.get(line.res.toString());
+                    outputs.addAll(Arrays.asList(func.outputs));
+                    break;
+                case ASSIGN:
+                    String var = line.res.toString();
+                    outputs.remove(var);
+                    break;
+                case FUNCEND:
+                    for(String result : outputs) {
+                        System.out.println(ANSI_RED + "Error: function " + func.name + " returning non existing variable " + result + ANSI_RESET);
+                        valid = false;
+                    }
+                    break;
+            }
+        }
+        /*
         String current_result_to_find = "";
         String current_func = "";
         for (int i = 0; i < symbolTable.symbols.size(); i++) {
@@ -121,7 +140,9 @@ public class WhileValidator {
                 if (current_result_to_find.equals(vari.name)) current_result_to_find = "";
             }
         }
-        //PASS 1 =================================
+
+         */
+        //PASS 5 =================================
         // Verfier qu'on utilise une variable qui existe
         for (int i = 0; i < program.getLineCount(); i++)
         {
