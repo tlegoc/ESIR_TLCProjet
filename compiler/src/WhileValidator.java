@@ -31,58 +31,72 @@ public class WhileValidator {
      * @return vrai si le programme est correct, faux sinon : ne pas compiler
      */
     public boolean validate() {
-        boolean not_valid = false;
+        boolean valid = true;
 
-        // Déclaration multiple de fonctions
+        // checker la déclaration multiple de fonctions
         Map<String, STFunc> function_names = new HashMap<>();
         for (int i = 0; i < symbolTable.symbols.size(); i++) {
             if (!(symbolTable.symbols.get(i) instanceof STFunc func)) continue;
 
             if (function_names.containsKey(func.name)) {
                 System.out.println(ANSI_RED + "Error: multiple declaration of " + func.name + ANSI_RESET);
-                not_valid = true;
+                valid = false;
             } else function_names.put(func.name, func);
         }
 
         // TODO : REWRITE
-        // Check bon nombre de parametres + existance de la fonction
-        for (int i = 0; i < program.lines.size(); i++) {
-            if (program.lines.get(i).op == Line.Op.CALL) {
-                int j = i;
-                int params_count = 0;
-                while (j > 0) {
-                    if (program.lines.get(j).op == Line.Op.PARAMSET) {
-                        params_count++;
-                    }
-                    j--;
-                    if (program.lines.get(j).op == Line.Op.CALL) break;
-                }
+        // Check bon nombre de parametres + existence de la fonction
+        int supposed_params = 0;
+        int supposed_outputs = 0;
+        int params_count = 0;
+        int outputs_count = 0;
+        for (int i = 0; i < program.lines.size(); i++)
+        {
+            Line actualLine = program.lines.get(i);
+            switch (actualLine.op) {
+                case CALL:
+                    STFunc func = function_names.get(actualLine.res.toString());
+                    if (func == null) {
+                        System.out.println(ANSI_RED + "Error: func " + actualLine.res.toString() + " isn't declared" + ANSI_RESET);
+                        valid = false;
 
-                // compare actual parameter and desired parameters
-                String func_name = ((Symbol) program.lines.get(i).res).name;
-                int desired_param_count = function_names.get(func_name) != null ? function_names.get(func_name).parameters.length : -1;
-                // Si -1 alors la fonction n'existe pas
-                if (desired_param_count == -1) {
-                    System.out.println(ANSI_RED + "Error: Unknown function " + func_name + ANSI_RESET);
-                    not_valid = true;
-                }
-                else if (desired_param_count != params_count) {
-                    System.out.println(ANSI_RED + "Error: function called with wrong number of params " + func_name + ANSI_RESET);
-                    not_valid = true;
-                }
+                    } else {
+                        supposed_params = func.parameters.length;
+                        supposed_outputs = func.outputs.length;
+                        params_count = 0;
+                        outputs_count = 0;
+                    }
+                    break;
+                case PARAMSET:
+                    params_count ++;
+                    break;
+                case OUTPUTSET:
+                    outputs_count ++;
+                    break;
+                case CALLEND:
+                    if (!(params_count == supposed_params && outputs_count == supposed_outputs)){
+                        System.out.println(ANSI_RED + "Error: func " + actualLine.res.toString() + " doesn't have the right amount of outputs or inputs" + ANSI_RESET);
+                        valid = false;
+                    }
+                     supposed_params = 0;
+                     supposed_outputs = 0;
+                     params_count = 0;
+                     outputs_count = 0;
+                    break;
+                default:
+                    break;
             }
-        }
 
         // TODO : REWRITE
         // Check que le main existe / est valide
         int desired_param_count = function_names.get(mainFunc) != null ? function_names.get(mainFunc).parameters.length : -1;
         if (desired_param_count == -1) {
             System.out.println(ANSI_RED + "Error: Main calling unknown function " + mainFunc + ANSI_RESET);
-            not_valid = true;
+            valid = false;
         }
         else if (desired_param_count != 0) {
             System.out.println(ANSI_RED + "Error: Main function has more than 0 parameters." + ANSI_RESET);
-            not_valid = true;
+            valid = false;
         }
 
         // Retour de variable qui existe
@@ -97,7 +111,7 @@ public class WhileValidator {
 
                 if (!current_result_to_find.isEmpty()) {
                     System.out.println(ANSI_RED + "Error: function " + current_func + "returning non existing variable " + current_result_to_find + ANSI_RESET);
-                    not_valid = true;
+                    valid = false;
                 }
                 current_result_to_find = func.outputs[0];
                 current_func = func.name;
@@ -113,7 +127,7 @@ public class WhileValidator {
 
         }
 
-        return true;
-//        return !not_valid;
+
+        return valid;
     }
 }
