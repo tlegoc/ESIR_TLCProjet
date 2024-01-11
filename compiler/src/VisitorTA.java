@@ -207,7 +207,7 @@ public class VisitorTA {
 
         int varCount = vars.size();
         if (varCount > 1) {
-            Registre actual = vars.getLast();
+            Registre actual = vars.get(varCount - 1);
 
             for (int i = varCount - 1; i > 0; i--) {
                 Registre cons = new Registre();
@@ -229,6 +229,9 @@ public class VisitorTA {
         program.addLine(Line.Op.CALL, funcName);
         for (int i = 1; i < tree.getChildCount(); i++) {
             Object child = tree.getChild(i);
+            if(child.toString().equals("VIDE")) {
+                continue;
+            }
             List<Registre> arg = new ArrayList<>(process(child));
             for (Argument argument : arg) {
                 program.addLine(Line.Op.PARAMSET, argument);
