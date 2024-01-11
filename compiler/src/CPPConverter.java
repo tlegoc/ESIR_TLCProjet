@@ -165,26 +165,7 @@ public class CPPConverter {
 
             // Vive les switchs
             switch (actualLine.op) {
-//                case PARAM:
-//                    generatedCode.append("std::shared_ptr<Node> ").append(sanitizeSymbol(actualLine.res.toString()));
-//                    if (program.getLine(i + 1).op != Line.Op.PARAM) {
-//                        indent++;
-//                        generatedCode.append(" ) {\n");
-//                        generatedCode.append("\t".repeat(indent));
-//                        currentScope++;
-//                        addVariableForScope(generatedCode, currentScope);
-//                    } else {
-//                        generatedCode.append(", ");
-//                    }
-//
-//                    break;
-                case PARAMSET:
-                    params.add(sanitizeSymbol(actualLine.res.toString()));
-                    break;
-                case ASSIGNSET:
-                    assigns.add(sanitizeSymbol(actualLine.res.toString()));
 
-                    break;
                 case FUNCBEGIN:
                     generatedCode.append("void ").append(sanitizeSymbol(actualLine.res.toString())).append("(");
 
@@ -219,13 +200,10 @@ public class CPPConverter {
                     if (actualLine.res instanceof Registre) {
                         generatedCode.append("std::shared_ptr<Node> ").append(sanitizeSymbol(actualLine.res.toString())).append(" = std::make_shared<Node>();\n");
                     }
-                    // Fix for assigning to nil
                     if (actualLine.arg1.toString().equals("nil")) {
                         generatedCode.append("Nil(").append(sanitizeSymbol(actualLine.res.toString())).append(");\n");
-                        generatedCode.append("\t".repeat(indent));
                     } else {
                         generatedCode.append(sanitizeSymbol(actualLine.res.toString())).append(" = ").append(sanitizeSymbol(actualLine.arg1.toString())).append(";\n");
-                        generatedCode.append("\t".repeat(indent));
                     }
                     break;
                 case IFBEGIN:
@@ -274,28 +252,11 @@ public class CPPConverter {
                     addVariableForScope(generatedCode, currentScope);
                     break;
                 case CALL:
-                    /*
-                    if (actualLine.res instanceof Registre) {
-                        generatedCode.append("std::shared_ptr<Node> ").append(sanitizeSymbol(actualLine.res.toString())).append(" = std::make_shared<Node>();\n");
-                    }
-                    generatedCode.append(sanitizeSymbol(actualLine.res.toString())).append(" = ").append(sanitizeSymbol(actualLine.arg1.toString())).append("(");
-                    for (int param = 0; param < params.size(); param++) {
-                        generatedCode.append(sanitizeSymbol(params.get(param)));
-                        if (param == params.size() - 1) {
-                            continue;
-                        }
-                        generatedCode.append(", ");
-                    }
-                    generatedCode.append("); \n");
-                    generatedCode.append("\t".repeat(indent));
-                    params = new ArrayList<>();
-                     */
                     STFunc st_func = symbolTable.getFunc(actualLine.res.toString());
                     int nbrAssigns = st_func.outputs.length;
                     int nbrParams = st_func.parameters.length;
                     generatedCode.append(actualLine.res.toString()).append("(");
                     for(int j = 0; j < nbrAssigns; j ++) {
-
                         if (j == nbrAssigns - 1) {
                             generatedCode.append(sanitizeSymbol(assigns.remove(0)));
                         } else {
@@ -315,27 +276,30 @@ public class CPPConverter {
                     }
                     generatedCode.append(")");
                     break;
+                case PARAMSET:
+                    params.add(sanitizeSymbol(actualLine.res.toString()));
+                    break;
+                case OUTPUTSET:
+                    assigns.add(sanitizeSymbol(actualLine.res.toString()));
+                    break;
                 case CONS:
                     if (actualLine.res instanceof Registre) {
                         generatedCode.append("std::shared_ptr<Node> ").append(sanitizeSymbol(actualLine.res.toString())).append(" = std::make_shared<Node>();\n");
                     }
-                    generatedCode.append("\t".repeat(indent));
                     generatedCode.append("Cons(").append(sanitizeSymbol(actualLine.res.toString()));
-
                     if (!actualLine.arg1.toString().equals("EMPTY")) {
                         if (actualLine.arg1.toString().equals("nil"))
                             generatedCode.append(", Nil()");
                         else
                             generatedCode.append(", ").append(sanitizeSymbol(actualLine.arg1.toString()));
                         if (!actualLine.arg2.toString().equals("EMPTY")) {
-
                             if (actualLine.arg2.toString().equals("nil"))
                                 generatedCode.append(", Nil()");
                             else
                                 generatedCode.append(", ").append(sanitizeSymbol(actualLine.arg2.toString()));
                         }
                     }
-                    generatedCode.append(");\n").append("\t".repeat(indent));
+                    generatedCode.append(");\n");
                     break;
                 case TL:
                     if (actualLine.res instanceof Registre) {

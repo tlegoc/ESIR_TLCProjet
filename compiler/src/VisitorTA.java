@@ -10,9 +10,9 @@ import java.util.List;
 // Pourrait etre BEAUCOUP plus optimise
 // mais il marche
 public class VisitorTA {
-    private Program program = new Program();
+    private final Program program = new Program();
 
-    private HashMap<String, Integer> functionOutputs = new HashMap<>();
+    private final HashMap<String, Integer> functionOutputs = new HashMap<>();
 
     /***
      * Parcours l'AST pour generer le code 3 adresses
@@ -173,7 +173,6 @@ public class VisitorTA {
         List<Registre> vars = new ArrayList<>();
         for(int i = 0; i < outCount; i ++) {
             Object child = tree.getChild(i);
-            System.out.println("[DEBUG child.toString :"+child.toString());
             List<Argument> res = new ArrayList<>(process(child));
             for (Argument re : res) {
                 Registre var = new Registre();
@@ -214,7 +213,6 @@ public class VisitorTA {
     private List<Registre> processCALL(Object o) {
         CommonTree tree = (CommonTree) o;
         Symbol funcName = new Symbol(tree.getChild(0).toString());
-        System.out.println("[CALL] func name : "+funcName);
         program.addLine(Line.Op.CALL, funcName);
         for(int i = 1; i < tree.getChildCount(); i ++ )
         {
@@ -281,7 +279,6 @@ public class VisitorTA {
                             new EmptyArgument());
                     break;
                 case "LIST":
-                    System.out.println("[]"+ass_exp_child.toString());
                     program.addLine(
                             Line.Op.ASSIGN,
                             new Variable(ass_var_child.toString()),
