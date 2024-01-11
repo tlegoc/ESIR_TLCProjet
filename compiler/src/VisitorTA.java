@@ -82,7 +82,8 @@ public class VisitorTA {
                 break;
         }
     }
-
+    //TODO : FOREACH (eh ouais on l'a zappé)
+    //TODO : gestion de commentaires, je crois pas qu'on l'ai fait
     private List<Registre> process(Object o) {
         CommonTree tree = (CommonTree) o;
         int line = tree.getLine();

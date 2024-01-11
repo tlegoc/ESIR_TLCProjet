@@ -7,13 +7,10 @@ public class SymbolTable {
     public List<STEntry> symbols = new ArrayList<>();
 
     public void add(STEntry entry) {
-    /*TODO : checker pour chaque variables du bloc ASSIGN_VARS si il ne sont pas déjà dans la TS dans ce bloc et les blocs du dessus
-                       Spoiler, compliqué
-                       */
         boolean exists = false;
         //verif pour STFunc
         if (entry instanceof STFunc) {
-            //TODO
+            //TODO verif pour STFunc
         }
         //verif pour STVariable
         else if (entry instanceof  STVariable) {

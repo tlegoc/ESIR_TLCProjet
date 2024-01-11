@@ -83,7 +83,7 @@ public class WhileValidator {
                     break;
             }
         }
-        // TODO : REWRITE
+        // TODO : REWRITE checking si le main existe/est valide
         //PASS 3 =================================
         // Check que le main existe / est valide
         int desired_param_count = function_names.get(mainFunc) != null ? function_names.get(mainFunc).parameters.length : -1;

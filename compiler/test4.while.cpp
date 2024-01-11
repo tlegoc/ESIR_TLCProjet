@@ -8,7 +8,7 @@ void add(shared_ptr <Node> &Result, shared_ptr <Node> Op1, shared_ptr <Node> Op2
     Result = Result;
     shared_ptr <Node> reg_1 = make_shared<Node>();
     reg_1 = reg_1;
-    for (int _ID_for_0 = 0; _ID_for_0 <= toInt(reg_1); _ID_for_0++) {
+    for (int _for_0 = 0; _for_0 <= toInt(reg_1); _for_0++) {
         shared_ptr <Node> reg_3 = make_shared<Node>();
         Nil(reg_3);
         shared_ptr <Node> reg_4 = make_shared<Node>();
@@ -157,7 +157,7 @@ void sub(shared_ptr <Node> &Result, shared_ptr <Node> Op1, shared_ptr <Node> Op2
     Result = Result;
     shared_ptr <Node> reg_66 = make_shared<Node>();
     reg_66 = reg_66;
-    for (int _ID_for_0 = 0; _ID_for_0 <= toInt(reg_66); _ID_for_0++) {
+    for (int _for_0 = 0; _for_0 <= toInt(reg_66); _for_0++) {
         shared_ptr <Node> reg_68 = make_shared<Node>();
         reg_68 = reg_68;
         shared_ptr <Node> reg_67 = make_shared<Node>();
@@ -169,7 +169,7 @@ void sub(shared_ptr <Node> &Result, shared_ptr <Node> Op1, shared_ptr <Node> Op2
 void mul(shared_ptr <Node> &Result, shared_ptr <Node> Op1, shared_ptr <Node> Op2) {
     shared_ptr <Node> reg_69 = make_shared<Node>();
     reg_69 = reg_69;
-    for (int _ID_for_0 = 0; _ID_for_0 <= toInt(reg_69); _ID_for_0++) {
+    for (int _for_0 = 0; _for_0 <= toInt(reg_69); _for_0++) {
         shared_ptr <Node> reg_70 = make_shared<Node>();
         reg_70 = reg_70;
         shared_ptr <Node> reg_71 = make_shared<Node>();
