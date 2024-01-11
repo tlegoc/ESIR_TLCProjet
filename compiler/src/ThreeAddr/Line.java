@@ -16,10 +16,13 @@ public class Line {
     public enum Op {
         PARAM,
         PARAMSET,
+        OUTPUTSET,
         FUNCBEGIN,
         FUNCEND,
         OUTPUT,
         CONS,
+        LISTBEGIN,
+        LISTEND,
         ASSIGN,
         ASSIGNSET,
         TL,
@@ -33,6 +36,7 @@ public class Line {
         FORBEGIN,
         FOREND,
         CALL,
+        CALLEND,
         IGNORE
     }
     public Argument res;
@@ -57,7 +61,7 @@ public class Line {
             result.append(ANSI_GREEN);
         else if (line.op == Line.Op.FORBEGIN || line.op == Line.Op.FOREND || line.op == Line.Op.WHILEBEGIN || line.op == Line.Op.WHILEEND || line.op == Line.Op.IFBEGIN || line.op == Line.Op.IFEND || line.op == Line.Op.ELSEBEGIN || line.op == Line.Op.ELSEEND)
             result.append(ANSI_YELLOW);
-        else if (line.op == Line.Op.CALL || line.op == Line.Op.PARAMSET) result.append(ANSI_RED);
+        else if (line.op == Line.Op.CALL || line.op == Line.Op.PARAMSET || line.op == Line.Op.CALLEND || line.op == Op.OUTPUTSET) result.append(ANSI_RED);
         else if (line.op == Line.Op.OUTPUT) result.append(ANSI_BLUE);
         else if (line.op == Line.Op.ASSIGN || line.op == Line.Op.ASSIGNSET) result.append(ANSI_PURPLE);
         else if (line.op == Line.Op.IGNORE) result.append(ANSI_CYAN);

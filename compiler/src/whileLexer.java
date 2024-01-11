@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g 2024-01-06 14:32:03
+// $ANTLR 3.5.1 C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g 2024-01-11 08:41:47
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -8,8 +8,6 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class whileLexer extends Lexer {
 	public static final int EOF=-1;
-	public static final int T__30=30;
-	public static final int T__31=31;
 	public static final int T__32=32;
 	public static final int T__33=33;
 	public static final int T__34=34;
@@ -35,32 +33,36 @@ public class whileLexer extends Lexer {
 	public static final int T__54=54;
 	public static final int T__55=55;
 	public static final int T__56=56;
+	public static final int T__57=57;
+	public static final int T__58=58;
 	public static final int ASSIGN=4;
 	public static final int ASSIGN_EXPR=5;
 	public static final int ASSIGN_VARS=6;
 	public static final int BODY=7;
-	public static final int COMMANDS=8;
-	public static final int COMMENT=9;
-	public static final int CONS=10;
-	public static final int Dec=11;
-	public static final int FOR=12;
-	public static final int FOREACH=13;
-	public static final int FUNC=14;
-	public static final int HD=15;
-	public static final int IF=16;
-	public static final int LIST=17;
-	public static final int Maj=18;
-	public static final int Min=19;
-	public static final int OUTPUT=20;
-	public static final int PARAM=21;
-	public static final int SYMBOL=22;
-	public static final int Symbol=23;
-	public static final int THEN=24;
-	public static final int TL=25;
-	public static final int VIDE=26;
-	public static final int Variable=27;
-	public static final int WHILE=28;
-	public static final int WS=29;
+	public static final int CALL=8;
+	public static final int COMMANDS=9;
+	public static final int COMMENT=10;
+	public static final int CONS=11;
+	public static final int Dec=12;
+	public static final int FOR=13;
+	public static final int FOREACH=14;
+	public static final int FUNC=15;
+	public static final int HD=16;
+	public static final int IF=17;
+	public static final int LIST=18;
+	public static final int Maj=19;
+	public static final int Min=20;
+	public static final int OUTPUT=21;
+	public static final int PARAM=22;
+	public static final int SYMBOL=23;
+	public static final int Symbol=24;
+	public static final int THEN=25;
+	public static final int TL=26;
+	public static final int VARIABLE=27;
+	public static final int VIDE=28;
+	public static final int Variable=29;
+	public static final int WHILE=30;
+	public static final int WS=31;
 
 	// delegates
 	// delegators
@@ -75,57 +77,17 @@ public class whileLexer extends Lexer {
 	public whileLexer(CharStream input, RecognizerSharedState state) {
 		super(input,state);
 	}
-	@Override public String getGrammarFileName() { return "C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g"; }
-
-	// $ANTLR start "T__30"
-	public final void mT__30() throws RecognitionException {
-		try {
-			int _type = T__30;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:2:7: ( '%' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:2:9: '%'
-			{
-			match('%'); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "T__30"
-
-	// $ANTLR start "T__31"
-	public final void mT__31() throws RecognitionException {
-		try {
-			int _type = T__31;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:3:7: ( '(' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:3:9: '('
-			{
-			match('('); 
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "T__31"
+	@Override public String getGrammarFileName() { return "C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g"; }
 
 	// $ANTLR start "T__32"
 	public final void mT__32() throws RecognitionException {
 		try {
 			int _type = T__32;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:4:7: ( ')' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:4:9: ')'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:2:7: ( '%' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:2:9: '%'
 			{
-			match(')'); 
+			match('%'); 
 			}
 
 			state.type = _type;
@@ -142,10 +104,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__33;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:5:7: ( ',' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:5:9: ','
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:3:7: ( '(' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:3:9: '('
 			{
-			match(','); 
+			match('('); 
 			}
 
 			state.type = _type;
@@ -162,10 +124,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__34;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:6:7: ( ':' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:6:9: ':'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:4:7: ( ')' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:4:9: ')'
 			{
-			match(':'); 
+			match(')'); 
 			}
 
 			state.type = _type;
@@ -182,11 +144,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__35;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:7:7: ( ':=' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:7:9: ':='
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:5:7: ( ',' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:5:9: ','
 			{
-			match(":="); 
-
+			match(','); 
 			}
 
 			state.type = _type;
@@ -203,10 +164,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__36;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:8:7: ( ';' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:8:9: ';'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:6:7: ( ':' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:6:9: ':'
 			{
-			match(';'); 
+			match(':'); 
 			}
 
 			state.type = _type;
@@ -223,10 +184,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__37;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:9:7: ( '=?' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:9:9: '=?'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:7:7: ( ':=' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:7:9: ':='
 			{
-			match("=?"); 
+			match(":="); 
 
 			}
 
@@ -244,11 +205,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__38;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:10:7: ( 'cons' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:10:9: 'cons'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:8:7: ( ';' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:8:9: ';'
 			{
-			match("cons"); 
-
+			match(';'); 
 			}
 
 			state.type = _type;
@@ -265,10 +225,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__39;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:11:7: ( 'do' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:11:9: 'do'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:9:7: ( '=?' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:9:9: '=?'
 			{
-			match("do"); 
+			match("=?"); 
 
 			}
 
@@ -286,10 +246,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__40;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:12:7: ( 'else' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:12:9: 'else'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:10:7: ( 'cons' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:10:9: 'cons'
 			{
-			match("else"); 
+			match("cons"); 
 
 			}
 
@@ -307,10 +267,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__41;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:13:7: ( 'fi' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:13:9: 'fi'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:11:7: ( 'do' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:11:9: 'do'
 			{
-			match("fi"); 
+			match("do"); 
 
 			}
 
@@ -328,10 +288,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__42;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:14:7: ( 'for' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:14:9: 'for'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:12:7: ( 'else' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:12:9: 'else'
 			{
-			match("for"); 
+			match("else"); 
 
 			}
 
@@ -349,10 +309,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__43;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:15:7: ( 'foreach' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:15:9: 'foreach'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:13:7: ( 'fi' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:13:9: 'fi'
 			{
-			match("foreach"); 
+			match("fi"); 
 
 			}
 
@@ -370,10 +330,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__44;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:16:7: ( 'function' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:16:9: 'function'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:14:7: ( 'for' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:14:9: 'for'
 			{
-			match("function"); 
+			match("for"); 
 
 			}
 
@@ -391,10 +351,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__45;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:17:7: ( 'hd' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:17:9: 'hd'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:15:7: ( 'foreach' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:15:9: 'foreach'
 			{
-			match("hd"); 
+			match("foreach"); 
 
 			}
 
@@ -412,10 +372,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__46;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:18:7: ( 'if' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:18:9: 'if'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:16:7: ( 'function' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:16:9: 'function'
 			{
-			match("if"); 
+			match("function"); 
 
 			}
 
@@ -433,10 +393,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__47;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:19:7: ( 'in' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:19:9: 'in'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:17:7: ( 'hd' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:17:9: 'hd'
 			{
-			match("in"); 
+			match("hd"); 
 
 			}
 
@@ -454,10 +414,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__48;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:20:7: ( 'list' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:20:9: 'list'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:18:7: ( 'if' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:18:9: 'if'
 			{
-			match("list"); 
+			match("if"); 
 
 			}
 
@@ -475,10 +435,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__49;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:21:7: ( 'nil' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:21:9: 'nil'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:19:7: ( 'in' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:19:9: 'in'
 			{
-			match("nil"); 
+			match("in"); 
 
 			}
 
@@ -496,10 +456,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__50;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:22:7: ( 'nop' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:22:9: 'nop'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:20:7: ( 'list' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:20:9: 'list'
 			{
-			match("nop"); 
+			match("list"); 
 
 			}
 
@@ -517,10 +477,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__51;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:23:7: ( 'od' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:23:9: 'od'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:21:7: ( 'nil' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:21:9: 'nil'
 			{
-			match("od"); 
+			match("nil"); 
 
 			}
 
@@ -538,10 +498,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__52;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:24:7: ( 'read' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:24:9: 'read'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:22:7: ( 'nop' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:22:9: 'nop'
 			{
-			match("read"); 
+			match("nop"); 
 
 			}
 
@@ -559,10 +519,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__53;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:25:7: ( 'then' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:25:9: 'then'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:23:7: ( 'od' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:23:9: 'od'
 			{
-			match("then"); 
+			match("od"); 
 
 			}
 
@@ -580,10 +540,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__54;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:26:7: ( 'tl' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:26:9: 'tl'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:24:7: ( 'read' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:24:9: 'read'
 			{
-			match("tl"); 
+			match("read"); 
 
 			}
 
@@ -601,10 +561,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__55;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:27:7: ( 'while' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:27:9: 'while'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:25:7: ( 'then' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:25:9: 'then'
 			{
-			match("while"); 
+			match("then"); 
 
 			}
 
@@ -622,10 +582,10 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = T__56;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:28:7: ( 'write' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:28:9: 'write'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:26:7: ( 'tl' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:26:9: 'tl'
 			{
-			match("write"); 
+			match("tl"); 
 
 			}
 
@@ -638,13 +598,55 @@ public class whileLexer extends Lexer {
 	}
 	// $ANTLR end "T__56"
 
+	// $ANTLR start "T__57"
+	public final void mT__57() throws RecognitionException {
+		try {
+			int _type = T__57;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:27:7: ( 'while' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:27:9: 'while'
+			{
+			match("while"); 
+
+			}
+
+			state.type = _type;
+			state.channel = _channel;
+		}
+		finally {
+			// do for sure before leaving
+		}
+	}
+	// $ANTLR end "T__57"
+
+	// $ANTLR start "T__58"
+	public final void mT__58() throws RecognitionException {
+		try {
+			int _type = T__58;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:28:7: ( 'write' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:28:9: 'write'
+			{
+			match("write"); 
+
+			}
+
+			state.type = _type;
+			state.channel = _channel;
+		}
+		finally {
+			// do for sure before leaving
+		}
+	}
+	// $ANTLR end "T__58"
+
 	// $ANTLR start "WS"
 	public final void mWS() throws RecognitionException {
 		try {
 			int _type = WS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:30:5: ( ( ' ' | '\\t' | '\\r' | '\\n' ) )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:30:9: ( ' ' | '\\t' | '\\r' | '\\n' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:32:5: ( ( ' ' | '\\t' | '\\r' | '\\n' ) )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:32:9: ( ' ' | '\\t' | '\\r' | '\\n' )
 			{
 			if ( (input.LA(1) >= '\t' && input.LA(1) <= '\n')||input.LA(1)=='\r'||input.LA(1)==' ' ) {
 				input.consume();
@@ -671,7 +673,7 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = COMMENT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:38:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' | '/*' ( options {greedy=false; } : . )* '*/' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:40:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' | '/*' ( options {greedy=false; } : . )* '*/' )
 			int alt4=2;
 			int LA4_0 = input.LA(1);
 			if ( (LA4_0=='/') ) {
@@ -705,11 +707,11 @@ public class whileLexer extends Lexer {
 
 			switch (alt4) {
 				case 1 :
-					// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:38:9: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:40:9: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
 					{
 					match("//"); 
 
-					// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:38:14: (~ ( '\\n' | '\\r' ) )*
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:40:14: (~ ( '\\n' | '\\r' ) )*
 					loop1:
 					while (true) {
 						int alt1=2;
@@ -720,7 +722,7 @@ public class whileLexer extends Lexer {
 
 						switch (alt1) {
 						case 1 :
-							// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:
+							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:
 							{
 							if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t')||(input.LA(1) >= '\u000B' && input.LA(1) <= '\f')||(input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFF') ) {
 								input.consume();
@@ -738,7 +740,7 @@ public class whileLexer extends Lexer {
 						}
 					}
 
-					// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:38:28: ( '\\r' )?
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:40:28: ( '\\r' )?
 					int alt2=2;
 					int LA2_0 = input.LA(1);
 					if ( (LA2_0=='\r') ) {
@@ -746,7 +748,7 @@ public class whileLexer extends Lexer {
 					}
 					switch (alt2) {
 						case 1 :
-							// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:38:28: '\\r'
+							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:40:28: '\\r'
 							{
 							match('\r'); 
 							}
@@ -759,11 +761,11 @@ public class whileLexer extends Lexer {
 					}
 					break;
 				case 2 :
-					// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:39:9: '/*' ( options {greedy=false; } : . )* '*/'
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:41:9: '/*' ( options {greedy=false; } : . )* '*/'
 					{
 					match("/*"); 
 
-					// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:39:14: ( options {greedy=false; } : . )*
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:41:14: ( options {greedy=false; } : . )*
 					loop3:
 					while (true) {
 						int alt3=2;
@@ -784,7 +786,7 @@ public class whileLexer extends Lexer {
 
 						switch (alt3) {
 						case 1 :
-							// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:39:42: .
+							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:41:42: .
 							{
 							matchAny(); 
 							}
@@ -814,8 +816,8 @@ public class whileLexer extends Lexer {
 	// $ANTLR start "Min"
 	public final void mMin() throws RecognitionException {
 		try {
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:44:6: ( 'a' .. 'z' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:46:6: ( 'a' .. 'z' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:
 			{
 			if ( (input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 				input.consume();
@@ -837,8 +839,8 @@ public class whileLexer extends Lexer {
 	// $ANTLR start "Maj"
 	public final void mMaj() throws RecognitionException {
 		try {
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:46:6: ( 'A' .. 'Z' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:48:6: ( 'A' .. 'Z' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:
 			{
 			if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z') ) {
 				input.consume();
@@ -860,8 +862,8 @@ public class whileLexer extends Lexer {
 	// $ANTLR start "Dec"
 	public final void mDec() throws RecognitionException {
 		try {
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:48:6: ( '0' .. '9' )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:50:6: ( '0' .. '9' )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:
 			{
 			if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
 				input.consume();
@@ -885,12 +887,12 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = Symbol;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:50:9: ( Min ( Maj | Min | Dec )* ( '?' | '!' )? )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:50:11: Min ( Maj | Min | Dec )* ( '?' | '!' )?
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:52:9: ( Min ( Maj | Min | Dec )* ( '?' | '!' )? )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:52:11: Min ( Maj | Min | Dec )* ( '?' | '!' )?
 			{
 			mMin(); 
 
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:50:14: ( Maj | Min | Dec )*
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:52:14: ( Maj | Min | Dec )*
 			loop5:
 			while (true) {
 				int alt5=2;
@@ -901,7 +903,7 @@ public class whileLexer extends Lexer {
 
 				switch (alt5) {
 				case 1 :
-					// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:
 					{
 					if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 						input.consume();
@@ -919,7 +921,7 @@ public class whileLexer extends Lexer {
 				}
 			}
 
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:50:28: ( '?' | '!' )?
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:52:28: ( '?' | '!' )?
 			int alt6=2;
 			int LA6_0 = input.LA(1);
 			if ( (LA6_0=='!'||LA6_0=='?') ) {
@@ -927,7 +929,7 @@ public class whileLexer extends Lexer {
 			}
 			switch (alt6) {
 				case 1 :
-					// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:
 					{
 					if ( input.LA(1)=='!'||input.LA(1)=='?' ) {
 						input.consume();
@@ -958,12 +960,12 @@ public class whileLexer extends Lexer {
 		try {
 			int _type = Variable;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:51:11: ( Maj ( Maj | Min | Dec )* ( '?' | '!' )? )
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:51:13: Maj ( Maj | Min | Dec )* ( '?' | '!' )?
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:53:11: ( Maj ( Maj | Min | Dec )* ( '?' | '!' )? )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:53:13: Maj ( Maj | Min | Dec )* ( '?' | '!' )?
 			{
 			mMaj(); 
 
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:51:16: ( Maj | Min | Dec )*
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:53:16: ( Maj | Min | Dec )*
 			loop7:
 			while (true) {
 				int alt7=2;
@@ -974,7 +976,7 @@ public class whileLexer extends Lexer {
 
 				switch (alt7) {
 				case 1 :
-					// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:
 					{
 					if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 						input.consume();
@@ -992,7 +994,7 @@ public class whileLexer extends Lexer {
 				}
 			}
 
-			// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:51:30: ( '?' | '!' )?
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:53:30: ( '?' | '!' )?
 			int alt8=2;
 			int LA8_0 = input.LA(1);
 			if ( (LA8_0=='!'||LA8_0=='?') ) {
@@ -1000,7 +1002,7 @@ public class whileLexer extends Lexer {
 			}
 			switch (alt8) {
 				case 1 :
-					// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:
 					{
 					if ( input.LA(1)=='!'||input.LA(1)=='?' ) {
 						input.consume();
@@ -1028,222 +1030,222 @@ public class whileLexer extends Lexer {
 
 	@Override
 	public void mTokens() throws RecognitionException {
-		// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:8: ( T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | WS | COMMENT | Symbol | Variable )
+		// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:8: ( T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | WS | COMMENT | Symbol | Variable )
 		int alt9=31;
 		alt9 = dfa9.predict(input);
 		switch (alt9) {
 			case 1 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:10: T__30
-				{
-				mT__30(); 
-
-				}
-				break;
-			case 2 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:16: T__31
-				{
-				mT__31(); 
-
-				}
-				break;
-			case 3 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:22: T__32
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:10: T__32
 				{
 				mT__32(); 
 
 				}
 				break;
-			case 4 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:28: T__33
+			case 2 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:16: T__33
 				{
 				mT__33(); 
 
 				}
 				break;
-			case 5 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:34: T__34
+			case 3 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:22: T__34
 				{
 				mT__34(); 
 
 				}
 				break;
-			case 6 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:40: T__35
+			case 4 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:28: T__35
 				{
 				mT__35(); 
 
 				}
 				break;
-			case 7 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:46: T__36
+			case 5 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:34: T__36
 				{
 				mT__36(); 
 
 				}
 				break;
-			case 8 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:52: T__37
+			case 6 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:40: T__37
 				{
 				mT__37(); 
 
 				}
 				break;
-			case 9 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:58: T__38
+			case 7 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:46: T__38
 				{
 				mT__38(); 
 
 				}
 				break;
-			case 10 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:64: T__39
+			case 8 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:52: T__39
 				{
 				mT__39(); 
 
 				}
 				break;
-			case 11 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:70: T__40
+			case 9 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:58: T__40
 				{
 				mT__40(); 
 
 				}
 				break;
-			case 12 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:76: T__41
+			case 10 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:64: T__41
 				{
 				mT__41(); 
 
 				}
 				break;
-			case 13 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:82: T__42
+			case 11 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:70: T__42
 				{
 				mT__42(); 
 
 				}
 				break;
-			case 14 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:88: T__43
+			case 12 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:76: T__43
 				{
 				mT__43(); 
 
 				}
 				break;
-			case 15 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:94: T__44
+			case 13 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:82: T__44
 				{
 				mT__44(); 
 
 				}
 				break;
-			case 16 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:100: T__45
+			case 14 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:88: T__45
 				{
 				mT__45(); 
 
 				}
 				break;
-			case 17 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:106: T__46
+			case 15 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:94: T__46
 				{
 				mT__46(); 
 
 				}
 				break;
-			case 18 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:112: T__47
+			case 16 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:100: T__47
 				{
 				mT__47(); 
 
 				}
 				break;
-			case 19 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:118: T__48
+			case 17 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:106: T__48
 				{
 				mT__48(); 
 
 				}
 				break;
-			case 20 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:124: T__49
+			case 18 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:112: T__49
 				{
 				mT__49(); 
 
 				}
 				break;
-			case 21 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:130: T__50
+			case 19 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:118: T__50
 				{
 				mT__50(); 
 
 				}
 				break;
-			case 22 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:136: T__51
+			case 20 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:124: T__51
 				{
 				mT__51(); 
 
 				}
 				break;
-			case 23 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:142: T__52
+			case 21 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:130: T__52
 				{
 				mT__52(); 
 
 				}
 				break;
-			case 24 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:148: T__53
+			case 22 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:136: T__53
 				{
 				mT__53(); 
 
 				}
 				break;
-			case 25 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:154: T__54
+			case 23 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:142: T__54
 				{
 				mT__54(); 
 
 				}
 				break;
-			case 26 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:160: T__55
+			case 24 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:148: T__55
 				{
 				mT__55(); 
 
 				}
 				break;
-			case 27 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:166: T__56
+			case 25 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:154: T__56
 				{
 				mT__56(); 
 
 				}
 				break;
+			case 26 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:160: T__57
+				{
+				mT__57(); 
+
+				}
+				break;
+			case 27 :
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:166: T__58
+				{
+				mT__58(); 
+
+				}
+				break;
 			case 28 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:172: WS
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:172: WS
 				{
 				mWS(); 
 
 				}
 				break;
 			case 29 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:175: COMMENT
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:175: COMMENT
 				{
 				mCOMMENT(); 
 
 				}
 				break;
 			case 30 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:183: Symbol
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:183: Symbol
 				{
 				mSymbol(); 
 
 				}
 				break;
 			case 31 :
-				// C:\\Users\\theo\\Documents\\Repos\\ESIR_TLCProjet\\grammaire\\while.g:1:190: Variable
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:1:190: Variable
 				{
 				mVariable(); 
 
@@ -1415,7 +1417,7 @@ public class whileLexer extends Lexer {
 		}
 		@Override
 		public String getDescription() {
-			return "1:1: Tokens : ( T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | WS | COMMENT | Symbol | Variable );";
+			return "1:1: Tokens : ( T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | WS | COMMENT | Symbol | Variable );";
 		}
 	}
 

@@ -28,6 +28,11 @@ read Op1, Op2
         Test := (cons)
     od;
 
+    while (cons Result (add Result(cons)))
+    do
+        Result := (cons)
+    od;
+
     Test := (cons)
 %
 write Result

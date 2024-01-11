@@ -295,10 +295,11 @@ public class CPPConverter {
                     int nbrParams = st_func.parameters.length;
                     generatedCode.append(actualLine.res.toString()).append("(");
                     for(int j = 0; j < nbrAssigns; j ++) {
+
                         if (j == nbrAssigns - 1) {
-                            generatedCode.append(sanitizeSymbol(assigns.removeFirst()));
+                            generatedCode.append(sanitizeSymbol(assigns.remove(0)));
                         } else {
-                            generatedCode.append(sanitizeSymbol(assigns.removeFirst())).append(", ");
+                            generatedCode.append(sanitizeSymbol(assigns.remove(0))).append(", ");
                         }
                     }
                     if(nbrParams > 0) {
@@ -306,9 +307,10 @@ public class CPPConverter {
                     }
                     for(int j = 0; j < nbrParams; j ++) {
                         if (j == nbrParams - 1) {
-                            generatedCode.append(sanitizeSymbol(params.removeFirst()));
+
+                            generatedCode.append(sanitizeSymbol(params.remove(0)));
                         } else {
-                            generatedCode.append(sanitizeSymbol(params.removeFirst())).append(", ");
+                            generatedCode.append(sanitizeSymbol(params.remove(0))).append(", ");
                         }
                     }
                     generatedCode.append(")");

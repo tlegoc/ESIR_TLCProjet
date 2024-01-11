@@ -1,6 +1,10 @@
 import ThreeAddr.*;
 import org.antlr.runtime.tree.CommonTree;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 
 // S'occupe de creer le code intermediaire
 // Pourrait etre BEAUCOUP plus optimise
@@ -8,194 +12,292 @@ import org.antlr.runtime.tree.CommonTree;
 public class VisitorTA {
     private Program program = new Program();
 
+    private HashMap<String, Integer> functionOutputs = new HashMap<>();
+
     /***
      * Parcours l'AST pour generer le code 3 adresses
      * @param o L'arbre
-     * @return Algorithme recursif, la valeur de retour est la variable/registre
-     * qui a etee ecrite.
      */
-    public Argument visit(Object o) {
+    public void visit(Object o) {
         CommonTree tree = (CommonTree) o;
         String token = String.valueOf(tree);
-
         switch (token) {
             case "CONS":
-                int childCount = tree.getChildCount();
-                Registre cons_res = new Registre();
-
-                // "We've had a first switch yes, but what about the second switch ?"
-                //                                                      Pippin probably
-                switch (childCount) {
-                    // Appel de cons avec 2 arguments
-                    case 2:
-                        Argument arg1 = visit(tree.getChild(0));
-                        Argument arg2 = visit(tree.getChild(1));
-                        program.addLine(Line.Op.CONS, cons_res, arg1, arg2);
-                        break;
-                    case 1:
-                        Argument arg = visit(tree.getChild(0));
-                        program.addLine(Line.Op.CONS, cons_res, arg, new EmptyArgument());
-                        break;
-                    default:
-                        // USED IN DEBUGGING
-                        //TODO : REMOVE
-                        program.addComment("CONST CONVERSION START");
-                        program.addLine(Line.Op.ASSIGN, cons_res, visit(tree.getChild(tree.getChildCount() - 2)), new EmptyArgument());
-                        for (int i = tree.getChildCount() - 2; i >= 0; i--) {
-                            Registre tmp = new Registre();
-                            program.addLine(Line.Op.CONS, tmp, visit(tree.getChild(i)), cons_res);
-                            cons_res = tmp;
-                        }
-
-                        // USED IN DEBUGGING
-                        //TODO : REMOVE
-                        program.addComment("CONST CONVERSION END (result in " + cons_res.name + ")");
-                        break;
-                }
-                return cons_res;
-
-            case "ASSIGN_VARS":
-                for(int i = 0; i < tree.getChildCount(); i ++) {
-                    program.addLine(Line.Op.ASSIGNSET, visit(tree.getChild(i)), new EmptyArgument(), new EmptyArgument());
-                }
-                break;
-            case "ASSIGN_EXPR":
-                for(int i = 0; i < tree.getChildCount(); i ++) {
-                    if(tree.getChild(i).toString().equals("SYMBOL")) {
-                        visit(tree.getChild(i));
-                    } else {
-                        program.addLine(Line.Op.ASSIGN, visit(tree.getChild(i)), new EmptyArgument(), new EmptyArgument());
-                    }
-                }
+                program.addLine(Line.Op.CONS, processCONS(o), new EmptyArgument(), new EmptyArgument());
                 break;
             case "ASSIGN":
-//                if (tree.getChild(0).getChildCount() != tree.getChild(1).getChildCount()) {
-//                    System.out.println(ANSI_RED + "Error: assignation to " + tree.getChild(0).getChildCount() + " variables, but only " + tree.getChild(1).getChildCount() + " given." + ANSI_RESET);
-//                }
-                /*
-                for (int i = 0; i < tree.getChild(0).getChildCount(); i++) {
-                    Argument egal_res = visit(tree.getChild(0).getChild(i));
-                    Argument egal_arg = visit(tree.getChild(1).getChild(i));
-                    program.addLine(Line.Op.ASSIGN, egal_res, egal_arg, new EmptyArgument());
-                }
-                */
-                visit(tree.getChild(0)); // Visite assignation
-                visit(tree.getChild(1)); // Visite expressions
-                break;
-            // COMMANDS et BODY n'ont rien de special, on peut les grouper
-            case "COMMANDS":
-            case "BODY":
-                for (int i = 0; i < tree.getChildCount(); i++) {
-                    visit(tree.getChild(i));
-                }
+                processASSIGN(o);
                 break;
             case "FUNC":
+                String funcName = String.valueOf(tree.getChild(0));
+                int outCount =  tree.getChild(1).getChild(2).getChildCount();
+                functionOutputs.put(funcName, outCount);
                 program.addLine(Line.Op.FUNCBEGIN, new Symbol(String.valueOf(tree.getChild(0))));
                 visit(tree.getChild(1));
                 program.addLine(Line.Op.FUNCEND, new Symbol(String.valueOf(tree.getChild(0))));
                 break;
-                // Lors de la generation en code c++ on utilisera la table des symbols
-                // pour generer la signature des fonctions qui condiendra ces variables
-//            case "OUTPUT":
-//                program.addLine(Line.Op.OUTPUT, new Symbol(String.valueOf(tree.getChild(0))));
-//                break;
-//            case "PARAM":
-//                for (int i = 0; i < tree.getChildCount(); i++) {
-//                    String p = String.valueOf(tree.getChild(i));
-//                    program.addLine(Line.Op.PARAM, new Symbol(p));
-//                }
-//                break;
-            case "FOR":
-                program.addLine(Line.Op.FORBEGIN, new Symbol(String.valueOf(tree.getChild(0))));
-                visit(tree.getChild(1));
-                program.addLine(Line.Op.FOREND, new Symbol(String.valueOf(tree.getChild(0))));
-                break;
-            case "TL":
-                Argument tl_arg = visit(tree.getChild(0));
-                Registre tl_res = new Registre();
-                program.addLine(Line.Op.TL, tl_res, tl_arg, new EmptyArgument());
-                return tl_res;
-            case "HD":
-                Argument hd_arg = visit(tree.getChild(0));
-                Registre hd_res = new Registre();
-                program.addLine(Line.Op.HD, hd_res, hd_arg, new EmptyArgument());
-                return hd_res;
-
-            // Symbol is actually a function call
-            case "SYMBOL":
-                // TODO : REWRITE
-                for (int i = 1; i < tree.getChildCount(); i++) {
-                    Argument param_v = visit(tree.getChild(i));
-                    if (param_v instanceof EmptyArgument) continue;
-                    program.addLine(Line.Op.PARAMSET, param_v);
+            case "COMMANDS":
+                for(int i = 0; i < tree.getChildCount(); i ++) {
+                    visit(tree.getChild(i));
                 }
-
-                // Pourquoi faire un goto quand on peut faire un appel de fonction ?
-                // Autant profiter des avantages de notre langage cible
-                // Oui c'est de la triche
-                program.addLine(Line.Op.CALL, new Symbol(String.valueOf(tree.getChild(0))), new EmptyArgument(), new EmptyArgument());
+                break;
+            case "BODY":
+                visit(tree.getChild(1));
+                break;
+            case "FOR":
+                Argument cond_for = process(tree.getChild(0)).get(0);
+                program.addLine(Line.Op.FORBEGIN, cond_for);
+                visit(tree.getChild(1));
+                program.addLine(Line.Op.FOREND,cond_for);
                 break;
             case "LIST":
-                // Pour simplifier la tache, on convertis directement LIST en appels de CONS
-                // Evite de coder des fonctions à nombre de paramètres indéterminés, meme
-                // si au final on souffre autant.
-                // Les fonctions variadiques c'est une horreur
-
-                // USED IN DEBUGGING
-                //TODO REMOVE
-                program.addComment("LIST CONVERSION START");
-
-                Registre ls_res = new Registre();
-                program.addLine(Line.Op.ASSIGN, ls_res, new Symbol("nil"), new EmptyArgument());
-                for (int i = tree.getChildCount() - 1; i >= 0; i--) {
-                    Registre tmp = new Registre();
-                    program.addLine(Line.Op.CONS, tmp, visit(tree.getChild(i)), ls_res);
-                    ls_res = tmp;
-                }
-
-                // USED IN DEBUGGING
-                //TODO REMOVE
-                program.addComment("LIST CONVERSION END (result in " + ls_res.name + ")");
-                return ls_res;
+                program.addLine(Line.Op.ASSIGN, new Registre(), processLIST(o), new EmptyArgument());
+                break;
             case "WHILE":
-                program.addLine(Line.Op.WHILEBEGIN, new Symbol(String.valueOf(tree.getChild(0))));
+                Argument cond_while = process(tree.getChild(0)).get(0);
+                program.addLine(Line.Op.WHILEBEGIN, cond_while);
                 visit(tree.getChild(1));
-                program.addLine(Line.Op.WHILEEND, new Symbol(String.valueOf(tree.getChild(0))));
+                program.addLine(Line.Op.WHILEEND, cond_while);
                 break;
             case "IF":
-                Argument condition = visit(tree.getChild(0));
+                Argument condition = process(tree.getChild(0)).get(0);
                 program.addLine(Line.Op.IFBEGIN, condition);
                 visit(tree.getChild(1));
                 program.addLine(Line.Op.IFEND, condition);
-                // Heureusement que l'arbre a toujours la meme forme, et qu'on peut
-                // se permettre de faire ces verifications pas oufs
                 if (tree.getChildCount() > 2) {
                     program.addLine(Line.Op.ELSEBEGIN, condition);
                     visit(tree.getChild(2));
                     program.addLine(Line.Op.ELSEEND, condition);
                 }
                 break;
-            case "VIDE":
-            case "PARAM":
-                return new EmptyArgument();
             default:
-                // Edge case, utile surtout pour le node root
-                // en realite une idee de merde,
-                // mais vu que seulement une fonction peut s'appeler nil et
-                // qu'on traite les noeuds de nom de fonction differement,
-                // on peut se permettre de faire ca.
                 if (token.equals("nil")) {
                     for (int i = 0; i < tree.getChildCount(); i++) {
                         visit(tree.getChild(i));
                     }
                 }
-                return new Symbol(token);
+                break;
         }
-
-        // Impossible
-        return new EmptyArgument();
     }
 
+    private List<Registre> process(Object o) {
+        CommonTree tree = (CommonTree) o;
+        List<Registre> arg = new ArrayList<>();
+        switch (tree.toString()) {
+            case "LIST":
+                arg.add(processLIST(o));
+                break;
+            case "VARIABLE":
+                arg.add(processVARIABLE(o));
+                break;
+            case "SYMBOL":
+                arg.add(processSYMBOL(o));
+                break;
+            case "CONS":
+                arg.add(processCONS(o));
+                break;
+            case "TL":
+                arg.add(processTL(o));
+                break;
+            case "HD" :
+                arg.add(processHD(o));
+                break;
+            case "CALL":
+                arg.addAll(processCALL(o));
+                break;
+            case "nil":
+                arg.add(processNIL(o));
+            default:
+                arg.add(processNIL(o));
+                break;
+        }
+        return arg;
+    }
+    private Registre processNIL(Object o) {
+        CommonTree tree = (CommonTree) o;
+        Registre reg = new Registre();
+        program.addLine(Line.Op.ASSIGN, reg, new Nil(), new EmptyArgument());
+        return reg;
+    }
+    private Registre processVARIABLE(Object o)
+    {
+        CommonTree tree = (CommonTree) o;
+        Registre reg = new Registre();
+        if (!tree.toString().equals("VARIABLE")) throw new RuntimeException("processVARIABLE called on non variable token");
+        program.addLine(Line.Op.ASSIGN, reg, new Variable(tree.getChild(0).toString()), new EmptyArgument());
+        return reg;
+    }
+    private Registre processSYMBOL(Object o) {
+        CommonTree tree = (CommonTree) o;
+        Registre reg = new Registre();
+        if (!tree.toString().equals("SYMBOL")) throw new RuntimeException("processSYMBOL called on non symbol token");
+        program.addLine(Line.Op.ASSIGN, reg, new Symbol(tree.getChild(0).toString()), new EmptyArgument());
+        return reg;
+    }
+    private Registre processTL(Object o) {
+        CommonTree tree = (CommonTree) o;
+        Registre regTL = new Registre();
+        program.addLine(Line.Op.TL, regTL, process(tree.getChild(0)).get(0), new EmptyArgument());
+        return regTL;
+    }
+    private Registre processHD(Object o) {
+        CommonTree tree = (CommonTree) o;
+        Registre regHD = new Registre();
+        program.addLine(Line.Op.HD, regHD, process(tree.getChild(0)).get(0), new EmptyArgument());
+        return regHD;
+    }
+    private Registre processCONS(Object o) {
+        CommonTree tree = (CommonTree) o;
+        Registre regRes = new Registre();
+        int childCount = tree.getChildCount();
+        if (childCount == 1) {
+            program.addLine(Line.Op.ASSIGN, regRes, new Nil(), new EmptyArgument());
+        }
+        else if(childCount > 2) {
+            regRes = processLIST(o);
+        }
+        else {
+            List<Registre> processRes = new ArrayList<>();
+            for(int i = 0; i < 2; i ++) {
+                Object child = tree.getChild(i);
+                processRes.addAll(process(child));
+            }
+            program.addLine(Line.Op.ASSIGN, regRes, processCONCAT(processRes, false), new EmptyArgument());
+        }
+        return regRes;
+    }
+    private Registre processLIST(Object o) {
+        CommonTree tree = (CommonTree) o;
+        Registre regList;
+        int outCount = tree.getChildCount();
+        List<Registre> vars = new ArrayList<>();
+        for(int i = 0; i < outCount; i ++) {
+            Object child = tree.getChild(i);
+            System.out.println("[DEBUG child.toString :"+child.toString());
+            List<Argument> res = new ArrayList<>(process(child));
+            for (Argument re : res) {
+                Registre var = new Registre();
+                program.addLine(Line.Op.ASSIGN, var, re, new EmptyArgument());
+                vars.add(var);
+            }
+        }
+        if (tree.toString().equals("LIST")) regList = processCONCAT(vars, true);
+        else regList = processCONCAT(vars, false);
+        return regList;
+        }
+    private Registre processCONCAT(List<Registre> vars, boolean isList) {
+        Registre regList = new Registre();
+        if (isList) {
+            Registre nil = new Registre();
+            program.addLine(Line.Op.ASSIGN, nil, new Nil(), new EmptyArgument());
+            vars.add(nil);
+        }
+        int varCount = vars.size();
+        if (varCount > 1) {
+            Registre actual = vars.get(varCount - 1);
+            for(int i = varCount - 1; i > 0; i --)
+            {
+                Registre cons = new Registre();
+                program.addLine(Line.Op.CONS, cons, vars.get( i - 1), actual);
+                actual = cons;
+            }
+            regList = actual;
+        }
+        else if (varCount == 1) {
+            program.addLine(Line.Op.CONS, regList, vars.get(0), new Nil());
+        }
+        else {
+            program.addLine(Line.Op.CONS, regList,new Nil(), new Nil());
+        }
+        return regList;
+    }
+    private List<Registre> processCALL(Object o) {
+        CommonTree tree = (CommonTree) o;
+        Symbol funcName = new Symbol(tree.getChild(0).toString());
+        System.out.println("[CALL] func name : "+funcName);
+        program.addLine(Line.Op.CALL, funcName);
+        for(int i = 1; i < tree.getChildCount(); i ++ )
+        {
+            Object child = tree.getChild(i);
+            List<Registre> arg = new ArrayList<>(process(child));
+            for (Argument argument : arg) {
+                program.addLine(Line.Op.PARAMSET, argument);
+            }
+        }
+        int outCount = functionOutputs.get(funcName.toString());
+        List<Registre> outRegs = new ArrayList<>();
+        for(int i = 0; i < outCount; i ++)
+        {
+            Registre outReg = new Registre();
+            outRegs.add(outReg);
+            program.addLine(Line.Op.OUTPUTSET, outReg);
+        }
+        program.addLine(Line.Op.CALLEND, funcName);
+        return outRegs;
+    }
+    private void processASSIGN(Object o) {
+        CommonTree tree = (CommonTree) o;
+        CommonTree ass_var = (CommonTree) tree.getChild(0);
+        CommonTree ass_exp = (CommonTree) tree.getChild(1);
+        for(int i = 0; i < ass_exp.getChildCount(); i ++) {
+            Object ass_var_child = ass_var.getChild(i);
+            Object ass_exp_child = ass_exp.getChild(i);
+            switch (ass_exp.getChild(i).toString()) {
+                case "CONS":
+                    program.addLine(Line.Op.ASSIGN,
+                            new Variable(ass_var_child.toString()),
+                            processCONS(ass_exp_child),
+                            new EmptyArgument());
+                    break;
+                case "CALL":
+                    List<Registre> out = processCALL(ass_exp_child);
+                    for(int j = 0; j < out.size(); j ++) {
+                        program.addLine(
+                                Line.Op.ASSIGN,
+                                new Variable(ass_var_child.toString()),
+                                out.get(i),
+                                new EmptyArgument());
+                    }
+                    break;
+                case "VARIABLE":
+                    program.addLine(
+                            Line.Op.ASSIGN,
+                            new Variable(ass_var_child.toString()),
+                            processVARIABLE(ass_exp_child),
+                            new EmptyArgument());
+                    break;
+                case "TL" :
+                    program.addLine(
+                            Line.Op.ASSIGN,
+                            new Variable(ass_var_child.toString()),
+                            processTL(ass_exp_child),
+                            new EmptyArgument());
+                    break;
+                case "HD" :
+                    program.addLine(
+                            Line.Op.ASSIGN,
+                            new Variable(ass_var_child.toString()),
+                            processHD(ass_exp_child),
+                            new EmptyArgument());
+                    break;
+                case "LIST":
+                    System.out.println("[]"+ass_exp_child.toString());
+                    program.addLine(
+                            Line.Op.ASSIGN,
+                            new Variable(ass_var_child.toString()),
+                            processLIST(ass_exp_child),
+                            new EmptyArgument());
+                    break;
+                case "nil":
+                    program.addLine(
+                            Line.Op.ASSIGN,
+                            new Variable(ass_var_child.toString()),
+                            new Nil(),
+                            new EmptyArgument());
+                    break;
+            }
+        }
+    }
     public Program getProgram() {
         return program;
     }

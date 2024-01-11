@@ -59,7 +59,7 @@ public class WhileValidator {
                 }
 
                 // compare actual parameter and desired parameters
-                String func_name = ((Symbol) program.lines.get(i).arg1).name;
+                String func_name = ((Symbol) program.lines.get(i).res).name;
                 int desired_param_count = function_names.get(func_name) != null ? function_names.get(func_name).parameters.length : -1;
                 // Si -1 alors la fonction n'existe pas
                 if (desired_param_count == -1) {

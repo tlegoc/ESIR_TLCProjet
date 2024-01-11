@@ -46,7 +46,7 @@ Min 	:	'a'..'z';
 fragment
 Maj 	:	'A'..'Z';
 fragment
-Dec 	:	'0'..'9';
+Dec 	:	'0'..'9'; 
 
 
 Symbol 	:	Min(Maj|Min|Dec)*('?'|'!')?;
