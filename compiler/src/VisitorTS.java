@@ -33,19 +33,13 @@ public class VisitorTS {
                 {
                     outputs[i] = out.getChild(i).toString();
                 }
-
+                //ajout de la func dans la TS
                 st.add(new STFunc(tree.getChild(0).toString(), parameters, outputs));
-
                 visit(body);
                 st.add(new STBlockEnd());
                 break;
             case "BODY":
-                // Parameters
-                visit(tree.getChild(0));
-
-                for (int i = 0; i < tree.getChild(1).getChildCount(); i++) {
-                    visit(tree.getChild(1).getChild(i));
-                }
+                visit(tree.getChild(2));
                 break;
             case "COMMANDS":
                 st.add(new STBlockStart());
@@ -54,13 +48,11 @@ public class VisitorTS {
                 }
                 st.add(new STBlockEnd());
                 break;
-            case "PARAM":
-                for (int i = 0; i < tree.getChildCount(); i++) {
-                    st.add(new STVariable(tree.getChild(i).toString(), true));
-                }
-                break;
             case "ASSIGN":
                 for (int i = 0; i < tree.getChild(0).getChildCount(); i++)
+                    /*TODO : checker pour chaque variables du bloc ASSIGN_VARS si il ne sont pas déja dans la TS dans ce bloc et les blocs du dessus
+                    Spoiler, compliqué
+                    */
                     st.add(new STVariable(tree.getChild(0).getChild(i).toString(), false));
                 break;
             default:
