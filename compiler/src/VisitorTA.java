@@ -20,6 +20,9 @@ public class VisitorTA {
      */
     public void visit(Object o) {
         CommonTree tree = (CommonTree) o;
+        int line = tree.getLine();
+        int charInLine = tree.getCharPositionInLine();
+        program.addComment("Line: " + line + ":" + charInLine + " (visit)");
         String token = String.valueOf(tree);
         switch (token) {
             case "CONS":
@@ -30,14 +33,14 @@ public class VisitorTA {
                 break;
             case "FUNC":
                 String funcName = String.valueOf(tree.getChild(0));
-                int outCount =  tree.getChild(1).getChild(2).getChildCount();
+                int outCount = tree.getChild(1).getChild(2).getChildCount();
                 functionOutputs.put(funcName, outCount);
                 program.addLine(Line.Op.FUNCBEGIN, new Symbol(String.valueOf(tree.getChild(0))));
                 visit(tree.getChild(1));
                 program.addLine(Line.Op.FUNCEND, new Symbol(String.valueOf(tree.getChild(0))));
                 break;
             case "COMMANDS":
-                for(int i = 0; i < tree.getChildCount(); i ++) {
+                for (int i = 0; i < tree.getChildCount(); i++) {
                     visit(tree.getChild(i));
                 }
                 break;
@@ -48,7 +51,7 @@ public class VisitorTA {
                 Argument cond_for = process(tree.getChild(0)).get(0);
                 program.addLine(Line.Op.FORBEGIN, cond_for);
                 visit(tree.getChild(1));
-                program.addLine(Line.Op.FOREND,cond_for);
+                program.addLine(Line.Op.FOREND, cond_for);
                 break;
             case "LIST":
                 program.addLine(Line.Op.ASSIGN, new Registre(), processLIST(o), new EmptyArgument());
@@ -82,6 +85,9 @@ public class VisitorTA {
 
     private List<Registre> process(Object o) {
         CommonTree tree = (CommonTree) o;
+        int line = tree.getLine();
+        int charInLine = tree.getCharPositionInLine();
+        program.addComment("Line: " + line + ":" + charInLine);
         List<Registre> arg = new ArrayList<>();
         switch (tree.toString()) {
             case "LIST":
@@ -99,7 +105,7 @@ public class VisitorTA {
             case "TL":
                 arg.add(processTL(o));
                 break;
-            case "HD" :
+            case "HD":
                 arg.add(processHD(o));
                 break;
             case "CALL":
@@ -107,26 +113,30 @@ public class VisitorTA {
                 break;
             case "nil":
                 arg.add(processNIL(o));
+                break;
             default:
                 arg.add(processNIL(o));
                 break;
         }
         return arg;
     }
+
     private Registre processNIL(Object o) {
         CommonTree tree = (CommonTree) o;
         Registre reg = new Registre();
         program.addLine(Line.Op.ASSIGN, reg, new Nil(), new EmptyArgument());
         return reg;
     }
-    private Registre processVARIABLE(Object o)
-    {
+
+    private Registre processVARIABLE(Object o) {
         CommonTree tree = (CommonTree) o;
         Registre reg = new Registre();
-        if (!tree.toString().equals("VARIABLE")) throw new RuntimeException("processVARIABLE called on non variable token");
+        if (!tree.toString().equals("VARIABLE"))
+            throw new RuntimeException("processVARIABLE called on non variable token");
         program.addLine(Line.Op.ASSIGN, reg, new Variable(tree.getChild(0).toString()), new EmptyArgument());
         return reg;
     }
+
     private Registre processSYMBOL(Object o) {
         CommonTree tree = (CommonTree) o;
         Registre reg = new Registre();
@@ -134,44 +144,45 @@ public class VisitorTA {
         program.addLine(Line.Op.ASSIGN, reg, new Symbol(tree.getChild(0).toString()), new EmptyArgument());
         return reg;
     }
+
     private Registre processTL(Object o) {
         CommonTree tree = (CommonTree) o;
         Registre regTL = new Registre();
         program.addLine(Line.Op.TL, regTL, process(tree.getChild(0)).get(0), new EmptyArgument());
         return regTL;
     }
+
     private Registre processHD(Object o) {
         CommonTree tree = (CommonTree) o;
         Registre regHD = new Registre();
         program.addLine(Line.Op.HD, regHD, process(tree.getChild(0)).get(0), new EmptyArgument());
         return regHD;
     }
+
     private Registre processCONS(Object o) {
         CommonTree tree = (CommonTree) o;
         Registre regRes = new Registre();
         int childCount = tree.getChildCount();
-        if (childCount == 1) {
+        if (childCount == 1 && tree.getChild(0).getText().equals("VIDE")) {
             program.addLine(Line.Op.ASSIGN, regRes, new Nil(), new EmptyArgument());
-        }
-        else if(childCount > 2) {
-            regRes = processLIST(o);
-        }
-        else {
+        } else {
             List<Registre> processRes = new ArrayList<>();
-            for(int i = 0; i < 2; i ++) {
+            for (int i = 0; i < tree.getChildCount(); i++) {
                 Object child = tree.getChild(i);
-                processRes.addAll(process(child));
+                List<Registre> vars = process(child);
+                processRes.addAll(vars);
             }
             program.addLine(Line.Op.ASSIGN, regRes, processCONCAT(processRes, false), new EmptyArgument());
         }
         return regRes;
     }
+
     private Registre processLIST(Object o) {
         CommonTree tree = (CommonTree) o;
         Registre regList;
         int outCount = tree.getChildCount();
         List<Registre> vars = new ArrayList<>();
-        for(int i = 0; i < outCount; i ++) {
+        for (int i = 0; i < outCount; i++) {
             Object child = tree.getChild(i);
             List<Argument> res = new ArrayList<>(process(child));
             for (Argument re : res) {
@@ -183,39 +194,40 @@ public class VisitorTA {
         if (tree.toString().equals("LIST")) regList = processCONCAT(vars, true);
         else regList = processCONCAT(vars, false);
         return regList;
-        }
+    }
+
     private Registre processCONCAT(List<Registre> vars, boolean isList) {
         Registre regList = new Registre();
+
         if (isList) {
             Registre nil = new Registre();
             program.addLine(Line.Op.ASSIGN, nil, new Nil(), new EmptyArgument());
             vars.add(nil);
         }
+
         int varCount = vars.size();
         if (varCount > 1) {
-            Registre actual = vars.get(varCount - 1);
-            for(int i = varCount - 1; i > 0; i --)
-            {
+            Registre actual = vars.getLast();
+
+            for (int i = varCount - 1; i > 0; i--) {
                 Registre cons = new Registre();
-                program.addLine(Line.Op.CONS, cons, vars.get( i - 1), actual);
+                program.addLine(Line.Op.CONS, cons, vars.get(i - 1), actual);
                 actual = cons;
             }
             regList = actual;
-        }
-        else if (varCount == 1) {
+        } else if (varCount == 1) {
             program.addLine(Line.Op.CONS, regList, vars.get(0), new Nil());
-        }
-        else {
-            program.addLine(Line.Op.CONS, regList,new Nil(), new Nil());
+        } else {
+            program.addLine(Line.Op.CONS, regList, new Nil(), new Nil());
         }
         return regList;
     }
+
     private List<Registre> processCALL(Object o) {
         CommonTree tree = (CommonTree) o;
         Symbol funcName = new Symbol(tree.getChild(0).toString());
         program.addLine(Line.Op.CALL, funcName);
-        for(int i = 1; i < tree.getChildCount(); i ++ )
-        {
+        for (int i = 1; i < tree.getChildCount(); i++) {
             Object child = tree.getChild(i);
             List<Registre> arg = new ArrayList<>(process(child));
             for (Argument argument : arg) {
@@ -224,8 +236,7 @@ public class VisitorTA {
         }
         int outCount = functionOutputs.get(funcName.toString());
         List<Registre> outRegs = new ArrayList<>();
-        for(int i = 0; i < outCount; i ++)
-        {
+        for (int i = 0; i < outCount; i++) {
             Registre outReg = new Registre();
             outRegs.add(outReg);
             program.addLine(Line.Op.OUTPUTSET, outReg);
@@ -233,11 +244,12 @@ public class VisitorTA {
         program.addLine(Line.Op.CALLEND, funcName);
         return outRegs;
     }
+
     private void processASSIGN(Object o) {
         CommonTree tree = (CommonTree) o;
         CommonTree ass_var = (CommonTree) tree.getChild(0);
         CommonTree ass_exp = (CommonTree) tree.getChild(1);
-        for(int i = 0; i < ass_exp.getChildCount(); i ++) {
+        for (int i = 0; i < ass_exp.getChildCount(); i++) {
             Object ass_var_child = ass_var.getChild(i);
             Object ass_exp_child = ass_exp.getChild(i);
             switch (ass_exp.getChild(i).toString()) {
@@ -249,7 +261,7 @@ public class VisitorTA {
                     break;
                 case "CALL":
                     List<Registre> out = processCALL(ass_exp_child);
-                    for(int j = 0; j < out.size(); j ++) {
+                    for (int j = 0; j < out.size(); j++) {
                         program.addLine(
                                 Line.Op.ASSIGN,
                                 new Variable(ass_var_child.toString()),
@@ -264,14 +276,14 @@ public class VisitorTA {
                             processVARIABLE(ass_exp_child),
                             new EmptyArgument());
                     break;
-                case "TL" :
+                case "TL":
                     program.addLine(
                             Line.Op.ASSIGN,
                             new Variable(ass_var_child.toString()),
                             processTL(ass_exp_child),
                             new EmptyArgument());
                     break;
-                case "HD" :
+                case "HD":
                     program.addLine(
                             Line.Op.ASSIGN,
                             new Variable(ass_var_child.toString()),
@@ -295,6 +307,7 @@ public class VisitorTA {
             }
         }
     }
+
     public Program getProgram() {
         return program;
     }

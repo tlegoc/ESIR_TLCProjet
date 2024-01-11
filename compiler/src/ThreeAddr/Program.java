@@ -31,7 +31,7 @@ public class Program {
     }
 
     public void addComment(String comment) {
-        addLine(Line.Op.IGNORE, new Symbol(comment));
+        addLine(Line.Op.IGNORE, new Text(comment));
     }
 
     public boolean optimize() {
