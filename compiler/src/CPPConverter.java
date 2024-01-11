@@ -2,6 +2,7 @@ import SymbolTable.*;
 import ThreeAddr.Line;
 import ThreeAddr.Program;
 import ThreeAddr.Registre;
+import ThreeAddr.Symbol;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,10 +13,9 @@ public class CPPConverter {
     private final Program program;
     private final SymbolTable symbolTable;
     private final String mainFunc;
-    private int indent = 0;
     private int index_for = 0;
 
-    private static String[] cpp_keywords = new String[]
+    private static final String[] cpp_keywords = new String[]
             {
                     "alignas",
                     "alignof",
@@ -158,111 +158,99 @@ public class CPPConverter {
         StringBuilder generatedCode = new StringBuilder();
 
         generatedCode.append("#include \"lib_while.h\"\n");
+        generatedCode.append("using namespace std;\n");
 
         int currentScope = 0;
         for (int i = 0; i < program.getLineCount(); i++) {
-            Line actualLine = program.getLine(i);
+            Line line = program.getLine(i);
+            String result = sanitizeSymbol(line.res.toString());
 
             // Vive les switchs
-            switch (actualLine.op) {
-
+            switch (line.op) {
                 case FUNCBEGIN:
-                    generatedCode.append("void ").append(sanitizeSymbol(actualLine.res.toString())).append("(");
+                    generatedCode.append("void ").append(result).append("(");
 
-                    STFunc func = symbolTable.getFunc(actualLine.res.toString());
+                    STFunc func = symbolTable.getFunc(line.res.toString());
 
                     for (int j = 0; j < func.outputs.length; j++) {
-                        generatedCode.append("std::shared_ptr<Node> &").append(sanitizeSymbol(func.outputs[j]));
+                        generatedCode.append("shared_ptr<Node> &").append(sanitizeSymbol(func.outputs[j]));
                         if (j < func.outputs.length - 1) generatedCode.append(", ");
                     }
                     for (int j = 0; j < func.parameters.length; j++) {
                         generatedCode.append(", ");
-                        generatedCode.append("std::shared_ptr<Node> ").append(sanitizeSymbol(func.parameters[j]));
+                        generatedCode.append("shared_ptr<Node> ").append(sanitizeSymbol(func.parameters[j]));
                     }
-                    indent++;
                     generatedCode.append(" ) {\n");
-                    generatedCode.append("\t".repeat(indent));
                     currentScope++;
                     addVariableForScope(generatedCode, currentScope);
                     break;
                 case FUNCEND:
                     generatedCode.append("}\n");
-                    generatedCode.append("\t".repeat(indent));
                     currentScope++;
                     addVariableForScope(generatedCode, currentScope);
                     break;
                 case OUTPUT:
-                    indent--;
-                    generatedCode.append("return ").append(sanitizeSymbol(actualLine.res.toString())).append(";\n");
-                    generatedCode.append("\t".repeat(indent));
+                    generatedCode.append("return ").append(result).append(";\n");
                     break;
                 case ASSIGN:
-                    if (actualLine.res instanceof Registre) {
-                        generatedCode.append("std::shared_ptr<Node> ").append(sanitizeSymbol(actualLine.res.toString())).append(" = std::make_shared<Node>();\n");
+                    if (line.res instanceof Registre) {
+                        generatedCode.append("shared_ptr<Node> ").append(result).append(" = make_shared<Node>();\n");
                     }
-                    if (actualLine.arg1.toString().equals("nil")) {
-                        generatedCode.append("Nil(").append(sanitizeSymbol(actualLine.res.toString())).append(");\n");
+                    if (line.arg1.toString().equals("Nil")) {
+                        generatedCode.append("Nil(").append(result).append(");\n");
+                    }
+                    else if (line.arg1 instanceof Symbol) {
+                        generatedCode.append("Symbol(").append(result).append(", \"").append(line.arg1).append("\");\n");
                     } else {
-                        generatedCode.append(sanitizeSymbol(actualLine.res.toString())).append(" = ").append(sanitizeSymbol(actualLine.arg1.toString())).append(";\n");
+                        generatedCode.append(result).append(" = ").append(result).append(";\n");
                     }
                     break;
                 case IFBEGIN:
-                    indent++;
-                    generatedCode.append("if (toBool(").append(sanitizeSymbol(actualLine.res.toString())).append(")) {\n");
-                    generatedCode.append("\t".repeat(indent));
+                    generatedCode.append("if (toBool(").append(result).append(")) {\n");
                     currentScope++;
                     addVariableForScope(generatedCode, currentScope);
                     break;
                 case ELSEBEGIN:
-                    indent++;
                     generatedCode.append("\nelse {\n");
-                    generatedCode.append("\t".repeat(indent));
                     currentScope++;
                     addVariableForScope(generatedCode, currentScope);
                     break;
                 case ELSEEND, WHILEEND, IFEND:
-                    indent--;
                     generatedCode.append("}\n");
-                    generatedCode.append("\t".repeat(indent));
                     currentScope++;
                     addVariableForScope(generatedCode, currentScope);
                     break;
                 case WHILEBEGIN:
-                    indent++;
-                    generatedCode.append("while (").append("toBool(").append(sanitizeSymbol(actualLine.res.toString())).append(")) {\n");
-                    generatedCode.append("\t".repeat(indent));
-
+                    generatedCode.append("while (").append("toBool(").append(result).append(")) {\n");
                     currentScope++;
                     addVariableForScope(generatedCode, currentScope);
                     break;
                 case FORBEGIN:
-                    indent++;
-                    generatedCode.append("for (int _ID_for_").append(index_for).append(" = 0; _ID_for_").append(index_for).append("<= toInt(").append(sanitizeSymbol(actualLine.res.toString())).append("); _ID_for_").append(index_for).append("++ ) {\n");
-                    generatedCode.append("\t".repeat(indent));
+
+                    generatedCode.append("for (int _ID_for_").append(index_for).append(" = 0; _ID_for_").append(index_for).append("<= toInt(").append(result).append("); _ID_for_").append(index_for).append("++ ) {\n");
                     index_for++;
                     currentScope++;
                     addVariableForScope(generatedCode, currentScope);
                     break;
                 case FOREND:
-                    indent--;
+
                     index_for--;
                     generatedCode.append("}\n");
-                    generatedCode.append("\t".repeat(indent));
                     currentScope++;
                     addVariableForScope(generatedCode, currentScope);
                     break;
-                case CALL:
-                    STFunc st_func = symbolTable.getFunc(actualLine.res.toString());
+                case CALLEND:
+                    STFunc st_func = symbolTable.getFunc(line.res.toString());
 
-                    generatedCode.append(actualLine.res.toString()).append("(");
+                    generatedCode.append(result).append("(");
                     int nbrParams = st_func.parameters.length;
-                     while(!assigns.isEmpty()) {
-                         if (assigns.size() == 1) {
-                             generatedCode.append(sanitizeSymbol(assigns.remove(0)));
-                         } else {
-                             generatedCode.append(sanitizeSymbol(assigns.remove(0))).append(", ");
-                         }
-                     }
+                    while(!assigns.isEmpty()) {
+                        if (assigns.size() == 1) {
+                            generatedCode.append(sanitizeSymbol(assigns.remove(0)));
+                        } else {
+                            generatedCode.append(sanitizeSymbol(assigns.remove(0))).append(", ");
+                        }
+                    }
                     if(nbrParams > 0) {
                         generatedCode.append(",");
                     }
@@ -274,48 +262,45 @@ public class CPPConverter {
                             generatedCode.append(sanitizeSymbol(params.remove(0))).append(", ");
                         }
                     }
-                    generatedCode.append(")");
+                    generatedCode.append(");\n");
                     break;
                 case PARAMSET:
-                    params.add(sanitizeSymbol(actualLine.res.toString()));
+                    params.add(result);
                     break;
                 case OUTPUTSET:
-                    assigns.add(sanitizeSymbol(actualLine.res.toString()));
+                    generatedCode.append("shared_ptr<Node> ").append(result).append(" = make_shared<Node>();\n");
+                    assigns.add(result);
                     break;
                 case CONS:
-                    if (actualLine.res instanceof Registre) {
-                        generatedCode.append("std::shared_ptr<Node> ").append(sanitizeSymbol(actualLine.res.toString())).append(" = std::make_shared<Node>();\n");
+                    if (line.res instanceof Registre) {
+                        generatedCode.append("shared_ptr<Node> ").append(result).append(" = make_shared<Node>();\n");
                     }
-                    generatedCode.append("Cons(").append(sanitizeSymbol(actualLine.res.toString()));
-                    if (!actualLine.arg1.toString().equals("EMPTY")) {
-                        if (actualLine.arg1.toString().equals("nil"))
+                    generatedCode.append("Cons(").append(result);
+                    if (!line.arg1.toString().equals("EMPTY")) {
+                        if (line.arg1.toString().equals("Nil"))
                             generatedCode.append(", Nil()");
                         else
-                            generatedCode.append(", ").append(sanitizeSymbol(actualLine.arg1.toString()));
-                        if (!actualLine.arg2.toString().equals("EMPTY")) {
-                            if (actualLine.arg2.toString().equals("nil"))
+                            generatedCode.append(", ").append(result);
+                        if (!line.arg2.toString().equals("EMPTY")) {
+                            if (line.arg2.toString().equals("Nil"))
                                 generatedCode.append(", Nil()");
                             else
-                                generatedCode.append(", ").append(sanitizeSymbol(actualLine.arg2.toString()));
+                                generatedCode.append(", ").append(result);
                         }
                     }
                     generatedCode.append(");\n");
                     break;
                 case TL:
-                    if (actualLine.res instanceof Registre) {
-                        generatedCode.append("std::shared_ptr<Node> ").append(sanitizeSymbol(actualLine.res.toString())).append(" = std::make_shared<Node>();\n");
+                    if (line.res instanceof Registre) {
+                        generatedCode.append("shared_ptr<Node> ").append(result).append(" = make_shared<Node>();\n");
                     }
-                    generatedCode.append("\t".repeat(indent));
-                    generatedCode.append("tl(").append(sanitizeSymbol(actualLine.res.toString())).append(", ").append(sanitizeSymbol(actualLine.arg1.toString())).append(");\n");
-                    generatedCode.append("\t".repeat(indent));
+                    generatedCode.append("tl(").append(result).append(", ").append(result).append(");\n");
                     break;
                 case HD:
-                    if (actualLine.res instanceof Registre) {
-                        generatedCode.append("std::shared_ptr<Node> ").append(sanitizeSymbol(actualLine.res.toString())).append(" = std::make_shared<Node>();\n");
+                    if (line.res instanceof Registre) {
+                        generatedCode.append("shared_ptr<Node> ").append(result).append(" = make_shared<Node>();\n");
                     }
-                    generatedCode.append("\t".repeat(indent));
-                    generatedCode.append("hd(").append(sanitizeSymbol(actualLine.res.toString())).append(", ").append(sanitizeSymbol(actualLine.arg1.toString())).append(");\n");
-                    generatedCode.append("\t".repeat(indent));
+                    generatedCode.append("hd(").append(result).append(", ").append(result).append(");\n");
                     break;
                 case IGNORE:
                 default:
@@ -324,9 +309,10 @@ public class CPPConverter {
         }
 
         // Au cas ou on a pas de fonction s'appelant main.
-        generatedCode.append("int main() { ");
-        generatedCode.append(sanitizeSymbol(mainFunc)).append("();");
-        generatedCode.append("return 0; }");
+
+        generatedCode.append("int main() { \n");
+        generatedCode.append(sanitizeSymbol(mainFunc)).append("();\n");
+        generatedCode.append("return 0; \n}\n");
 
         return generatedCode.toString();
     }

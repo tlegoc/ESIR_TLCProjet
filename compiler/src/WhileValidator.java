@@ -9,7 +9,6 @@ import java.util.*;
 public class WhileValidator {
 
 
-    // TODO : Virer ces foutus codes ANSI
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_RED = "\u001B[31m";
 
@@ -98,10 +97,6 @@ public class WhileValidator {
         }
         //PASS 4 =================================
         // Retour de variable qui existe
-        /*TODO : La variable existera toujours car ajoutee dans la table des symboles
-            dans tous les cas. Il faudrait pluttôt verifier si dans la fonction on ecrit
-            au moins une fois dans le resultat.*/
-        // TODO : REWRITE
         List<String> outputs = new ArrayList<>();
         STFunc func = null;
         for(Line line : program.lines ) {
@@ -123,25 +118,6 @@ public class WhileValidator {
                     break;
             }
         }
-        /*
-        String current_result_to_find = "";
-        String current_func = "";
-        for (int i = 0; i < symbolTable.symbols.size(); i++) {
-            if (symbolTable.symbols.get(i) instanceof STFunc func) {
-
-                if (!current_result_to_find.isEmpty()) {
-                    System.out.println(ANSI_RED + "Error: function " + current_func + "returning non existing variable " + current_result_to_find + ANSI_RESET);
-                    valid = false;
-                }
-                current_result_to_find = func.outputs[0];
-                current_func = func.name;
-            } else if (symbolTable.symbols.get(i) instanceof STVariable vari) {
-
-                if (current_result_to_find.equals(vari.name)) current_result_to_find = "";
-            }
-        }
-
-         */
         //PASS 5 =================================
         // Verfier qu'on utilise une variable qui existe
         for (int i = 0; i < program.getLineCount(); i++)
