@@ -253,22 +253,22 @@ public class CPPConverter {
                     break;
                 case CALL:
                     STFunc st_func = symbolTable.getFunc(actualLine.res.toString());
-                    int nbrAssigns = st_func.outputs.length;
-                    int nbrParams = st_func.parameters.length;
+
                     generatedCode.append(actualLine.res.toString()).append("(");
-                    for(int j = 0; j < nbrAssigns; j ++) {
-                        if (j == nbrAssigns - 1) {
-                            generatedCode.append(sanitizeSymbol(assigns.remove(0)));
-                        } else {
-                            generatedCode.append(sanitizeSymbol(assigns.remove(0))).append(", ");
-                        }
-                    }
+                    int nbrParams = st_func.parameters.length;
+                     while(!assigns.isEmpty()) {
+                         if (assigns.size() == 1) {
+                             generatedCode.append(sanitizeSymbol(assigns.remove(0)));
+                         } else {
+                             generatedCode.append(sanitizeSymbol(assigns.remove(0))).append(", ");
+                         }
+                     }
                     if(nbrParams > 0) {
                         generatedCode.append(",");
                     }
-                    for(int j = 0; j < nbrParams; j ++) {
-                        if (j == nbrParams - 1) {
 
+                    while(!params.isEmpty()) {
+                        if (params.size() == 1) {
                             generatedCode.append(sanitizeSymbol(params.remove(0)));
                         } else {
                             generatedCode.append(sanitizeSymbol(params.remove(0))).append(", ");
