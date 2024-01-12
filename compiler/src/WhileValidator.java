@@ -91,10 +91,7 @@ public class WhileValidator {
             System.out.println(ANSI_RED + "Error: Main calling unknown function " + mainFunc + ANSI_RESET);
             valid = false;
         }
-        else if (desired_param_count != 0) {
-            System.out.println(ANSI_RED + "Error: Main function has more than 0 parameters." + ANSI_RESET);
-            valid = false;
-        }
+
         //PASS 4 =================================
         // Retour de variable qui existe
         List<String> outputs = new ArrayList<>();

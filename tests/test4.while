@@ -117,3 +117,11 @@ read Op1, Op2
     Test4 := (cons a (cons b nil))
 %
 write Test1, Test2
+
+function main:
+read
+%
+    Result := (cons);
+    Result := (add nil (cons a))
+%
+write Result

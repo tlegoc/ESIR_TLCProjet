@@ -6,77 +6,84 @@
 
 #include <utility>
 
-void Nil(std::shared_ptr<Node> res) {
-    res = std::make_shared<Node>();
-    res->left_child = nullptr;
-    res->right_child = nullptr;
-    res->val = "";
+void Nil(Node &res) {
+    cout << "Nil" << endl;
+    res = Node();
+    res.left_child = nullptr;
+    res.right_child = nullptr;
+    res.val = "";
 }
 
-std::shared_ptr<Node> Nil()
-{
-    std::shared_ptr<Node> res = std::make_shared<Node>();
-    res->left_child = nullptr;
-    res->right_child = nullptr;
-    res->val = "";
+Node Nil() {
+    cout << "Nil" << endl;
+    Node res = Node();
+    res.left_child = nullptr;
+    res.right_child = nullptr;
+    res.val = "";
     return res;
 }
 
-void Symbol(std::shared_ptr<Node> res, std::string val) {
-    res = std::make_shared<Node>();
-    res->left_child = nullptr;
-    res->right_child = nullptr;
-    res->val = std::move(val);
+void Symbol(Node &res, std::string val) {
+    cout << "Symbol" << endl;
+    res = Node();
+    res.left_child = nullptr;
+    res.right_child = nullptr;
+    res.val = std::move(val);
 }
 
-bool isLeaf(std::shared_ptr<Node> res) {
-    return res->left_child == nullptr && res->right_child == nullptr;
+bool isLeaf(Node &res) {
+    cout << "isLeaf" << endl;
+    return res.left_child == nullptr && res.right_child == nullptr;
 }
 
-void Cons(std::shared_ptr<Node> res) {
+void Cons(Node &res) {
+    cout << "Cons" << endl;
     Nil(res);
 }
 
-void Cons(std::shared_ptr<Node> res, std::shared_ptr<Node> T) {
+void Cons(Node &res, Node T) {
+    cout << "Cons" << endl;
     res = T;
 }
 
-void Cons(std::shared_ptr<Node> res, std::shared_ptr<Node> A, std::shared_ptr<Node> B) {
-    res = std::make_shared<Node>();
-    res->left_child = A;
-    res->right_child = B;
-    res->val = "";
+void Cons(Node &res, const Node A, const Node B) {
+    cout << "Cons" << endl;
+    res = Node();
+    res.left_child = new Node(A);
+    res.right_child = new Node(B);
+    res.val = "";
 }
 
-void hd(std::shared_ptr<Node> res, std::shared_ptr<Node> T) {
-    res = T->left_child;
+void hd(Node &res, const Node &T) {
+    cout << "hd" << endl;
+    res = *T.left_child;
 }
 
-void tl(std::shared_ptr<Node> res, std::shared_ptr<Node> T) {
-    res = T->right_child;
+void tl(Node &res, const Node &T) {
+    cout << "tl" << endl;
+    res = *T.right_child;
 }
 
 
-int toInt(std::shared_ptr<Node> node) {
-    if(node == nullptr || isLeaf(node)){
+int toInt(Node &node) {
+    cout << "toInt" << endl;
+    if (isLeaf(node)) {
         return 0;
     } else {
-        return 1 + toInt(node->right_child);
+        return 1 + toInt(*node.right_child);
     }
 }
 
-bool toBool(std::shared_ptr<Node> node) {
-    return !(node == nullptr || isLeaf(node));
+bool toBool(Node &node) {
+    cout << "toBool" << endl;
+    return !isLeaf(node);
 }
 
-std::string toString(std::shared_ptr<Node> node) {
-    if(node == nullptr) {
-        return "";
-    }
-    else if(isLeaf(node)) {
-        return node->val;
-    }
-    else {
-        return node->val + toString(node->right_child);
+std::string toString(Node &node) {
+    cout << "toString" << endl;
+    if (isLeaf(node)) {
+        return node.val;
+    } else {
+        return toString(*node.left_child) + toString(*node.right_child);
     }
 }

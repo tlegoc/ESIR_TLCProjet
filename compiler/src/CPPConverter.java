@@ -133,7 +133,7 @@ public class CPPConverter {
         List<STEntry> symbols = symbolTable.getEntriesForScope(currentScope);
 
         for (STEntry s : symbols) {
-            res.append("std::shared_ptr<Node> ").append(sanitizeSymbol(s.getSymbol())).append(" = std::make_shared<Node>();\n");
+            res.append("Node ").append(sanitizeSymbol(s.getSymbol())).append(" = Node();\n");
         }
     }
 
@@ -172,12 +172,12 @@ public class CPPConverter {
                     STFunc func = symbolTable.getFunc(line.res.toString());
 
                     for (int j = 0; j < func.outputs.length; j++) {
-                        generatedCode.append("shared_ptr<Node> &").append(sanitizeSymbol(func.outputs[j]));
+                        generatedCode.append("Node &").append(sanitizeSymbol(func.outputs[j]));
                         if (j < func.outputs.length - 1) generatedCode.append(", ");
                     }
                     for (int j = 0; j < func.parameters.length; j++) {
                         generatedCode.append(", ");
-                        generatedCode.append("shared_ptr<Node> ").append(sanitizeSymbol(func.parameters[j]));
+                        generatedCode.append("Node ").append(sanitizeSymbol(func.parameters[j]));
                     }
                     generatedCode.append(" ) {\n");
                     currentScope++;
@@ -193,15 +193,15 @@ public class CPPConverter {
                     break;
                 case ASSIGN:
                     if (line.res instanceof Registre) {
-                        generatedCode.append("shared_ptr<Node> ").append(result).append(" = make_shared<Node>();\n");
+                        generatedCode.append("Node ").append(result).append(" = Node();\n");
                     }
                     if (line.arg1.toString().equals("Nil")) {
                         generatedCode.append("Nil(").append(result).append(");\n");
                     }
                     else if (line.arg1 instanceof Symbol) {
-                        generatedCode.append("Symbol(").append(result).append(", \"").append(line.arg1).append("\");\n");
+                        generatedCode.append("Symbol(").append(result).append(", \"").append(sanitizeSymbol(line.arg1.toString())).append("\");\n");
                     } else {
-                        generatedCode.append(result).append(" = ").append(result).append(";\n");
+                        generatedCode.append(result).append(" = ").append(sanitizeSymbol(line.arg1.toString())).append(";\n");
                     }
                     break;
                 case IFBEGIN:
@@ -267,37 +267,37 @@ public class CPPConverter {
                     params.add(result);
                     break;
                 case OUTPUTSET:
-                    generatedCode.append("shared_ptr<Node> ").append(result).append(" = make_shared<Node>();\n");
+                    generatedCode.append("Node ").append(result).append(" = Node();\n");
                     assigns.add(result);
                     break;
                 case CONS:
                     if (line.res instanceof Registre) {
-                        generatedCode.append("shared_ptr<Node> ").append(result).append(" = make_shared<Node>();\n");
+                        generatedCode.append("Node ").append(result).append(" = Node();\n");
                     }
                     generatedCode.append("Cons(").append(result);
                     if (!line.arg1.toString().equals("EMPTY")) {
                         if (line.arg1.toString().equals("Nil"))
                             generatedCode.append(", Nil()");
                         else
-                            generatedCode.append(", ").append(result);
+                            generatedCode.append(", ").append(sanitizeSymbol(line.arg1.toString()));
                         if (!line.arg2.toString().equals("EMPTY")) {
                             if (line.arg2.toString().equals("Nil"))
                                 generatedCode.append(", Nil()");
                             else
-                                generatedCode.append(", ").append(result);
+                                generatedCode.append(", ").append(sanitizeSymbol(line.arg2.toString()));
                         }
                     }
                     generatedCode.append(");\n");
                     break;
                 case TL:
                     if (line.res instanceof Registre) {
-                        generatedCode.append("shared_ptr<Node> ").append(result).append(" = make_shared<Node>();\n");
+                        generatedCode.append("Node ").append(result).append(" = Node();\n");
                     }
                     generatedCode.append("tl(").append(result).append(", ").append(result).append(");\n");
                     break;
                 case HD:
                     if (line.res instanceof Registre) {
-                        generatedCode.append("shared_ptr<Node> ").append(result).append(" = make_shared<Node>();\n");
+                        generatedCode.append("Node ").append(result).append(" = Node();\n");
                     }
                     generatedCode.append("hd(").append(result).append(", ").append(result).append(");\n");
                     break;
@@ -309,8 +309,8 @@ public class CPPConverter {
 
         // Au cas ou on a pas de fonction s'appelant main.
 
-        generatedCode.append("int main() { \n");
-        generatedCode.append(sanitizeSymbol(mainFunc)).append("();\n");
+        generatedCode.append("int main() { Node node;\n");
+        generatedCode.append(sanitizeSymbol(mainFunc)).append("(node);\n");
         generatedCode.append("return 0; \n}\n");
 
         return generatedCode.toString();

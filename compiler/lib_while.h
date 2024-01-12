@@ -7,47 +7,102 @@
 
 #include <string>
 #include <memory>
+#include <iostream>
 
-struct Node {
-    std::shared_ptr<Node> left_child;
-    std::shared_ptr<Node> right_child;
-    std::string val;
+using namespace std;
+
+class Node {
+
+public:
+    Node *left_child;
+    Node *right_child;
+    string val;
+
+    void setLeft(const Node &node) {
+        cout << "Node::setLeft" << endl;
+        left_child = new Node(node);
+    }
+
+    void setRight(const Node &node) {
+        cout << "Node::setRight" << endl;
+        right_child = new Node(node);
+    }
 
     Node() {
+        left_child = nullptr;
+        right_child = nullptr;
         val = "";
+    };
+
+    // Copy
+    Node(const Node &node) {
+        cout << "Node::Node(const Node &node)" << endl;
+        if (&node == this) {
+            return;
+        }
+
+        if (node.left_child == nullptr)
+            left_child = nullptr;
+        else
+            left_child = new Node(*node.left_child);
+
+        if (node.right_child == nullptr)
+            right_child = nullptr;
+        else
+            right_child = new Node(*node.right_child);
+
+        val = node.val;
+    };
+
+    ~Node() {
+        cout << "Node::~Node()" << endl;
+        delete left_child;
+        delete right_child;
     }
 
-    Node(Node const &copy) {
-        left_child = std::make_shared<Node>(*copy.left_child.get());
-        right_child = std::make_shared<Node>(*copy.right_child.get());
+    Node &operator=(const Node &node) {
+        cout << "Node::operator=(const Node &node)" << endl;
+        if (&node == this) {
+            return *this;
+        }
 
-        val = copy.val;
-    }
+        if (node.left_child == nullptr)
+            left_child = nullptr;
+        else
+            left_child = new Node(*node.left_child);
 
+        if (node.right_child == nullptr)
+            right_child = nullptr;
+        else
+            right_child = new Node(*node.right_child);
 
+        val = node.val;
+        return *this;
+    };
 };
 
-void Nil(std::shared_ptr<Node> res);
+void Nil(Node &res);
 
-std::shared_ptr<Node> Nil();
+Node Nil();
 
-void Symbol(std::shared_ptr<Node> res, std::string val);
+void Symbol(Node &res, string val);
 
-bool isLeaf(std::shared_ptr<Node> res);
+bool isLeaf(Node &res);
 
-void Cons(std::shared_ptr<Node> res);
+void Cons(Node &res);
 
-void Cons(std::shared_ptr<Node> res, std::shared_ptr<Node> T);
+void Cons(Node &res, Node T);
 
-void Cons(std::shared_ptr<Node> res, std::shared_ptr<Node> A, std::shared_ptr<Node> B);
+void Cons(Node &res, const Node A, const Node B);
 
-void hd(std::shared_ptr<Node> res, std::shared_ptr<Node> T);
+void hd(Node &res, const Node &T);
 
-void tl(std::shared_ptr<Node> res, std::shared_ptr<Node> T);
+void tl(Node &res, const Node &T);
 
-int toInt(std::shared_ptr<Node> node);
+int toInt(Node &node);
 
-bool toBool(std::shared_ptr<Node> node);
+bool toBool(Node &node);
 
-std::string toString(std::shared_ptr<Node> node);
+std::string toString(Node &node);
+
 #endif //LIB_LIB_WHILE_H
