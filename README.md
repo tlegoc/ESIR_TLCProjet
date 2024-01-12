@@ -17,8 +17,8 @@ Dépot git du projet de TLC de Robin Gaignoux, Rémi Cazoulat, Kilian Marcelin e
 
 Nous recommandons d'utiliser Intellij IDEA pour ouvrir le projet.
  - Dans le dossier `compiler` se trouve le code source du compilateur. Ouvrez le avec Intellij ou votre IDE.
- - Vérifiez la présence de `lib_while.h` et `libwhile.a`. Si ils ne sont pas présents, compilez le projet cmake présent dans `lib/`, puis copiez la librairie ainsi construite et le fichier `.h` dans le répertoire racine du projet java.
- - Vous pouvez maintenant lancer le projet. En arguments doit se trouver le chemin vers votre fichier `.while` et optionnellement le nom de la fonction main. Par défaut, le compilateur prendra la fonction nommée `main` si existante.
+ - Vérifiez la présence de `lib_while.h` et `while.lib` pour windows, `libwhile.a` pour linux. Si ils ne sont pas présents, compilez le projet via `compile_windows.bat` ou `compile_linux.sh` présent dans `lib/`.
+ - Vous pouvez maintenant lancer le projet. En arguments doit se trouver le chemin vers votre fichier `.while`
  - Un fichier éxécutable sera généré à côté du fichier source.
 
 # Erreurs connues, TODO

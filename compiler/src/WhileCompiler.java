@@ -36,6 +36,8 @@ public class WhileCompiler {
     public boolean compile(String mainFunc, boolean compileToExe, boolean runOptimizations) {
         Object ast;
 
+        Path filepath = Paths.get(filename);
+
         try {
             CharStream input = new ANTLRFileStream(filename);
 
@@ -47,10 +49,10 @@ public class WhileCompiler {
 
             ast = src.getTree();
         } catch (IOException e) {
-            System.out.println("Error: could not open source file.");
+            System.out.println(ANSI_RED + "Error: could not open source file." + ANSI_RESET);
             return false;
         } catch (RecognitionException e) {
-            System.out.println("Error: unknown ANTLR runtime exception.");
+            System.out.println(ANSI_RED + "Error: unknown ANTLR runtime exception." + ANSI_RESET);
             System.out.println(e.getLocalizedMessage());
             return false;
         }
@@ -60,14 +62,14 @@ public class WhileCompiler {
         visitorTA.visit(ast);
         program = visitorTA.getProgram();
 
-        System.out.println(program.getProgramString(true));
+//        System.out.println(program.getProgramString(true));
 
         // Creating symbol table
         VisitorTS visitorTS = new VisitorTS();
         visitorTS.visit(ast);
         symbolTable = visitorTS.getST();
 
-        symbolTable.printSymbolTable();
+//        symbolTable.printSymbolTable();
 
         // On effectue la validation apres generation du code 3 adresses car simplifie
         // La verification.
@@ -76,7 +78,7 @@ public class WhileCompiler {
 
         // Validation
         if (!wv.validate()) {
-            System.out.println("Error, could not validate program");
+            System.out.println(ANSI_RED + "Error, could not validate program" + ANSI_RESET);
             return false;
         }
 
@@ -86,34 +88,73 @@ public class WhileCompiler {
         CPPConverter cppConverter = new CPPConverter(getProgram(), symbolTable, mainFunc);
         cpp_output = cppConverter.convert();
 
-        Path filepath = Paths.get(filename);
+        // If we don't want to compile to exe, we just write the cpp file next to the .while file
+        if (!compileToExe) {
+            // Copy cpp file next to the .while file
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(filepath.toString() + ".cpp"));
+                writer.write(cpp_output);
+                writer.close();
+            } catch (IOException e) {
+                System.out.println(ANSI_RED + "Error: could not write .cpp file." + ANSI_RESET);
+                return false;
+            }
+            return true;
+        }
+
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(filepath.getFileName() + ".cpp"));
             writer.write(cpp_output);
             writer.close();
         } catch (IOException e) {
-            System.out.println("Error: could not write .cpp file.");
+            System.out.println(ANSI_RED + "Error: could not write .cpp file." + ANSI_RESET);
             return false;
         }
 
-        if (!compileToExe) return true;
-
+        // Check if the library exists
         File lib = new File("./while.lib");
 
-        if (!lib.exists())
-        {
-            System.out.println("You must build the library first! If you're on windows, please run compile_windows.bat");
+        if (!lib.exists()) {
+            System.out.println(ANSI_RED + "Error: You must build the library first! If you're on windows, please run compile_windows.bat" + ANSI_RESET);
             return false;
         }
 
+        // Retrieve Visual Studio path on windows
         String compilerPath = "";
         if (System.getProperty("os.name").contains("Windows")) {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Enter your visual studio instalation folder:");
-            compilerPath = sc.nextLine();
+            // Check if we have a saved path
+            File f = new File("vspath.tmp");
+            if (f.exists() && !f.isDirectory()) {
+                System.out.println("Found saved path in vspath.tmp");
+                try {
+                    BufferedReader reader = new BufferedReader(new FileReader(f));
+                    compilerPath = reader.readLine();
+                    reader.close();
+                } catch (IOException ignored) {
+                }
+            } else {
+                Scanner sc = new Scanner(System.in);
+                System.out.println("Enter your visual studio installation folder:");
+                compilerPath = sc.nextLine();
+                // Save
+                BufferedWriter writer;
+                try {
+                    writer = new BufferedWriter(new FileWriter("vspath.tmp"));
+                    writer.write(compilerPath);
+                    writer.close();
+                } catch (IOException e) {
+                    System.out.println(ANSI_RED + "Error: could not save vspath.tmp. You will have to enter it again next time." + ANSI_RESET);
+                }
+            }
         }
 
         Path cp = Paths.get(compilerPath);
+        Path vcvarsallpath = Paths.get(cp.toString(), "VC", "Auxiliary", "Build", "vcvarsall.bat");
+        // Check if the file exists
+        if (!vcvarsallpath.toFile().exists()) {
+            System.out.println(ANSI_RED + "Error: could not find vcvarsall.bat in " + vcvarsallpath.toString() + ANSI_RESET);
+            return false;
+        }
 
         // Appel de GCC
         List<String> commands = new ArrayList<>();
@@ -121,7 +162,6 @@ public class WhileCompiler {
         if (System.getProperty("os.name").contains("Windows")) {
             commands.add("cmd");
             commands.add("/c");
-            Path vcvarsallpath = Paths.get(cp.toString(), "VC", "Auxiliary", "Build", "vcvarsall.bat");
             commands.add(vcvarsallpath.toString());
             commands.add("x64");
             commands.add("&&");
