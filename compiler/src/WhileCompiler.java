@@ -198,7 +198,7 @@ public class WhileCompiler {
 
         ProcessBuilder pb = new ProcessBuilder(commands);
         try {
-            System.out.println("Running: " + commands);
+            System.out.println("Running: \n" + commands.stream().reduce("", (a, b) -> a + " " + b));
             Process p = pb.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
