@@ -83,8 +83,6 @@ public class WhileCompiler {
         // TODO optimisation
         if (runOptimizations) program.optimize();
 
-        if (!compileToExe) return true;
-
         CPPConverter cppConverter = new CPPConverter(getProgram(), symbolTable, mainFunc);
         cpp_output = cppConverter.convert();
 
@@ -95,6 +93,16 @@ public class WhileCompiler {
             writer.close();
         } catch (IOException e) {
             System.out.println("Error: could not write .cpp file.");
+            return false;
+        }
+
+        if (!compileToExe) return true;
+
+        File lib = new File("./while.lib");
+
+        if (!lib.exists())
+        {
+            System.out.println("You must build the library first! If you're on windows, please run compile_windows.bat");
             return false;
         }
 
