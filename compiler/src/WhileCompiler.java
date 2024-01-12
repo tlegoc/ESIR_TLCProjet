@@ -148,18 +148,18 @@ public class WhileCompiler {
             }
         }
 
-        Path cp = Paths.get(compilerPath);
-        Path vcvarsallpath = Paths.get(cp.toString(), "VC", "Auxiliary", "Build", "vcvarsall.bat");
-        // Check if the file exists
-        if (!vcvarsallpath.toFile().exists()) {
-            System.out.println(ANSI_RED + "Error: could not find vcvarsall.bat in " + vcvarsallpath.toString() + ANSI_RESET);
-            return false;
-        }
-
-        // Appel de GCC
+        // Appel du compilateur cpp
         List<String> commands = new ArrayList<>();
         System.out.println("Calling C++ compiler...");
         if (System.getProperty("os.name").contains("Windows")) {
+            Path cp = Paths.get(compilerPath);
+            Path vcvarsallpath = Paths.get(cp.toString(), "VC", "Auxiliary", "Build", "vcvarsall.bat");
+            // Check if the file exists
+            if (!vcvarsallpath.toFile().exists()) {
+                System.out.println(ANSI_RED + "Error: could not find vcvarsall.bat in " + vcvarsallpath.toString() + ANSI_RESET);
+                return false;
+            }
+
             commands.add("cmd");
             commands.add("/c");
             commands.add(vcvarsallpath.toString());
