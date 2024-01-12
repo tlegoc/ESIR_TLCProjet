@@ -19,12 +19,10 @@ public:
     string val;
 
     void setLeft(const Node &node) {
-        cout << "Node::setLeft" << endl;
         left_child = new Node(node);
     }
 
     void setRight(const Node &node) {
-        cout << "Node::setRight" << endl;
         right_child = new Node(node);
     }
 
@@ -36,7 +34,6 @@ public:
 
     // Copy
     Node(const Node &node) {
-        cout << "Node::Node(const Node &node)" << endl;
         if (&node == this) {
             return;
         }
@@ -55,13 +52,11 @@ public:
     };
 
     ~Node() {
-        cout << "Node::~Node()" << endl;
         delete left_child;
         delete right_child;
     }
 
     Node &operator=(const Node &node) {
-        cout << "Node::operator=(const Node &node)" << endl;
         if (&node == this) {
             return *this;
         }
