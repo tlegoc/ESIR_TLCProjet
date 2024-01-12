@@ -116,6 +116,7 @@ public class WhileCompiler {
 
         if (!lib.exists()) {
             System.out.println(ANSI_RED + "Error: You must build the library first! If you're on windows, please run compile_windows.bat" + ANSI_RESET);
+            clean();
             return false;
         }
 
@@ -157,6 +158,7 @@ public class WhileCompiler {
             // Check if the file exists
             if (!vcvarsallpath.toFile().exists()) {
                 System.out.println(ANSI_RED + "Error: could not find vcvarsall.bat in " + vcvarsallpath.toString() + ANSI_RESET);
+                clean();
                 return false;
             }
 
@@ -208,17 +210,36 @@ public class WhileCompiler {
                 System.out.println(line);
             }
 
-            System.out.println("Compiler finished with exit code " + p.waitFor());
+            int exitCode = p.waitFor();
+
+            System.out.println("Compiler finished with exit code " + exitCode);
+
+            if (exitCode != 0) {
+                System.out.println(ANSI_RED + "Error: compiler returned non-zero exit code." + ANSI_RESET);
+                clean();
+                return false;
+            }
         } catch (IOException | InterruptedException e) {
             System.out.println(ANSI_RED + "Error: unknown IO error - " + e.getLocalizedMessage() + ANSI_RESET);
+            clean();
+            return false;
         }
 
-        // delete temporary
-//        File toDel = new File(filepath.getFileName() + ".cpp");
-//        if (toDel.exists() && !toDel.isDirectory())
-//            toDel.delete();
-
+        clean();
         return true;
+    }
+
+    public void clean()
+    {
+        Path filepath = Paths.get(filename);
+
+        // delete temporary
+        File toDel = new File(filepath.getFileName() + ".cpp");
+        if (toDel.exists() && !toDel.isDirectory())
+            toDel.delete();
+        toDel = new File(filepath.getFileName() + ".obj");
+        if (toDel.exists() && !toDel.isDirectory())
+            toDel.delete();
     }
 
     public void printProgram() {
