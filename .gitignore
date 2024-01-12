@@ -28,3 +28,7 @@ replay_pid*
 .idea/
 
 **/cmake-build-*/**/*
+
+*.lib
+*.obj
+*.a

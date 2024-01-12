@@ -4,8 +4,6 @@
 
 #include "lib_while.h"
 
-#include <utility>
-
 void Nil(Node &res) {
     cout << "Nil" << endl;
     res = Node();

@@ -6,7 +6,6 @@
 #define LIB_LIB_WHILE_H
 
 #include <string>
-#include <memory>
 #include <iostream>
 
 using namespace std;
