@@ -74,7 +74,11 @@ int toInt(Node &node) {
 
 bool toBool(Node &node) {
     cout << "toBool" << endl;
-    return !isLeaf(node);
+    if (node.right_child != nullptr && node.right_child->val == "t") {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 std::string toString(Node &node) {

@@ -10,6 +10,10 @@
 
 using namespace std;
 
+class Node;
+
+bool toBool(Node &node);
+
 class Node {
 
 public:
@@ -25,11 +29,49 @@ public:
         right_child = new Node(node);
     }
 
+    bool isSymbol() {
+        return val != "" && val != "int" && val != "bool" && val != "string" && left_child == nullptr && right_child == nullptr;
+    }
+
     Node() {
         left_child = nullptr;
         right_child = nullptr;
         val = "";
     };
+
+    Node(string _val) {
+        left_child = nullptr;
+        right_child = new Node();
+        right_child->val = _val;
+        val = "string";
+    };
+
+    Node(bool b) {
+        if (b) {
+            left_child = nullptr;
+            right_child = new Node();
+            right_child->val = "t";
+            val = "bool";
+            return;
+        }
+
+        left_child = nullptr;
+        right_child = nullptr;
+        val = "bool";
+    }
+
+    Node(int number) {
+        if (number == 0) {
+            left_child = nullptr;
+            right_child = nullptr;
+            val = "";
+            return;
+        }
+
+        left_child = nullptr;
+        right_child = new Node(number - 1);
+        val = "int";
+    }
 
     // Copy
     Node(const Node &node) {
@@ -73,6 +115,37 @@ public:
         val = node.val;
         return *this;
     };
+
+    Node operator==(const Node &node) {
+        if (&node == this) {
+            Node n = Node("bool");
+            n.setRight(Node("t"));
+            return n;
+        }
+
+        if (node.left_child != nullptr && left_child != nullptr) {
+            Node n = *node.left_child == *left_child;
+            if (!toBool(n)) {
+                return Node();
+            }
+        }
+
+        if (node.right_child != nullptr && right_child != nullptr) {
+            Node n = *node.right_child == *right_child;
+            if (!toBool(n)) {
+                return Node();
+            }
+        }
+
+        if (node.val != val)
+        {
+            return Node();
+        }
+
+        Node r = Node("bool");
+        r.setRight(Node("t"));
+        return r;
+    };
 };
 
 void Nil(Node &res);
@@ -95,7 +168,6 @@ void tl(Node &res, const Node &T);
 
 int toInt(Node &node);
 
-bool toBool(Node &node);
 
 std::string toString(Node &node);
 
