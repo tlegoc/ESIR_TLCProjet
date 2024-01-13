@@ -255,7 +255,7 @@ public class CPPConverter {
                 case FOREACHEND:
                     index_foreach --;
                     String namee = "_foreach_" + index_foreach;
-                    String nametmp = "_tmp_" + namee;
+                    String nametmp = "_tmp" + namee;
                     generatedCode.append("Node ").append(nametmp).append(" = Node();\n");
 
                     generatedCode.append("tl(").append(nametmp).append(", ").append(namee).append(");\n");

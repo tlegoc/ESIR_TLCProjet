@@ -54,7 +54,6 @@ public class VisitorTA {
                 program.addLine(Line.Op.FOREND, cond_for);
                 break;
             case "FOREACH":
-                //Registre var_foreach = process(tree.getChild(0)).get(0);
                 String name = tree.getChild(0).getChild(0).toString();
                 Registre var_foreach = new Registre(name);
                 program.addLine(Line.Op.ASSIGN, var_foreach, new Nil(), new EmptyArgument());
@@ -156,8 +155,6 @@ private Registre processEXPR(Object o) {
         Registre reg = new Registre();
         if (!tree.toString().equals("VARIABLE"))
             throw new RuntimeException("processVARIABLE called on non variable token");
-        program.addComment("passage dans process variable");
-        program.addComment(tree.getChild(0).toString());
         program.addLine(Line.Op.ASSIGN, reg, new Variable(tree.getChild(0).toString()), new EmptyArgument());
         return reg;
     }
