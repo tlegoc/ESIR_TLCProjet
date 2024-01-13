@@ -317,8 +317,8 @@ public class CPPConverter {
                     break;
                 case EQUALSINTER:
                     generatedCode.append("Node ").append(result).append(" = Node();\n");
-                    generatedCode.append("bool _equalsInter_").append(equalsInter).append(" = ");
-                    generatedCode.append(arg1).append(" == ").append(arg2).append(";\n");
+                    generatedCode.append("bool _equalsInter_").append(equalsInter).append(" = toBool( ");
+                    generatedCode.append(arg1).append(" == ").append(arg2).append(");\n");
 
                     break;
                 case TL:
