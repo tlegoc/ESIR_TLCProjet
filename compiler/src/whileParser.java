@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g 2024-01-11 08:41:47
+// $ANTLR 3.5.1 C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g 2024-01-13 11:58:12
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -12,7 +12,7 @@ import org.antlr.runtime.tree.*;
 public class whileParser extends Parser {
 	public static final String[] tokenNames = new String[] {
 		"<invalid>", "<EOR>", "<DOWN>", "<UP>", "ASSIGN", "ASSIGN_EXPR", "ASSIGN_VARS", 
-		"BODY", "CALL", "COMMANDS", "COMMENT", "CONS", "Dec", "FOR", "FOREACH", 
+		"BODY", "CALL", "COMMANDS", "COMMENT", "CONS", "Dec", "EXPR", "FOR", "FOREACH", 
 		"FUNC", "HD", "IF", "LIST", "Maj", "Min", "OUTPUT", "PARAM", "SYMBOL", 
 		"Symbol", "THEN", "TL", "VARIABLE", "VIDE", "Variable", "WHILE", "WS", 
 		"'%'", "'('", "')'", "','", "':'", "':='", "';'", "'=?'", "'cons'", "'do'", 
@@ -21,7 +21,6 @@ public class whileParser extends Parser {
 		"'while'", "'write'"
 	};
 	public static final int EOF=-1;
-	public static final int T__32=32;
 	public static final int T__33=33;
 	public static final int T__34=34;
 	public static final int T__35=35;
@@ -48,6 +47,7 @@ public class whileParser extends Parser {
 	public static final int T__56=56;
 	public static final int T__57=57;
 	public static final int T__58=58;
+	public static final int T__59=59;
 	public static final int ASSIGN=4;
 	public static final int ASSIGN_EXPR=5;
 	public static final int ASSIGN_VARS=6;
@@ -57,25 +57,26 @@ public class whileParser extends Parser {
 	public static final int COMMENT=10;
 	public static final int CONS=11;
 	public static final int Dec=12;
-	public static final int FOR=13;
-	public static final int FOREACH=14;
-	public static final int FUNC=15;
-	public static final int HD=16;
-	public static final int IF=17;
-	public static final int LIST=18;
-	public static final int Maj=19;
-	public static final int Min=20;
-	public static final int OUTPUT=21;
-	public static final int PARAM=22;
-	public static final int SYMBOL=23;
-	public static final int Symbol=24;
-	public static final int THEN=25;
-	public static final int TL=26;
-	public static final int VARIABLE=27;
-	public static final int VIDE=28;
-	public static final int Variable=29;
-	public static final int WHILE=30;
-	public static final int WS=31;
+	public static final int EXPR=13;
+	public static final int FOR=14;
+	public static final int FOREACH=15;
+	public static final int FUNC=16;
+	public static final int HD=17;
+	public static final int IF=18;
+	public static final int LIST=19;
+	public static final int Maj=20;
+	public static final int Min=21;
+	public static final int OUTPUT=22;
+	public static final int PARAM=23;
+	public static final int SYMBOL=24;
+	public static final int Symbol=25;
+	public static final int THEN=26;
+	public static final int TL=27;
+	public static final int VARIABLE=28;
+	public static final int VIDE=29;
+	public static final int Variable=30;
+	public static final int WHILE=31;
+	public static final int WS=32;
 
 	// delegates
 	public Parser[] getDelegates() {
@@ -112,7 +113,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "start_rule"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:30:1: start_rule : program ;
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:31:1: start_rule : program ;
 	public final whileParser.start_rule_return start_rule() throws RecognitionException {
 		whileParser.start_rule_return retval = new whileParser.start_rule_return();
 		retval.start = input.LT(1);
@@ -123,13 +124,13 @@ public class whileParser extends Parser {
 
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:30:11: ( program )
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:30:14: program
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:31:11: ( program )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:31:14: program
 			{
 			root_0 = (Object)adaptor.nil();
 
 
-			pushFollow(FOLLOW_program_in_start_rule89);
+			pushFollow(FOLLOW_program_in_start_rule92);
 			program1=program();
 			state._fsp--;
 
@@ -164,7 +165,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "program"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:54:1: program : ( function )+ ;
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:55:1: program : ( function )+ ;
 	public final whileParser.program_return program() throws RecognitionException {
 		whileParser.program_return retval = new whileParser.program_return();
 		retval.start = input.LT(1);
@@ -175,27 +176,27 @@ public class whileParser extends Parser {
 
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:54:9: ( ( function )+ )
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:54:11: ( function )+
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:55:9: ( ( function )+ )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:55:11: ( function )+
 			{
 			root_0 = (Object)adaptor.nil();
 
 
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:54:11: ( function )+
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:55:11: ( function )+
 			int cnt1=0;
 			loop1:
 			while (true) {
 				int alt1=2;
 				int LA1_0 = input.LA(1);
-				if ( (LA1_0==46) ) {
+				if ( (LA1_0==47) ) {
 					alt1=1;
 				}
 
 				switch (alt1) {
 				case 1 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:54:11: function
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:55:11: function
 					{
-					pushFollow(FOLLOW_function_in_program323);
+					pushFollow(FOLLOW_function_in_program326);
 					function2=function();
 					state._fsp--;
 
@@ -241,7 +242,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "function"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:55:1: function : 'function' i= Symbol ':' definition -> ^( FUNC $i definition ) ;
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:56:1: function : 'function' i= Symbol ':' definition -> ^( FUNC $i definition ) ;
 	public final whileParser.function_return function() throws RecognitionException {
 		whileParser.function_return retval = new whileParser.function_return();
 		retval.start = input.LT(1);
@@ -256,25 +257,25 @@ public class whileParser extends Parser {
 		Object i_tree=null;
 		Object string_literal3_tree=null;
 		Object char_literal4_tree=null;
-		RewriteRuleTokenStream stream_46=new RewriteRuleTokenStream(adaptor,"token 46");
-		RewriteRuleTokenStream stream_36=new RewriteRuleTokenStream(adaptor,"token 36");
+		RewriteRuleTokenStream stream_47=new RewriteRuleTokenStream(adaptor,"token 47");
+		RewriteRuleTokenStream stream_37=new RewriteRuleTokenStream(adaptor,"token 37");
 		RewriteRuleTokenStream stream_Symbol=new RewriteRuleTokenStream(adaptor,"token Symbol");
 		RewriteRuleSubtreeStream stream_definition=new RewriteRuleSubtreeStream(adaptor,"rule definition");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:55:9: ( 'function' i= Symbol ':' definition -> ^( FUNC $i definition ) )
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:55:11: 'function' i= Symbol ':' definition
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:56:9: ( 'function' i= Symbol ':' definition -> ^( FUNC $i definition ) )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:56:11: 'function' i= Symbol ':' definition
 			{
-			string_literal3=(Token)match(input,46,FOLLOW_46_in_function330);  
-			stream_46.add(string_literal3);
+			string_literal3=(Token)match(input,47,FOLLOW_47_in_function333);  
+			stream_47.add(string_literal3);
 
-			i=(Token)match(input,Symbol,FOLLOW_Symbol_in_function336);  
+			i=(Token)match(input,Symbol,FOLLOW_Symbol_in_function339);  
 			stream_Symbol.add(i);
 
-			char_literal4=(Token)match(input,36,FOLLOW_36_in_function338);  
-			stream_36.add(char_literal4);
+			char_literal4=(Token)match(input,37,FOLLOW_37_in_function341);  
+			stream_37.add(char_literal4);
 
-			pushFollow(FOLLOW_definition_in_function339);
+			pushFollow(FOLLOW_definition_in_function342);
 			definition5=definition();
 			state._fsp--;
 
@@ -291,9 +292,9 @@ public class whileParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (Object)adaptor.nil();
-			// 55:46: -> ^( FUNC $i definition )
+			// 56:46: -> ^( FUNC $i definition )
 			{
-				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:55:48: ^( FUNC $i definition )
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:56:48: ^( FUNC $i definition )
 				{
 				Object root_1 = (Object)adaptor.nil();
 				root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(FUNC, "FUNC"), root_1);
@@ -336,7 +337,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "definition"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:56:1: definition : 'read' input '%' commands '%' 'write' output -> ^( BODY input ^( COMMANDS commands ) output ) ;
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:57:1: definition : 'read' input '%' commands '%' 'write' output -> ^( BODY input ^( COMMANDS commands ) output ) ;
 	public final whileParser.definition_return definition() throws RecognitionException {
 		whileParser.definition_return retval = new whileParser.definition_return();
 		retval.start = input.LT(1);
@@ -355,40 +356,40 @@ public class whileParser extends Parser {
 		Object char_literal8_tree=null;
 		Object char_literal10_tree=null;
 		Object string_literal11_tree=null;
-		RewriteRuleTokenStream stream_58=new RewriteRuleTokenStream(adaptor,"token 58");
-		RewriteRuleTokenStream stream_54=new RewriteRuleTokenStream(adaptor,"token 54");
-		RewriteRuleTokenStream stream_32=new RewriteRuleTokenStream(adaptor,"token 32");
+		RewriteRuleTokenStream stream_55=new RewriteRuleTokenStream(adaptor,"token 55");
+		RewriteRuleTokenStream stream_33=new RewriteRuleTokenStream(adaptor,"token 33");
+		RewriteRuleTokenStream stream_59=new RewriteRuleTokenStream(adaptor,"token 59");
 		RewriteRuleSubtreeStream stream_output=new RewriteRuleSubtreeStream(adaptor,"rule output");
 		RewriteRuleSubtreeStream stream_input=new RewriteRuleSubtreeStream(adaptor,"rule input");
 		RewriteRuleSubtreeStream stream_commands=new RewriteRuleSubtreeStream(adaptor,"rule commands");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:56:13: ( 'read' input '%' commands '%' 'write' output -> ^( BODY input ^( COMMANDS commands ) output ) )
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:56:16: 'read' input '%' commands '%' 'write' output
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:57:13: ( 'read' input '%' commands '%' 'write' output -> ^( BODY input ^( COMMANDS commands ) output ) )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:57:16: 'read' input '%' commands '%' 'write' output
 			{
-			string_literal6=(Token)match(input,54,FOLLOW_54_in_definition357);  
-			stream_54.add(string_literal6);
+			string_literal6=(Token)match(input,55,FOLLOW_55_in_definition360);  
+			stream_55.add(string_literal6);
 
-			pushFollow(FOLLOW_input_in_definition359);
+			pushFollow(FOLLOW_input_in_definition362);
 			input7=input();
 			state._fsp--;
 
 			stream_input.add(input7.getTree());
-			char_literal8=(Token)match(input,32,FOLLOW_32_in_definition361);  
-			stream_32.add(char_literal8);
+			char_literal8=(Token)match(input,33,FOLLOW_33_in_definition364);  
+			stream_33.add(char_literal8);
 
-			pushFollow(FOLLOW_commands_in_definition363);
+			pushFollow(FOLLOW_commands_in_definition366);
 			commands9=commands();
 			state._fsp--;
 
 			stream_commands.add(commands9.getTree());
-			char_literal10=(Token)match(input,32,FOLLOW_32_in_definition365);  
-			stream_32.add(char_literal10);
+			char_literal10=(Token)match(input,33,FOLLOW_33_in_definition368);  
+			stream_33.add(char_literal10);
 
-			string_literal11=(Token)match(input,58,FOLLOW_58_in_definition366);  
-			stream_58.add(string_literal11);
+			string_literal11=(Token)match(input,59,FOLLOW_59_in_definition369);  
+			stream_59.add(string_literal11);
 
-			pushFollow(FOLLOW_output_in_definition367);
+			pushFollow(FOLLOW_output_in_definition370);
 			output12=output();
 			state._fsp--;
 
@@ -404,14 +405,14 @@ public class whileParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (Object)adaptor.nil();
-			// 56:59: -> ^( BODY input ^( COMMANDS commands ) output )
+			// 57:59: -> ^( BODY input ^( COMMANDS commands ) output )
 			{
-				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:56:62: ^( BODY input ^( COMMANDS commands ) output )
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:57:62: ^( BODY input ^( COMMANDS commands ) output )
 				{
 				Object root_1 = (Object)adaptor.nil();
 				root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(BODY, "BODY"), root_1);
 				adaptor.addChild(root_1, stream_input.nextTree());
-				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:56:75: ^( COMMANDS commands )
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:57:75: ^( COMMANDS commands )
 				{
 				Object root_2 = (Object)adaptor.nil();
 				root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(COMMANDS, "COMMANDS"), root_2);
@@ -457,7 +458,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "input"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:57:1: input : ( inputSub -> ^( PARAM inputSub ) | -> ^( PARAM ) );
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:58:1: input : ( inputSub -> ^( PARAM inputSub ) | -> ^( PARAM ) );
 	public final whileParser.input_return input() throws RecognitionException {
 		whileParser.input_return retval = new whileParser.input_return();
 		retval.start = input.LT(1);
@@ -469,13 +470,13 @@ public class whileParser extends Parser {
 		RewriteRuleSubtreeStream stream_inputSub=new RewriteRuleSubtreeStream(adaptor,"rule inputSub");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:57:8: ( inputSub -> ^( PARAM inputSub ) | -> ^( PARAM ) )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:58:8: ( inputSub -> ^( PARAM inputSub ) | -> ^( PARAM ) )
 			int alt2=2;
 			int LA2_0 = input.LA(1);
 			if ( (LA2_0==Variable) ) {
 				alt2=1;
 			}
-			else if ( (LA2_0==32) ) {
+			else if ( (LA2_0==33) ) {
 				alt2=2;
 			}
 
@@ -487,9 +488,9 @@ public class whileParser extends Parser {
 
 			switch (alt2) {
 				case 1 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:57:10: inputSub
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:58:10: inputSub
 					{
-					pushFollow(FOLLOW_inputSub_in_input391);
+					pushFollow(FOLLOW_inputSub_in_input394);
 					inputSub13=inputSub();
 					state._fsp--;
 
@@ -505,9 +506,9 @@ public class whileParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 					root_0 = (Object)adaptor.nil();
-					// 57:19: -> ^( PARAM inputSub )
+					// 58:19: -> ^( PARAM inputSub )
 					{
-						// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:57:22: ^( PARAM inputSub )
+						// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:58:22: ^( PARAM inputSub )
 						{
 						Object root_1 = (Object)adaptor.nil();
 						root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(PARAM, "PARAM"), root_1);
@@ -523,7 +524,7 @@ public class whileParser extends Parser {
 					}
 					break;
 				case 2 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:57:41: 
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:58:41: 
 					{
 					// AST REWRITE
 					// elements: 
@@ -536,9 +537,9 @@ public class whileParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 					root_0 = (Object)adaptor.nil();
-					// 57:41: -> ^( PARAM )
+					// 58:41: -> ^( PARAM )
 					{
-						// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:57:44: ^( PARAM )
+						// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:58:44: ^( PARAM )
 						{
 						Object root_1 = (Object)adaptor.nil();
 						root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(PARAM, "PARAM"), root_1);
@@ -581,7 +582,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "inputSub"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:59:1: inputSub : Variable ( ',' Variable )* -> ( Variable )+ ;
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:60:1: inputSub : Variable ( ',' Variable )* -> ( Variable )+ ;
 	public final whileParser.inputSub_return inputSub() throws RecognitionException {
 		whileParser.inputSub_return retval = new whileParser.inputSub_return();
 		retval.start = input.LT(1);
@@ -595,33 +596,33 @@ public class whileParser extends Parser {
 		Object Variable14_tree=null;
 		Object char_literal15_tree=null;
 		Object Variable16_tree=null;
-		RewriteRuleTokenStream stream_35=new RewriteRuleTokenStream(adaptor,"token 35");
+		RewriteRuleTokenStream stream_36=new RewriteRuleTokenStream(adaptor,"token 36");
 		RewriteRuleTokenStream stream_Variable=new RewriteRuleTokenStream(adaptor,"token Variable");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:59:10: ( Variable ( ',' Variable )* -> ( Variable )+ )
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:59:12: Variable ( ',' Variable )*
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:60:10: ( Variable ( ',' Variable )* -> ( Variable )+ )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:60:12: Variable ( ',' Variable )*
 			{
-			Variable14=(Token)match(input,Variable,FOLLOW_Variable_in_inputSub414);  
+			Variable14=(Token)match(input,Variable,FOLLOW_Variable_in_inputSub417);  
 			stream_Variable.add(Variable14);
 
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:59:20: ( ',' Variable )*
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:60:20: ( ',' Variable )*
 			loop3:
 			while (true) {
 				int alt3=2;
 				int LA3_0 = input.LA(1);
-				if ( (LA3_0==35) ) {
+				if ( (LA3_0==36) ) {
 					alt3=1;
 				}
 
 				switch (alt3) {
 				case 1 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:59:21: ',' Variable
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:60:21: ',' Variable
 					{
-					char_literal15=(Token)match(input,35,FOLLOW_35_in_inputSub416);  
-					stream_35.add(char_literal15);
+					char_literal15=(Token)match(input,36,FOLLOW_36_in_inputSub419);  
+					stream_36.add(char_literal15);
 
-					Variable16=(Token)match(input,Variable,FOLLOW_Variable_in_inputSub417);  
+					Variable16=(Token)match(input,Variable,FOLLOW_Variable_in_inputSub420);  
 					stream_Variable.add(Variable16);
 
 					}
@@ -643,7 +644,7 @@ public class whileParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (Object)adaptor.nil();
-			// 59:34: -> ( Variable )+
+			// 60:34: -> ( Variable )+
 			{
 				if ( !(stream_Variable.hasNext()) ) {
 					throw new RewriteEarlyExitException();
@@ -687,7 +688,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "output"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:60:1: output : Variable ( ',' Variable )* -> ^( OUTPUT ( Variable )+ ) ;
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:61:1: output : Variable ( ',' Variable )* -> ^( OUTPUT ( Variable )+ ) ;
 	public final whileParser.output_return output() throws RecognitionException {
 		whileParser.output_return retval = new whileParser.output_return();
 		retval.start = input.LT(1);
@@ -701,33 +702,33 @@ public class whileParser extends Parser {
 		Object Variable17_tree=null;
 		Object char_literal18_tree=null;
 		Object Variable19_tree=null;
-		RewriteRuleTokenStream stream_35=new RewriteRuleTokenStream(adaptor,"token 35");
+		RewriteRuleTokenStream stream_36=new RewriteRuleTokenStream(adaptor,"token 36");
 		RewriteRuleTokenStream stream_Variable=new RewriteRuleTokenStream(adaptor,"token Variable");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:60:9: ( Variable ( ',' Variable )* -> ^( OUTPUT ( Variable )+ ) )
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:60:11: Variable ( ',' Variable )*
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:61:9: ( Variable ( ',' Variable )* -> ^( OUTPUT ( Variable )+ ) )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:61:11: Variable ( ',' Variable )*
 			{
-			Variable17=(Token)match(input,Variable,FOLLOW_Variable_in_output431);  
+			Variable17=(Token)match(input,Variable,FOLLOW_Variable_in_output434);  
 			stream_Variable.add(Variable17);
 
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:60:19: ( ',' Variable )*
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:61:19: ( ',' Variable )*
 			loop4:
 			while (true) {
 				int alt4=2;
 				int LA4_0 = input.LA(1);
-				if ( (LA4_0==35) ) {
+				if ( (LA4_0==36) ) {
 					alt4=1;
 				}
 
 				switch (alt4) {
 				case 1 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:60:20: ',' Variable
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:61:20: ',' Variable
 					{
-					char_literal18=(Token)match(input,35,FOLLOW_35_in_output433);  
-					stream_35.add(char_literal18);
+					char_literal18=(Token)match(input,36,FOLLOW_36_in_output436);  
+					stream_36.add(char_literal18);
 
-					Variable19=(Token)match(input,Variable,FOLLOW_Variable_in_output434);  
+					Variable19=(Token)match(input,Variable,FOLLOW_Variable_in_output437);  
 					stream_Variable.add(Variable19);
 
 					}
@@ -749,9 +750,9 @@ public class whileParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (Object)adaptor.nil();
-			// 60:34: -> ^( OUTPUT ( Variable )+ )
+			// 61:34: -> ^( OUTPUT ( Variable )+ )
 			{
-				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:60:37: ^( OUTPUT ( Variable )+ )
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:61:37: ^( OUTPUT ( Variable )+ )
 				{
 				Object root_1 = (Object)adaptor.nil();
 				root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(OUTPUT, "OUTPUT"), root_1);
@@ -800,7 +801,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "commands"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:61:1: commands : command ( ';' command )* -> ( command )+ ;
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:1: commands : command ( ';' command )* -> ( command )+ ;
 	public final whileParser.commands_return commands() throws RecognitionException {
 		whileParser.commands_return retval = new whileParser.commands_return();
 		retval.start = input.LT(1);
@@ -812,35 +813,35 @@ public class whileParser extends Parser {
 		ParserRuleReturnScope command22 =null;
 
 		Object char_literal21_tree=null;
-		RewriteRuleTokenStream stream_38=new RewriteRuleTokenStream(adaptor,"token 38");
+		RewriteRuleTokenStream stream_39=new RewriteRuleTokenStream(adaptor,"token 39");
 		RewriteRuleSubtreeStream stream_command=new RewriteRuleSubtreeStream(adaptor,"rule command");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:61:10: ( command ( ';' command )* -> ( command )+ )
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:61:13: command ( ';' command )*
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:10: ( command ( ';' command )* -> ( command )+ )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:13: command ( ';' command )*
 			{
-			pushFollow(FOLLOW_command_in_commands453);
+			pushFollow(FOLLOW_command_in_commands456);
 			command20=command();
 			state._fsp--;
 
 			stream_command.add(command20.getTree());
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:61:20: ( ';' command )*
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:20: ( ';' command )*
 			loop5:
 			while (true) {
 				int alt5=2;
 				int LA5_0 = input.LA(1);
-				if ( (LA5_0==38) ) {
+				if ( (LA5_0==39) ) {
 					alt5=1;
 				}
 
 				switch (alt5) {
 				case 1 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:61:21: ';' command
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:21: ';' command
 					{
-					char_literal21=(Token)match(input,38,FOLLOW_38_in_commands455);  
-					stream_38.add(char_literal21);
+					char_literal21=(Token)match(input,39,FOLLOW_39_in_commands458);  
+					stream_39.add(char_literal21);
 
-					pushFollow(FOLLOW_command_in_commands456);
+					pushFollow(FOLLOW_command_in_commands459);
 					command22=command();
 					state._fsp--;
 
@@ -864,7 +865,7 @@ public class whileParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (Object)adaptor.nil();
-			// 61:34: -> ( command )+
+			// 62:34: -> ( command )+
 			{
 				if ( !(stream_command.hasNext()) ) {
 					throw new RewriteEarlyExitException();
@@ -908,7 +909,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "command"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:1: command : ( 'nop' | ( vars ':=' exprs ) -> ^( ASSIGN ^( ASSIGN_VARS vars ) ^( ASSIGN_EXPR exprs ) ) | if_ | while_ | for_ | foreach_ );
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:1: command : ( 'nop' | ( vars ':=' exprs ) -> ^( ASSIGN ^( ASSIGN_VARS vars ) ^( ASSIGN_EXPR exprs ) ) | if_ | while_ | for_ | foreach_ );
 	public final whileParser.command_return command() throws RecognitionException {
 		whileParser.command_return retval = new whileParser.command_return();
 		retval.start = input.LT(1);
@@ -926,15 +927,15 @@ public class whileParser extends Parser {
 
 		Object string_literal23_tree=null;
 		Object string_literal25_tree=null;
-		RewriteRuleTokenStream stream_37=new RewriteRuleTokenStream(adaptor,"token 37");
+		RewriteRuleTokenStream stream_38=new RewriteRuleTokenStream(adaptor,"token 38");
 		RewriteRuleSubtreeStream stream_exprs=new RewriteRuleSubtreeStream(adaptor,"rule exprs");
 		RewriteRuleSubtreeStream stream_vars=new RewriteRuleSubtreeStream(adaptor,"rule vars");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:8: ( 'nop' | ( vars ':=' exprs ) -> ^( ASSIGN ^( ASSIGN_VARS vars ) ^( ASSIGN_EXPR exprs ) ) | if_ | while_ | for_ | foreach_ )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:8: ( 'nop' | ( vars ':=' exprs ) -> ^( ASSIGN ^( ASSIGN_VARS vars ) ^( ASSIGN_EXPR exprs ) ) | if_ | while_ | for_ | foreach_ )
 			int alt6=6;
 			switch ( input.LA(1) ) {
-			case 52:
+			case 53:
 				{
 				alt6=1;
 				}
@@ -944,22 +945,22 @@ public class whileParser extends Parser {
 				alt6=2;
 				}
 				break;
-			case 48:
+			case 49:
 				{
 				alt6=3;
 				}
 				break;
-			case 57:
+			case 58:
 				{
 				alt6=4;
 				}
 				break;
-			case 44:
+			case 45:
 				{
 				alt6=5;
 				}
 				break;
-			case 45:
+			case 46:
 				{
 				alt6=6;
 				}
@@ -971,32 +972,32 @@ public class whileParser extends Parser {
 			}
 			switch (alt6) {
 				case 1 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:10: 'nop'
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:10: 'nop'
 					{
 					root_0 = (Object)adaptor.nil();
 
 
-					string_literal23=(Token)match(input,52,FOLLOW_52_in_command469); 
+					string_literal23=(Token)match(input,53,FOLLOW_53_in_command472); 
 					string_literal23_tree = (Object)adaptor.create(string_literal23);
 					adaptor.addChild(root_0, string_literal23_tree);
 
 					}
 					break;
 				case 2 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:16: ( vars ':=' exprs )
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:16: ( vars ':=' exprs )
 					{
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:16: ( vars ':=' exprs )
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:17: vars ':=' exprs
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:16: ( vars ':=' exprs )
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:17: vars ':=' exprs
 					{
-					pushFollow(FOLLOW_vars_in_command472);
+					pushFollow(FOLLOW_vars_in_command475);
 					vars24=vars();
 					state._fsp--;
 
 					stream_vars.add(vars24.getTree());
-					string_literal25=(Token)match(input,37,FOLLOW_37_in_command473);  
-					stream_37.add(string_literal25);
+					string_literal25=(Token)match(input,38,FOLLOW_38_in_command476);  
+					stream_38.add(string_literal25);
 
-					pushFollow(FOLLOW_exprs_in_command474);
+					pushFollow(FOLLOW_exprs_in_command477);
 					exprs26=exprs();
 					state._fsp--;
 
@@ -1004,7 +1005,7 @@ public class whileParser extends Parser {
 					}
 
 					// AST REWRITE
-					// elements: vars, exprs
+					// elements: exprs, vars
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -1014,13 +1015,13 @@ public class whileParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 					root_0 = (Object)adaptor.nil();
-					// 62:32: -> ^( ASSIGN ^( ASSIGN_VARS vars ) ^( ASSIGN_EXPR exprs ) )
+					// 63:32: -> ^( ASSIGN ^( ASSIGN_VARS vars ) ^( ASSIGN_EXPR exprs ) )
 					{
-						// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:35: ^( ASSIGN ^( ASSIGN_VARS vars ) ^( ASSIGN_EXPR exprs ) )
+						// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:35: ^( ASSIGN ^( ASSIGN_VARS vars ) ^( ASSIGN_EXPR exprs ) )
 						{
 						Object root_1 = (Object)adaptor.nil();
 						root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(ASSIGN, "ASSIGN"), root_1);
-						// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:44: ^( ASSIGN_VARS vars )
+						// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:44: ^( ASSIGN_VARS vars )
 						{
 						Object root_2 = (Object)adaptor.nil();
 						root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(ASSIGN_VARS, "ASSIGN_VARS"), root_2);
@@ -1028,7 +1029,7 @@ public class whileParser extends Parser {
 						adaptor.addChild(root_1, root_2);
 						}
 
-						// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:64: ^( ASSIGN_EXPR exprs )
+						// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:64: ^( ASSIGN_EXPR exprs )
 						{
 						Object root_2 = (Object)adaptor.nil();
 						root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(ASSIGN_EXPR, "ASSIGN_EXPR"), root_2);
@@ -1047,12 +1048,12 @@ public class whileParser extends Parser {
 					}
 					break;
 				case 3 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:86: if_
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:86: if_
 					{
 					root_0 = (Object)adaptor.nil();
 
 
-					pushFollow(FOLLOW_if__in_command495);
+					pushFollow(FOLLOW_if__in_command498);
 					if_27=if_();
 					state._fsp--;
 
@@ -1061,12 +1062,12 @@ public class whileParser extends Parser {
 					}
 					break;
 				case 4 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:90: while_
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:90: while_
 					{
 					root_0 = (Object)adaptor.nil();
 
 
-					pushFollow(FOLLOW_while__in_command497);
+					pushFollow(FOLLOW_while__in_command500);
 					while_28=while_();
 					state._fsp--;
 
@@ -1075,12 +1076,12 @@ public class whileParser extends Parser {
 					}
 					break;
 				case 5 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:97: for_
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:97: for_
 					{
 					root_0 = (Object)adaptor.nil();
 
 
-					pushFollow(FOLLOW_for__in_command499);
+					pushFollow(FOLLOW_for__in_command502);
 					for_29=for_();
 					state._fsp--;
 
@@ -1089,12 +1090,12 @@ public class whileParser extends Parser {
 					}
 					break;
 				case 6 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:62:102: foreach_
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:102: foreach_
 					{
 					root_0 = (Object)adaptor.nil();
 
 
-					pushFollow(FOLLOW_foreach__in_command501);
+					pushFollow(FOLLOW_foreach__in_command504);
 					foreach_30=foreach_();
 					state._fsp--;
 
@@ -1131,7 +1132,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "vars"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:1: vars : Variable ( ',' Variable )* -> ( Variable )+ ;
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:64:1: vars : Variable ( ',' Variable )* -> ( Variable )+ ;
 	public final whileParser.vars_return vars() throws RecognitionException {
 		whileParser.vars_return retval = new whileParser.vars_return();
 		retval.start = input.LT(1);
@@ -1145,33 +1146,33 @@ public class whileParser extends Parser {
 		Object Variable31_tree=null;
 		Object char_literal32_tree=null;
 		Object Variable33_tree=null;
-		RewriteRuleTokenStream stream_35=new RewriteRuleTokenStream(adaptor,"token 35");
+		RewriteRuleTokenStream stream_36=new RewriteRuleTokenStream(adaptor,"token 36");
 		RewriteRuleTokenStream stream_Variable=new RewriteRuleTokenStream(adaptor,"token Variable");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:6: ( Variable ( ',' Variable )* -> ( Variable )+ )
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:8: Variable ( ',' Variable )*
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:64:6: ( Variable ( ',' Variable )* -> ( Variable )+ )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:64:8: Variable ( ',' Variable )*
 			{
-			Variable31=(Token)match(input,Variable,FOLLOW_Variable_in_vars508);  
+			Variable31=(Token)match(input,Variable,FOLLOW_Variable_in_vars511);  
 			stream_Variable.add(Variable31);
 
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:16: ( ',' Variable )*
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:64:16: ( ',' Variable )*
 			loop7:
 			while (true) {
 				int alt7=2;
 				int LA7_0 = input.LA(1);
-				if ( (LA7_0==35) ) {
+				if ( (LA7_0==36) ) {
 					alt7=1;
 				}
 
 				switch (alt7) {
 				case 1 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:63:17: ',' Variable
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:64:17: ',' Variable
 					{
-					char_literal32=(Token)match(input,35,FOLLOW_35_in_vars510);  
-					stream_35.add(char_literal32);
+					char_literal32=(Token)match(input,36,FOLLOW_36_in_vars513);  
+					stream_36.add(char_literal32);
 
-					Variable33=(Token)match(input,Variable,FOLLOW_Variable_in_vars511);  
+					Variable33=(Token)match(input,Variable,FOLLOW_Variable_in_vars514);  
 					stream_Variable.add(Variable33);
 
 					}
@@ -1193,7 +1194,7 @@ public class whileParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (Object)adaptor.nil();
-			// 63:30: -> ( Variable )+
+			// 64:30: -> ( Variable )+
 			{
 				if ( !(stream_Variable.hasNext()) ) {
 					throw new RewriteEarlyExitException();
@@ -1237,7 +1238,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "exprs"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:65:1: exprs : expression ( ',' expression )* -> ( expression )+ ;
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:66:1: exprs : expression ( ',' expression )* -> ( expression )+ ;
 	public final whileParser.exprs_return exprs() throws RecognitionException {
 		whileParser.exprs_return retval = new whileParser.exprs_return();
 		retval.start = input.LT(1);
@@ -1249,35 +1250,35 @@ public class whileParser extends Parser {
 		ParserRuleReturnScope expression36 =null;
 
 		Object char_literal35_tree=null;
-		RewriteRuleTokenStream stream_35=new RewriteRuleTokenStream(adaptor,"token 35");
+		RewriteRuleTokenStream stream_36=new RewriteRuleTokenStream(adaptor,"token 36");
 		RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:65:7: ( expression ( ',' expression )* -> ( expression )+ )
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:65:9: expression ( ',' expression )*
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:66:7: ( expression ( ',' expression )* -> ( expression )+ )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:66:9: expression ( ',' expression )*
 			{
-			pushFollow(FOLLOW_expression_in_exprs525);
+			pushFollow(FOLLOW_expression_in_exprs528);
 			expression34=expression();
 			state._fsp--;
 
 			stream_expression.add(expression34.getTree());
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:65:19: ( ',' expression )*
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:66:19: ( ',' expression )*
 			loop8:
 			while (true) {
 				int alt8=2;
 				int LA8_0 = input.LA(1);
-				if ( (LA8_0==35) ) {
+				if ( (LA8_0==36) ) {
 					alt8=1;
 				}
 
 				switch (alt8) {
 				case 1 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:65:20: ',' expression
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:66:20: ',' expression
 					{
-					char_literal35=(Token)match(input,35,FOLLOW_35_in_exprs527);  
-					stream_35.add(char_literal35);
+					char_literal35=(Token)match(input,36,FOLLOW_36_in_exprs530);  
+					stream_36.add(char_literal35);
 
-					pushFollow(FOLLOW_expression_in_exprs528);
+					pushFollow(FOLLOW_expression_in_exprs531);
 					expression36=expression();
 					state._fsp--;
 
@@ -1301,7 +1302,7 @@ public class whileParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (Object)adaptor.nil();
-			// 65:36: -> ( expression )+
+			// 66:36: -> ( expression )+
 			{
 				if ( !(stream_expression.hasNext()) ) {
 					throw new RewriteEarlyExitException();
@@ -1345,7 +1346,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "if_"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:66:1: if_ : 'if' expression 'then' then_ ( 'else' then_ )? 'fi' -> ^( IF expression ( then_ )+ ) ;
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:67:1: if_ : 'if' expression 'then' then_ ( 'else' then_ )? 'fi' -> ^( IF expression ( then_ )+ ) ;
 	public final whileParser.if__return if_() throws RecognitionException {
 		whileParser.if__return retval = new whileParser.if__return();
 		retval.start = input.LT(1);
@@ -1364,47 +1365,47 @@ public class whileParser extends Parser {
 		Object string_literal39_tree=null;
 		Object string_literal41_tree=null;
 		Object string_literal43_tree=null;
-		RewriteRuleTokenStream stream_55=new RewriteRuleTokenStream(adaptor,"token 55");
-		RewriteRuleTokenStream stream_48=new RewriteRuleTokenStream(adaptor,"token 48");
-		RewriteRuleTokenStream stream_42=new RewriteRuleTokenStream(adaptor,"token 42");
+		RewriteRuleTokenStream stream_44=new RewriteRuleTokenStream(adaptor,"token 44");
+		RewriteRuleTokenStream stream_56=new RewriteRuleTokenStream(adaptor,"token 56");
+		RewriteRuleTokenStream stream_49=new RewriteRuleTokenStream(adaptor,"token 49");
 		RewriteRuleTokenStream stream_43=new RewriteRuleTokenStream(adaptor,"token 43");
 		RewriteRuleSubtreeStream stream_then_=new RewriteRuleSubtreeStream(adaptor,"rule then_");
 		RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:66:8: ( 'if' expression 'then' then_ ( 'else' then_ )? 'fi' -> ^( IF expression ( then_ )+ ) )
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:66:13: 'if' expression 'then' then_ ( 'else' then_ )? 'fi'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:67:8: ( 'if' expression 'then' then_ ( 'else' then_ )? 'fi' -> ^( IF expression ( then_ )+ ) )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:67:13: 'if' expression 'then' then_ ( 'else' then_ )? 'fi'
 			{
-			string_literal37=(Token)match(input,48,FOLLOW_48_in_if_548);  
-			stream_48.add(string_literal37);
+			string_literal37=(Token)match(input,49,FOLLOW_49_in_if_551);  
+			stream_49.add(string_literal37);
 
-			pushFollow(FOLLOW_expression_in_if_549);
+			pushFollow(FOLLOW_expression_in_if_552);
 			expression38=expression();
 			state._fsp--;
 
 			stream_expression.add(expression38.getTree());
-			string_literal39=(Token)match(input,55,FOLLOW_55_in_if_550);  
-			stream_55.add(string_literal39);
+			string_literal39=(Token)match(input,56,FOLLOW_56_in_if_553);  
+			stream_56.add(string_literal39);
 
-			pushFollow(FOLLOW_then__in_if_551);
+			pushFollow(FOLLOW_then__in_if_554);
 			then_40=then_();
 			state._fsp--;
 
 			stream_then_.add(then_40.getTree());
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:66:39: ( 'else' then_ )?
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:67:39: ( 'else' then_ )?
 			int alt9=2;
 			int LA9_0 = input.LA(1);
-			if ( (LA9_0==42) ) {
+			if ( (LA9_0==43) ) {
 				alt9=1;
 			}
 			switch (alt9) {
 				case 1 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:66:40: 'else' then_
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:67:40: 'else' then_
 					{
-					string_literal41=(Token)match(input,42,FOLLOW_42_in_if_554);  
-					stream_42.add(string_literal41);
+					string_literal41=(Token)match(input,43,FOLLOW_43_in_if_557);  
+					stream_43.add(string_literal41);
 
-					pushFollow(FOLLOW_then__in_if_555);
+					pushFollow(FOLLOW_then__in_if_558);
 					then_42=then_();
 					state._fsp--;
 
@@ -1414,11 +1415,11 @@ public class whileParser extends Parser {
 
 			}
 
-			string_literal43=(Token)match(input,43,FOLLOW_43_in_if_558);  
-			stream_43.add(string_literal43);
+			string_literal43=(Token)match(input,44,FOLLOW_44_in_if_561);  
+			stream_44.add(string_literal43);
 
 			// AST REWRITE
-			// elements: then_, expression
+			// elements: expression, then_
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -1428,9 +1429,9 @@ public class whileParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (Object)adaptor.nil();
-			// 66:57: -> ^( IF expression ( then_ )+ )
+			// 67:57: -> ^( IF expression ( then_ )+ )
 			{
-				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:66:60: ^( IF expression ( then_ )+ )
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:67:60: ^( IF expression ( then_ )+ )
 				{
 				Object root_1 = (Object)adaptor.nil();
 				root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(IF, "IF"), root_1);
@@ -1480,7 +1481,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "then_"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:67:1: then_ : commands -> ^( COMMANDS commands ) ;
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:68:1: then_ : commands -> ^( COMMANDS commands ) ;
 	public final whileParser.then__return then_() throws RecognitionException {
 		whileParser.then__return retval = new whileParser.then__return();
 		retval.start = input.LT(1);
@@ -1492,10 +1493,10 @@ public class whileParser extends Parser {
 		RewriteRuleSubtreeStream stream_commands=new RewriteRuleSubtreeStream(adaptor,"rule commands");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:67:11: ( commands -> ^( COMMANDS commands ) )
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:67:16: commands
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:68:11: ( commands -> ^( COMMANDS commands ) )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:68:16: commands
 			{
-			pushFollow(FOLLOW_commands_in_then_583);
+			pushFollow(FOLLOW_commands_in_then_586);
 			commands44=commands();
 			state._fsp--;
 
@@ -1511,9 +1512,9 @@ public class whileParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (Object)adaptor.nil();
-			// 67:25: -> ^( COMMANDS commands )
+			// 68:25: -> ^( COMMANDS commands )
 			{
-				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:67:28: ^( COMMANDS commands )
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:68:28: ^( COMMANDS commands )
 				{
 				Object root_1 = (Object)adaptor.nil();
 				root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(COMMANDS, "COMMANDS"), root_1);
@@ -1555,7 +1556,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "while_"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:68:1: while_ : 'while' expression 'do' commands 'od' -> ^( WHILE expression ^( COMMANDS commands ) ) ;
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:69:1: while_ : 'while' expression 'do' commands 'od' -> ^( WHILE expression ^( COMMANDS commands ) ) ;
 	public final whileParser.while__return while_() throws RecognitionException {
 		whileParser.while__return retval = new whileParser.while__return();
 		retval.start = input.LT(1);
@@ -1571,34 +1572,34 @@ public class whileParser extends Parser {
 		Object string_literal45_tree=null;
 		Object string_literal47_tree=null;
 		Object string_literal49_tree=null;
-		RewriteRuleTokenStream stream_57=new RewriteRuleTokenStream(adaptor,"token 57");
-		RewriteRuleTokenStream stream_41=new RewriteRuleTokenStream(adaptor,"token 41");
-		RewriteRuleTokenStream stream_53=new RewriteRuleTokenStream(adaptor,"token 53");
+		RewriteRuleTokenStream stream_58=new RewriteRuleTokenStream(adaptor,"token 58");
+		RewriteRuleTokenStream stream_42=new RewriteRuleTokenStream(adaptor,"token 42");
+		RewriteRuleTokenStream stream_54=new RewriteRuleTokenStream(adaptor,"token 54");
 		RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
 		RewriteRuleSubtreeStream stream_commands=new RewriteRuleSubtreeStream(adaptor,"rule commands");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:68:8: ( 'while' expression 'do' commands 'od' -> ^( WHILE expression ^( COMMANDS commands ) ) )
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:68:10: 'while' expression 'do' commands 'od'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:69:8: ( 'while' expression 'do' commands 'od' -> ^( WHILE expression ^( COMMANDS commands ) ) )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:69:10: 'while' expression 'do' commands 'od'
 			{
-			string_literal45=(Token)match(input,57,FOLLOW_57_in_while_598);  
-			stream_57.add(string_literal45);
+			string_literal45=(Token)match(input,58,FOLLOW_58_in_while_601);  
+			stream_58.add(string_literal45);
 
-			pushFollow(FOLLOW_expression_in_while_599);
+			pushFollow(FOLLOW_expression_in_while_602);
 			expression46=expression();
 			state._fsp--;
 
 			stream_expression.add(expression46.getTree());
-			string_literal47=(Token)match(input,41,FOLLOW_41_in_while_600);  
-			stream_41.add(string_literal47);
+			string_literal47=(Token)match(input,42,FOLLOW_42_in_while_603);  
+			stream_42.add(string_literal47);
 
-			pushFollow(FOLLOW_commands_in_while_601);
+			pushFollow(FOLLOW_commands_in_while_604);
 			commands48=commands();
 			state._fsp--;
 
 			stream_commands.add(commands48.getTree());
-			string_literal49=(Token)match(input,53,FOLLOW_53_in_while_602);  
-			stream_53.add(string_literal49);
+			string_literal49=(Token)match(input,54,FOLLOW_54_in_while_605);  
+			stream_54.add(string_literal49);
 
 			// AST REWRITE
 			// elements: commands, expression
@@ -1611,14 +1612,14 @@ public class whileParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (Object)adaptor.nil();
-			// 68:44: -> ^( WHILE expression ^( COMMANDS commands ) )
+			// 69:44: -> ^( WHILE expression ^( COMMANDS commands ) )
 			{
-				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:68:47: ^( WHILE expression ^( COMMANDS commands ) )
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:69:47: ^( WHILE expression ^( COMMANDS commands ) )
 				{
 				Object root_1 = (Object)adaptor.nil();
 				root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(WHILE, "WHILE"), root_1);
 				adaptor.addChild(root_1, stream_expression.nextTree());
-				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:68:66: ^( COMMANDS commands )
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:69:66: ^( COMMANDS commands )
 				{
 				Object root_2 = (Object)adaptor.nil();
 				root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(COMMANDS, "COMMANDS"), root_2);
@@ -1663,7 +1664,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "for_"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:69:1: for_ : 'for' expression 'do' commands 'od' -> ^( FOR expression ^( COMMANDS commands ) ) ;
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:70:1: for_ : 'for' expression 'do' commands 'od' -> ^( FOR expression ^( COMMANDS commands ) ) ;
 	public final whileParser.for__return for_() throws RecognitionException {
 		whileParser.for__return retval = new whileParser.for__return();
 		retval.start = input.LT(1);
@@ -1679,37 +1680,37 @@ public class whileParser extends Parser {
 		Object string_literal50_tree=null;
 		Object string_literal52_tree=null;
 		Object string_literal54_tree=null;
-		RewriteRuleTokenStream stream_44=new RewriteRuleTokenStream(adaptor,"token 44");
-		RewriteRuleTokenStream stream_41=new RewriteRuleTokenStream(adaptor,"token 41");
-		RewriteRuleTokenStream stream_53=new RewriteRuleTokenStream(adaptor,"token 53");
+		RewriteRuleTokenStream stream_45=new RewriteRuleTokenStream(adaptor,"token 45");
+		RewriteRuleTokenStream stream_42=new RewriteRuleTokenStream(adaptor,"token 42");
+		RewriteRuleTokenStream stream_54=new RewriteRuleTokenStream(adaptor,"token 54");
 		RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
 		RewriteRuleSubtreeStream stream_commands=new RewriteRuleSubtreeStream(adaptor,"rule commands");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:69:6: ( 'for' expression 'do' commands 'od' -> ^( FOR expression ^( COMMANDS commands ) ) )
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:69:8: 'for' expression 'do' commands 'od'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:70:6: ( 'for' expression 'do' commands 'od' -> ^( FOR expression ^( COMMANDS commands ) ) )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:70:8: 'for' expression 'do' commands 'od'
 			{
-			string_literal50=(Token)match(input,44,FOLLOW_44_in_for_623);  
-			stream_44.add(string_literal50);
+			string_literal50=(Token)match(input,45,FOLLOW_45_in_for_626);  
+			stream_45.add(string_literal50);
 
-			pushFollow(FOLLOW_expression_in_for_624);
+			pushFollow(FOLLOW_expression_in_for_627);
 			expression51=expression();
 			state._fsp--;
 
 			stream_expression.add(expression51.getTree());
-			string_literal52=(Token)match(input,41,FOLLOW_41_in_for_625);  
-			stream_41.add(string_literal52);
+			string_literal52=(Token)match(input,42,FOLLOW_42_in_for_628);  
+			stream_42.add(string_literal52);
 
-			pushFollow(FOLLOW_commands_in_for_626);
+			pushFollow(FOLLOW_commands_in_for_629);
 			commands53=commands();
 			state._fsp--;
 
 			stream_commands.add(commands53.getTree());
-			string_literal54=(Token)match(input,53,FOLLOW_53_in_for_627);  
-			stream_53.add(string_literal54);
+			string_literal54=(Token)match(input,54,FOLLOW_54_in_for_630);  
+			stream_54.add(string_literal54);
 
 			// AST REWRITE
-			// elements: expression, commands
+			// elements: commands, expression
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -1719,14 +1720,14 @@ public class whileParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (Object)adaptor.nil();
-			// 69:40: -> ^( FOR expression ^( COMMANDS commands ) )
+			// 70:40: -> ^( FOR expression ^( COMMANDS commands ) )
 			{
-				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:69:43: ^( FOR expression ^( COMMANDS commands ) )
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:70:43: ^( FOR expression ^( COMMANDS commands ) )
 				{
 				Object root_1 = (Object)adaptor.nil();
 				root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(FOR, "FOR"), root_1);
 				adaptor.addChild(root_1, stream_expression.nextTree());
-				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:69:60: ^( COMMANDS commands )
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:70:60: ^( COMMANDS commands )
 				{
 				Object root_2 = (Object)adaptor.nil();
 				root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(COMMANDS, "COMMANDS"), root_2);
@@ -1771,7 +1772,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "foreach_"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:70:1: foreach_ : 'foreach' i= Variable 'in' expression 'do' commands 'od' -> ^( FOREACH $i expression ^( COMMANDS commands ) ) ;
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:71:1: foreach_ : 'foreach' i= Variable 'in' expression 'do' commands 'od' -> ^( FOREACH $i expression ^( COMMANDS commands ) ) ;
 	public final whileParser.foreach__return foreach_() throws RecognitionException {
 		whileParser.foreach__return retval = new whileParser.foreach__return();
 		retval.start = input.LT(1);
@@ -1791,45 +1792,45 @@ public class whileParser extends Parser {
 		Object string_literal56_tree=null;
 		Object string_literal58_tree=null;
 		Object string_literal60_tree=null;
-		RewriteRuleTokenStream stream_45=new RewriteRuleTokenStream(adaptor,"token 45");
+		RewriteRuleTokenStream stream_46=new RewriteRuleTokenStream(adaptor,"token 46");
 		RewriteRuleTokenStream stream_Variable=new RewriteRuleTokenStream(adaptor,"token Variable");
-		RewriteRuleTokenStream stream_49=new RewriteRuleTokenStream(adaptor,"token 49");
-		RewriteRuleTokenStream stream_41=new RewriteRuleTokenStream(adaptor,"token 41");
-		RewriteRuleTokenStream stream_53=new RewriteRuleTokenStream(adaptor,"token 53");
+		RewriteRuleTokenStream stream_50=new RewriteRuleTokenStream(adaptor,"token 50");
+		RewriteRuleTokenStream stream_42=new RewriteRuleTokenStream(adaptor,"token 42");
+		RewriteRuleTokenStream stream_54=new RewriteRuleTokenStream(adaptor,"token 54");
 		RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
 		RewriteRuleSubtreeStream stream_commands=new RewriteRuleSubtreeStream(adaptor,"rule commands");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:70:10: ( 'foreach' i= Variable 'in' expression 'do' commands 'od' -> ^( FOREACH $i expression ^( COMMANDS commands ) ) )
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:70:12: 'foreach' i= Variable 'in' expression 'do' commands 'od'
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:71:10: ( 'foreach' i= Variable 'in' expression 'do' commands 'od' -> ^( FOREACH $i expression ^( COMMANDS commands ) ) )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:71:12: 'foreach' i= Variable 'in' expression 'do' commands 'od'
 			{
-			string_literal55=(Token)match(input,45,FOLLOW_45_in_foreach_648);  
-			stream_45.add(string_literal55);
+			string_literal55=(Token)match(input,46,FOLLOW_46_in_foreach_651);  
+			stream_46.add(string_literal55);
 
-			i=(Token)match(input,Variable,FOLLOW_Variable_in_foreach_654);  
+			i=(Token)match(input,Variable,FOLLOW_Variable_in_foreach_657);  
 			stream_Variable.add(i);
 
-			string_literal56=(Token)match(input,49,FOLLOW_49_in_foreach_655);  
-			stream_49.add(string_literal56);
+			string_literal56=(Token)match(input,50,FOLLOW_50_in_foreach_658);  
+			stream_50.add(string_literal56);
 
-			pushFollow(FOLLOW_expression_in_foreach_656);
+			pushFollow(FOLLOW_expression_in_foreach_659);
 			expression57=expression();
 			state._fsp--;
 
 			stream_expression.add(expression57.getTree());
-			string_literal58=(Token)match(input,41,FOLLOW_41_in_foreach_657);  
-			stream_41.add(string_literal58);
+			string_literal58=(Token)match(input,42,FOLLOW_42_in_foreach_660);  
+			stream_42.add(string_literal58);
 
-			pushFollow(FOLLOW_commands_in_foreach_658);
+			pushFollow(FOLLOW_commands_in_foreach_661);
 			commands59=commands();
 			state._fsp--;
 
 			stream_commands.add(commands59.getTree());
-			string_literal60=(Token)match(input,53,FOLLOW_53_in_foreach_659);  
-			stream_53.add(string_literal60);
+			string_literal60=(Token)match(input,54,FOLLOW_54_in_foreach_662);  
+			stream_54.add(string_literal60);
 
 			// AST REWRITE
-			// elements: expression, commands, i
+			// elements: commands, i, expression
 			// token labels: i
 			// rule labels: retval
 			// token list labels: 
@@ -1840,15 +1841,15 @@ public class whileParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (Object)adaptor.nil();
-			// 70:65: -> ^( FOREACH $i expression ^( COMMANDS commands ) )
+			// 71:65: -> ^( FOREACH $i expression ^( COMMANDS commands ) )
 			{
-				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:70:68: ^( FOREACH $i expression ^( COMMANDS commands ) )
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:71:68: ^( FOREACH $i expression ^( COMMANDS commands ) )
 				{
 				Object root_1 = (Object)adaptor.nil();
 				root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(FOREACH, "FOREACH"), root_1);
 				adaptor.addChild(root_1, stream_i.nextNode());
 				adaptor.addChild(root_1, stream_expression.nextTree());
-				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:70:92: ^( COMMANDS commands )
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:71:92: ^( COMMANDS commands )
 				{
 				Object root_2 = (Object)adaptor.nil();
 				root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(COMMANDS, "COMMANDS"), root_2);
@@ -1893,7 +1894,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "exprbase"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:71:1: exprbase : ( ( 'nil' -> ^( 'nil' ) |v= Variable -> ^( VARIABLE $v) |s= Symbol -> ^( SYMBOL $s) ) | ( '(' 'cons' lexpr ')' -> ^( CONS lexpr ) | '(' 'list' lexpr ')' -> ^( LIST lexpr ) ) | ( '(' 'hd' exprbase ')' -> ^( HD exprbase ) | '(' 'tl' exprbase ')' -> ^( TL exprbase ) ) | ( '(' s= Symbol lexpr ')' -> ^( CALL $s lexpr ) ) );
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:72:1: exprbase : ( ( 'nil' -> ^( 'nil' ) |v= Variable -> ^( VARIABLE $v) |s= Symbol -> ^( SYMBOL $s) ) | ( '(' 'cons' lexpr ')' -> ^( CONS lexpr ) | '(' 'list' lexpr ')' -> ^( LIST lexpr ) ) | ( '(' 'hd' exprbase ')' -> ^( HD exprbase ) | '(' 'tl' exprbase ')' -> ^( TL exprbase ) ) | ( '(' s= Symbol lexpr ')' -> ^( CALL $s lexpr ) ) );
 	public final whileParser.exprbase_return exprbase() throws RecognitionException {
 		whileParser.exprbase_return retval = new whileParser.exprbase_return();
 		retval.start = input.LT(1);
@@ -1940,35 +1941,35 @@ public class whileParser extends Parser {
 		Object char_literal77_tree=null;
 		Object char_literal78_tree=null;
 		Object char_literal80_tree=null;
-		RewriteRuleTokenStream stream_33=new RewriteRuleTokenStream(adaptor,"token 33");
 		RewriteRuleTokenStream stream_34=new RewriteRuleTokenStream(adaptor,"token 34");
-		RewriteRuleTokenStream stream_56=new RewriteRuleTokenStream(adaptor,"token 56");
+		RewriteRuleTokenStream stream_35=new RewriteRuleTokenStream(adaptor,"token 35");
+		RewriteRuleTokenStream stream_57=new RewriteRuleTokenStream(adaptor,"token 57");
 		RewriteRuleTokenStream stream_Variable=new RewriteRuleTokenStream(adaptor,"token Variable");
-		RewriteRuleTokenStream stream_47=new RewriteRuleTokenStream(adaptor,"token 47");
+		RewriteRuleTokenStream stream_48=new RewriteRuleTokenStream(adaptor,"token 48");
 		RewriteRuleTokenStream stream_Symbol=new RewriteRuleTokenStream(adaptor,"token Symbol");
-		RewriteRuleTokenStream stream_50=new RewriteRuleTokenStream(adaptor,"token 50");
 		RewriteRuleTokenStream stream_51=new RewriteRuleTokenStream(adaptor,"token 51");
-		RewriteRuleTokenStream stream_40=new RewriteRuleTokenStream(adaptor,"token 40");
+		RewriteRuleTokenStream stream_52=new RewriteRuleTokenStream(adaptor,"token 52");
+		RewriteRuleTokenStream stream_41=new RewriteRuleTokenStream(adaptor,"token 41");
 		RewriteRuleSubtreeStream stream_lexpr=new RewriteRuleSubtreeStream(adaptor,"rule lexpr");
 		RewriteRuleSubtreeStream stream_exprbase=new RewriteRuleSubtreeStream(adaptor,"rule exprbase");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:71:9: ( ( 'nil' -> ^( 'nil' ) |v= Variable -> ^( VARIABLE $v) |s= Symbol -> ^( SYMBOL $s) ) | ( '(' 'cons' lexpr ')' -> ^( CONS lexpr ) | '(' 'list' lexpr ')' -> ^( LIST lexpr ) ) | ( '(' 'hd' exprbase ')' -> ^( HD exprbase ) | '(' 'tl' exprbase ')' -> ^( TL exprbase ) ) | ( '(' s= Symbol lexpr ')' -> ^( CALL $s lexpr ) ) )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:72:9: ( ( 'nil' -> ^( 'nil' ) |v= Variable -> ^( VARIABLE $v) |s= Symbol -> ^( SYMBOL $s) ) | ( '(' 'cons' lexpr ')' -> ^( CONS lexpr ) | '(' 'list' lexpr ')' -> ^( LIST lexpr ) ) | ( '(' 'hd' exprbase ')' -> ^( HD exprbase ) | '(' 'tl' exprbase ')' -> ^( TL exprbase ) ) | ( '(' s= Symbol lexpr ')' -> ^( CALL $s lexpr ) ) )
 			int alt13=4;
 			int LA13_0 = input.LA(1);
-			if ( (LA13_0==Symbol||LA13_0==Variable||LA13_0==51) ) {
+			if ( (LA13_0==Symbol||LA13_0==Variable||LA13_0==52) ) {
 				alt13=1;
 			}
-			else if ( (LA13_0==33) ) {
+			else if ( (LA13_0==34) ) {
 				switch ( input.LA(2) ) {
-				case 40:
-				case 50:
+				case 41:
+				case 51:
 					{
 					alt13=2;
 					}
 					break;
-				case 47:
-				case 56:
+				case 48:
+				case 57:
 					{
 					alt13=3;
 					}
@@ -1999,12 +2000,12 @@ public class whileParser extends Parser {
 
 			switch (alt13) {
 				case 1 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:72:2: ( 'nil' -> ^( 'nil' ) |v= Variable -> ^( VARIABLE $v) |s= Symbol -> ^( SYMBOL $s) )
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:73:2: ( 'nil' -> ^( 'nil' ) |v= Variable -> ^( VARIABLE $v) |s= Symbol -> ^( SYMBOL $s) )
 					{
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:72:2: ( 'nil' -> ^( 'nil' ) |v= Variable -> ^( VARIABLE $v) |s= Symbol -> ^( SYMBOL $s) )
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:73:2: ( 'nil' -> ^( 'nil' ) |v= Variable -> ^( VARIABLE $v) |s= Symbol -> ^( SYMBOL $s) )
 					int alt10=3;
 					switch ( input.LA(1) ) {
-					case 51:
+					case 52:
 						{
 						alt10=1;
 						}
@@ -2026,13 +2027,13 @@ public class whileParser extends Parser {
 					}
 					switch (alt10) {
 						case 1 :
-							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:72:2: 'nil'
+							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:73:2: 'nil'
 							{
-							string_literal61=(Token)match(input,51,FOLLOW_51_in_exprbase685);  
-							stream_51.add(string_literal61);
+							string_literal61=(Token)match(input,52,FOLLOW_52_in_exprbase688);  
+							stream_52.add(string_literal61);
 
 							// AST REWRITE
-							// elements: 51
+							// elements: 52
 							// token labels: 
 							// rule labels: retval
 							// token list labels: 
@@ -2042,12 +2043,12 @@ public class whileParser extends Parser {
 							RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 							root_0 = (Object)adaptor.nil();
-							// 72:8: -> ^( 'nil' )
+							// 73:8: -> ^( 'nil' )
 							{
-								// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:72:11: ^( 'nil' )
+								// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:73:11: ^( 'nil' )
 								{
 								Object root_1 = (Object)adaptor.nil();
-								root_1 = (Object)adaptor.becomeRoot(stream_51.nextNode(), root_1);
+								root_1 = (Object)adaptor.becomeRoot(stream_52.nextNode(), root_1);
 								adaptor.addChild(root_0, root_1);
 								}
 
@@ -2059,9 +2060,9 @@ public class whileParser extends Parser {
 							}
 							break;
 						case 2 :
-							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:72:20: v= Variable
+							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:73:20: v= Variable
 							{
-							v=(Token)match(input,Variable,FOLLOW_Variable_in_exprbase695);  
+							v=(Token)match(input,Variable,FOLLOW_Variable_in_exprbase698);  
 							stream_Variable.add(v);
 
 							// AST REWRITE
@@ -2076,9 +2077,9 @@ public class whileParser extends Parser {
 							RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 							root_0 = (Object)adaptor.nil();
-							// 72:31: -> ^( VARIABLE $v)
+							// 73:31: -> ^( VARIABLE $v)
 							{
-								// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:72:34: ^( VARIABLE $v)
+								// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:73:34: ^( VARIABLE $v)
 								{
 								Object root_1 = (Object)adaptor.nil();
 								root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(VARIABLE, "VARIABLE"), root_1);
@@ -2094,9 +2095,9 @@ public class whileParser extends Parser {
 							}
 							break;
 						case 3 :
-							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:72:49: s= Symbol
+							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:73:49: s= Symbol
 							{
-							s=(Token)match(input,Symbol,FOLLOW_Symbol_in_exprbase708);  
+							s=(Token)match(input,Symbol,FOLLOW_Symbol_in_exprbase711);  
 							stream_Symbol.add(s);
 
 							// AST REWRITE
@@ -2111,9 +2112,9 @@ public class whileParser extends Parser {
 							RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 							root_0 = (Object)adaptor.nil();
-							// 72:58: -> ^( SYMBOL $s)
+							// 73:58: -> ^( SYMBOL $s)
 							{
-								// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:72:61: ^( SYMBOL $s)
+								// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:73:61: ^( SYMBOL $s)
 								{
 								Object root_1 = (Object)adaptor.nil();
 								root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(SYMBOL, "SYMBOL"), root_1);
@@ -2134,17 +2135,17 @@ public class whileParser extends Parser {
 					}
 					break;
 				case 2 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:73:4: ( '(' 'cons' lexpr ')' -> ^( CONS lexpr ) | '(' 'list' lexpr ')' -> ^( LIST lexpr ) )
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:74:4: ( '(' 'cons' lexpr ')' -> ^( CONS lexpr ) | '(' 'list' lexpr ')' -> ^( LIST lexpr ) )
 					{
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:73:4: ( '(' 'cons' lexpr ')' -> ^( CONS lexpr ) | '(' 'list' lexpr ')' -> ^( LIST lexpr ) )
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:74:4: ( '(' 'cons' lexpr ')' -> ^( CONS lexpr ) | '(' 'list' lexpr ')' -> ^( LIST lexpr ) )
 					int alt11=2;
 					int LA11_0 = input.LA(1);
-					if ( (LA11_0==33) ) {
+					if ( (LA11_0==34) ) {
 						int LA11_1 = input.LA(2);
-						if ( (LA11_1==40) ) {
+						if ( (LA11_1==41) ) {
 							alt11=1;
 						}
-						else if ( (LA11_1==50) ) {
+						else if ( (LA11_1==51) ) {
 							alt11=2;
 						}
 
@@ -2170,21 +2171,21 @@ public class whileParser extends Parser {
 
 					switch (alt11) {
 						case 1 :
-							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:73:5: '(' 'cons' lexpr ')'
+							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:74:5: '(' 'cons' lexpr ')'
 							{
-							char_literal62=(Token)match(input,33,FOLLOW_33_in_exprbase724);  
-							stream_33.add(char_literal62);
+							char_literal62=(Token)match(input,34,FOLLOW_34_in_exprbase727);  
+							stream_34.add(char_literal62);
 
-							string_literal63=(Token)match(input,40,FOLLOW_40_in_exprbase726);  
-							stream_40.add(string_literal63);
+							string_literal63=(Token)match(input,41,FOLLOW_41_in_exprbase729);  
+							stream_41.add(string_literal63);
 
-							pushFollow(FOLLOW_lexpr_in_exprbase728);
+							pushFollow(FOLLOW_lexpr_in_exprbase731);
 							lexpr64=lexpr();
 							state._fsp--;
 
 							stream_lexpr.add(lexpr64.getTree());
-							char_literal65=(Token)match(input,34,FOLLOW_34_in_exprbase730);  
-							stream_34.add(char_literal65);
+							char_literal65=(Token)match(input,35,FOLLOW_35_in_exprbase733);  
+							stream_35.add(char_literal65);
 
 							// AST REWRITE
 							// elements: lexpr
@@ -2197,9 +2198,9 @@ public class whileParser extends Parser {
 							RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 							root_0 = (Object)adaptor.nil();
-							// 73:26: -> ^( CONS lexpr )
+							// 74:26: -> ^( CONS lexpr )
 							{
-								// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:73:29: ^( CONS lexpr )
+								// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:74:29: ^( CONS lexpr )
 								{
 								Object root_1 = (Object)adaptor.nil();
 								root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(CONS, "CONS"), root_1);
@@ -2215,21 +2216,21 @@ public class whileParser extends Parser {
 							}
 							break;
 						case 2 :
-							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:73:45: '(' 'list' lexpr ')'
+							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:74:45: '(' 'list' lexpr ')'
 							{
-							char_literal66=(Token)match(input,33,FOLLOW_33_in_exprbase742);  
-							stream_33.add(char_literal66);
+							char_literal66=(Token)match(input,34,FOLLOW_34_in_exprbase745);  
+							stream_34.add(char_literal66);
 
-							string_literal67=(Token)match(input,50,FOLLOW_50_in_exprbase744);  
-							stream_50.add(string_literal67);
+							string_literal67=(Token)match(input,51,FOLLOW_51_in_exprbase747);  
+							stream_51.add(string_literal67);
 
-							pushFollow(FOLLOW_lexpr_in_exprbase746);
+							pushFollow(FOLLOW_lexpr_in_exprbase749);
 							lexpr68=lexpr();
 							state._fsp--;
 
 							stream_lexpr.add(lexpr68.getTree());
-							char_literal69=(Token)match(input,34,FOLLOW_34_in_exprbase748);  
-							stream_34.add(char_literal69);
+							char_literal69=(Token)match(input,35,FOLLOW_35_in_exprbase751);  
+							stream_35.add(char_literal69);
 
 							// AST REWRITE
 							// elements: lexpr
@@ -2242,9 +2243,9 @@ public class whileParser extends Parser {
 							RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 							root_0 = (Object)adaptor.nil();
-							// 73:66: -> ^( LIST lexpr )
+							// 74:66: -> ^( LIST lexpr )
 							{
-								// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:73:69: ^( LIST lexpr )
+								// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:74:69: ^( LIST lexpr )
 								{
 								Object root_1 = (Object)adaptor.nil();
 								root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(LIST, "LIST"), root_1);
@@ -2265,17 +2266,17 @@ public class whileParser extends Parser {
 					}
 					break;
 				case 3 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:74:4: ( '(' 'hd' exprbase ')' -> ^( HD exprbase ) | '(' 'tl' exprbase ')' -> ^( TL exprbase ) )
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:75:4: ( '(' 'hd' exprbase ')' -> ^( HD exprbase ) | '(' 'tl' exprbase ')' -> ^( TL exprbase ) )
 					{
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:74:4: ( '(' 'hd' exprbase ')' -> ^( HD exprbase ) | '(' 'tl' exprbase ')' -> ^( TL exprbase ) )
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:75:4: ( '(' 'hd' exprbase ')' -> ^( HD exprbase ) | '(' 'tl' exprbase ')' -> ^( TL exprbase ) )
 					int alt12=2;
 					int LA12_0 = input.LA(1);
-					if ( (LA12_0==33) ) {
+					if ( (LA12_0==34) ) {
 						int LA12_1 = input.LA(2);
-						if ( (LA12_1==47) ) {
+						if ( (LA12_1==48) ) {
 							alt12=1;
 						}
-						else if ( (LA12_1==56) ) {
+						else if ( (LA12_1==57) ) {
 							alt12=2;
 						}
 
@@ -2301,21 +2302,21 @@ public class whileParser extends Parser {
 
 					switch (alt12) {
 						case 1 :
-							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:74:5: '(' 'hd' exprbase ')'
+							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:75:5: '(' 'hd' exprbase ')'
 							{
-							char_literal70=(Token)match(input,33,FOLLOW_33_in_exprbase763);  
-							stream_33.add(char_literal70);
+							char_literal70=(Token)match(input,34,FOLLOW_34_in_exprbase766);  
+							stream_34.add(char_literal70);
 
-							string_literal71=(Token)match(input,47,FOLLOW_47_in_exprbase765);  
-							stream_47.add(string_literal71);
+							string_literal71=(Token)match(input,48,FOLLOW_48_in_exprbase768);  
+							stream_48.add(string_literal71);
 
-							pushFollow(FOLLOW_exprbase_in_exprbase767);
+							pushFollow(FOLLOW_exprbase_in_exprbase770);
 							exprbase72=exprbase();
 							state._fsp--;
 
 							stream_exprbase.add(exprbase72.getTree());
-							char_literal73=(Token)match(input,34,FOLLOW_34_in_exprbase769);  
-							stream_34.add(char_literal73);
+							char_literal73=(Token)match(input,35,FOLLOW_35_in_exprbase772);  
+							stream_35.add(char_literal73);
 
 							// AST REWRITE
 							// elements: exprbase
@@ -2328,9 +2329,9 @@ public class whileParser extends Parser {
 							RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 							root_0 = (Object)adaptor.nil();
-							// 74:26: -> ^( HD exprbase )
+							// 75:26: -> ^( HD exprbase )
 							{
-								// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:74:29: ^( HD exprbase )
+								// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:75:29: ^( HD exprbase )
 								{
 								Object root_1 = (Object)adaptor.nil();
 								root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(HD, "HD"), root_1);
@@ -2346,21 +2347,21 @@ public class whileParser extends Parser {
 							}
 							break;
 						case 2 :
-							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:74:46: '(' 'tl' exprbase ')'
+							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:75:46: '(' 'tl' exprbase ')'
 							{
-							char_literal74=(Token)match(input,33,FOLLOW_33_in_exprbase780);  
-							stream_33.add(char_literal74);
+							char_literal74=(Token)match(input,34,FOLLOW_34_in_exprbase783);  
+							stream_34.add(char_literal74);
 
-							string_literal75=(Token)match(input,56,FOLLOW_56_in_exprbase782);  
-							stream_56.add(string_literal75);
+							string_literal75=(Token)match(input,57,FOLLOW_57_in_exprbase785);  
+							stream_57.add(string_literal75);
 
-							pushFollow(FOLLOW_exprbase_in_exprbase784);
+							pushFollow(FOLLOW_exprbase_in_exprbase787);
 							exprbase76=exprbase();
 							state._fsp--;
 
 							stream_exprbase.add(exprbase76.getTree());
-							char_literal77=(Token)match(input,34,FOLLOW_34_in_exprbase786);  
-							stream_34.add(char_literal77);
+							char_literal77=(Token)match(input,35,FOLLOW_35_in_exprbase789);  
+							stream_35.add(char_literal77);
 
 							// AST REWRITE
 							// elements: exprbase
@@ -2373,9 +2374,9 @@ public class whileParser extends Parser {
 							RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 							root_0 = (Object)adaptor.nil();
-							// 74:68: -> ^( TL exprbase )
+							// 75:68: -> ^( TL exprbase )
 							{
-								// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:74:71: ^( TL exprbase )
+								// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:75:71: ^( TL exprbase )
 								{
 								Object root_1 = (Object)adaptor.nil();
 								root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(TL, "TL"), root_1);
@@ -2396,27 +2397,27 @@ public class whileParser extends Parser {
 					}
 					break;
 				case 4 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:75:4: ( '(' s= Symbol lexpr ')' -> ^( CALL $s lexpr ) )
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:76:4: ( '(' s= Symbol lexpr ')' -> ^( CALL $s lexpr ) )
 					{
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:75:4: ( '(' s= Symbol lexpr ')' -> ^( CALL $s lexpr ) )
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:75:5: '(' s= Symbol lexpr ')'
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:76:4: ( '(' s= Symbol lexpr ')' -> ^( CALL $s lexpr ) )
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:76:5: '(' s= Symbol lexpr ')'
 					{
-					char_literal78=(Token)match(input,33,FOLLOW_33_in_exprbase801);  
-					stream_33.add(char_literal78);
+					char_literal78=(Token)match(input,34,FOLLOW_34_in_exprbase804);  
+					stream_34.add(char_literal78);
 
-					s=(Token)match(input,Symbol,FOLLOW_Symbol_in_exprbase805);  
+					s=(Token)match(input,Symbol,FOLLOW_Symbol_in_exprbase808);  
 					stream_Symbol.add(s);
 
-					pushFollow(FOLLOW_lexpr_in_exprbase807);
+					pushFollow(FOLLOW_lexpr_in_exprbase810);
 					lexpr79=lexpr();
 					state._fsp--;
 
 					stream_lexpr.add(lexpr79.getTree());
-					char_literal80=(Token)match(input,34,FOLLOW_34_in_exprbase809);  
-					stream_34.add(char_literal80);
+					char_literal80=(Token)match(input,35,FOLLOW_35_in_exprbase812);  
+					stream_35.add(char_literal80);
 
 					// AST REWRITE
-					// elements: s, lexpr
+					// elements: lexpr, s
 					// token labels: s
 					// rule labels: retval
 					// token list labels: 
@@ -2427,9 +2428,9 @@ public class whileParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 					root_0 = (Object)adaptor.nil();
-					// 75:29: -> ^( CALL $s lexpr )
+					// 76:29: -> ^( CALL $s lexpr )
 					{
-						// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:75:32: ^( CALL $s lexpr )
+						// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:76:32: ^( CALL $s lexpr )
 						{
 						Object root_1 = (Object)adaptor.nil();
 						root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(CALL, "CALL"), root_1);
@@ -2476,7 +2477,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "expression"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:76:1: expression : exprbase ( '=?' exprbase )* -> ( exprbase )+ ;
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:79:1: expression : exprbase ( '=?' exprbase )? -> ^( EXPR ( exprbase )+ ) ;
 	public final whileParser.expression_return expression() throws RecognitionException {
 		whileParser.expression_return retval = new whileParser.expression_return();
 		retval.start = input.LT(1);
@@ -2488,35 +2489,32 @@ public class whileParser extends Parser {
 		ParserRuleReturnScope exprbase83 =null;
 
 		Object string_literal82_tree=null;
-		RewriteRuleTokenStream stream_39=new RewriteRuleTokenStream(adaptor,"token 39");
+		RewriteRuleTokenStream stream_40=new RewriteRuleTokenStream(adaptor,"token 40");
 		RewriteRuleSubtreeStream stream_exprbase=new RewriteRuleSubtreeStream(adaptor,"rule exprbase");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:76:12: ( exprbase ( '=?' exprbase )* -> ( exprbase )+ )
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:76:15: exprbase ( '=?' exprbase )*
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:79:12: ( exprbase ( '=?' exprbase )? -> ^( EXPR ( exprbase )+ ) )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:79:14: exprbase ( '=?' exprbase )?
 			{
-			pushFollow(FOLLOW_exprbase_in_expression830);
+			pushFollow(FOLLOW_exprbase_in_expression834);
 			exprbase81=exprbase();
 			state._fsp--;
 
 			stream_exprbase.add(exprbase81.getTree());
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:76:23: ( '=?' exprbase )*
-			loop14:
-			while (true) {
-				int alt14=2;
-				int LA14_0 = input.LA(1);
-				if ( (LA14_0==39) ) {
-					alt14=1;
-				}
-
-				switch (alt14) {
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:79:23: ( '=?' exprbase )?
+			int alt14=2;
+			int LA14_0 = input.LA(1);
+			if ( (LA14_0==40) ) {
+				alt14=1;
+			}
+			switch (alt14) {
 				case 1 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:76:24: '=?' exprbase
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:79:25: '=?' exprbase
 					{
-					string_literal82=(Token)match(input,39,FOLLOW_39_in_expression832);  
-					stream_39.add(string_literal82);
+					string_literal82=(Token)match(input,40,FOLLOW_40_in_expression838);  
+					stream_40.add(string_literal82);
 
-					pushFollow(FOLLOW_exprbase_in_expression834);
+					pushFollow(FOLLOW_exprbase_in_expression840);
 					exprbase83=exprbase();
 					state._fsp--;
 
@@ -2524,9 +2522,6 @@ public class whileParser extends Parser {
 					}
 					break;
 
-				default :
-					break loop14;
-				}
 			}
 
 			// AST REWRITE
@@ -2540,15 +2535,22 @@ public class whileParser extends Parser {
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 			root_0 = (Object)adaptor.nil();
-			// 76:40: -> ( exprbase )+
+			// 79:41: -> ^( EXPR ( exprbase )+ )
 			{
+				// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:79:44: ^( EXPR ( exprbase )+ )
+				{
+				Object root_1 = (Object)adaptor.nil();
+				root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(EXPR, "EXPR"), root_1);
 				if ( !(stream_exprbase.hasNext()) ) {
 					throw new RewriteEarlyExitException();
 				}
 				while ( stream_exprbase.hasNext() ) {
-					adaptor.addChild(root_0, stream_exprbase.nextTree());
+					adaptor.addChild(root_1, stream_exprbase.nextTree());
 				}
 				stream_exprbase.reset();
+
+				adaptor.addChild(root_0, root_1);
+				}
 
 			}
 
@@ -2584,7 +2586,7 @@ public class whileParser extends Parser {
 
 
 	// $ANTLR start "lexpr"
-	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:77:1: lexpr : ( ( exprbase )+ -> ( exprbase )+ | -> ^( VIDE ) );
+	// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:81:1: lexpr : ( ( exprbase )+ -> ( exprbase )+ | -> ^( VIDE ) );
 	public final whileParser.lexpr_return lexpr() throws RecognitionException {
 		whileParser.lexpr_return retval = new whileParser.lexpr_return();
 		retval.start = input.LT(1);
@@ -2596,13 +2598,13 @@ public class whileParser extends Parser {
 		RewriteRuleSubtreeStream stream_exprbase=new RewriteRuleSubtreeStream(adaptor,"rule exprbase");
 
 		try {
-			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:77:7: ( ( exprbase )+ -> ( exprbase )+ | -> ^( VIDE ) )
+			// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:81:7: ( ( exprbase )+ -> ( exprbase )+ | -> ^( VIDE ) )
 			int alt16=2;
 			int LA16_0 = input.LA(1);
-			if ( (LA16_0==Symbol||LA16_0==Variable||LA16_0==33||LA16_0==51) ) {
+			if ( (LA16_0==Symbol||LA16_0==Variable||LA16_0==34||LA16_0==52) ) {
 				alt16=1;
 			}
-			else if ( (LA16_0==34) ) {
+			else if ( (LA16_0==35) ) {
 				alt16=2;
 			}
 
@@ -2614,23 +2616,23 @@ public class whileParser extends Parser {
 
 			switch (alt16) {
 				case 1 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:77:10: ( exprbase )+
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:81:10: ( exprbase )+
 					{
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:77:10: ( exprbase )+
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:81:10: ( exprbase )+
 					int cnt15=0;
 					loop15:
 					while (true) {
 						int alt15=2;
 						int LA15_0 = input.LA(1);
-						if ( (LA15_0==Symbol||LA15_0==Variable||LA15_0==33||LA15_0==51) ) {
+						if ( (LA15_0==Symbol||LA15_0==Variable||LA15_0==34||LA15_0==52) ) {
 							alt15=1;
 						}
 
 						switch (alt15) {
 						case 1 :
-							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:77:10: exprbase
+							// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:81:10: exprbase
 							{
-							pushFollow(FOLLOW_exprbase_in_lexpr849);
+							pushFollow(FOLLOW_exprbase_in_lexpr860);
 							exprbase84=exprbase();
 							state._fsp--;
 
@@ -2657,7 +2659,7 @@ public class whileParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 					root_0 = (Object)adaptor.nil();
-					// 77:20: -> ( exprbase )+
+					// 81:20: -> ( exprbase )+
 					{
 						if ( !(stream_exprbase.hasNext()) ) {
 							throw new RewriteEarlyExitException();
@@ -2675,7 +2677,7 @@ public class whileParser extends Parser {
 					}
 					break;
 				case 2 :
-					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:77:35: 
+					// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:81:35: 
 					{
 					// AST REWRITE
 					// elements: 
@@ -2688,9 +2690,9 @@ public class whileParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.getTree():null);
 
 					root_0 = (Object)adaptor.nil();
-					// 77:35: -> ^( VIDE )
+					// 81:35: -> ^( VIDE )
 					{
-						// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:77:38: ^( VIDE )
+						// C:\\Users\\Rémi\\Documents\\GitHub\\ESIR_TLCProjet\\grammaire\\while.g:81:38: ^( VIDE )
 						{
 						Object root_1 = (Object)adaptor.nil();
 						root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(VIDE, "VIDE"), root_1);
@@ -2728,93 +2730,93 @@ public class whileParser extends Parser {
 
 
 
-	public static final BitSet FOLLOW_program_in_start_rule89 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_function_in_program323 = new BitSet(new long[]{0x0000400000000002L});
-	public static final BitSet FOLLOW_46_in_function330 = new BitSet(new long[]{0x0000000001000000L});
-	public static final BitSet FOLLOW_Symbol_in_function336 = new BitSet(new long[]{0x0000001000000000L});
-	public static final BitSet FOLLOW_36_in_function338 = new BitSet(new long[]{0x0040000000000000L});
-	public static final BitSet FOLLOW_definition_in_function339 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_54_in_definition357 = new BitSet(new long[]{0x0000000120000000L});
-	public static final BitSet FOLLOW_input_in_definition359 = new BitSet(new long[]{0x0000000100000000L});
-	public static final BitSet FOLLOW_32_in_definition361 = new BitSet(new long[]{0x0211300020000000L});
-	public static final BitSet FOLLOW_commands_in_definition363 = new BitSet(new long[]{0x0000000100000000L});
-	public static final BitSet FOLLOW_32_in_definition365 = new BitSet(new long[]{0x0400000000000000L});
-	public static final BitSet FOLLOW_58_in_definition366 = new BitSet(new long[]{0x0000000020000000L});
-	public static final BitSet FOLLOW_output_in_definition367 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_inputSub_in_input391 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_Variable_in_inputSub414 = new BitSet(new long[]{0x0000000800000002L});
-	public static final BitSet FOLLOW_35_in_inputSub416 = new BitSet(new long[]{0x0000000020000000L});
-	public static final BitSet FOLLOW_Variable_in_inputSub417 = new BitSet(new long[]{0x0000000800000002L});
-	public static final BitSet FOLLOW_Variable_in_output431 = new BitSet(new long[]{0x0000000800000002L});
-	public static final BitSet FOLLOW_35_in_output433 = new BitSet(new long[]{0x0000000020000000L});
-	public static final BitSet FOLLOW_Variable_in_output434 = new BitSet(new long[]{0x0000000800000002L});
-	public static final BitSet FOLLOW_command_in_commands453 = new BitSet(new long[]{0x0000004000000002L});
-	public static final BitSet FOLLOW_38_in_commands455 = new BitSet(new long[]{0x0211300020000000L});
-	public static final BitSet FOLLOW_command_in_commands456 = new BitSet(new long[]{0x0000004000000002L});
-	public static final BitSet FOLLOW_52_in_command469 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_vars_in_command472 = new BitSet(new long[]{0x0000002000000000L});
-	public static final BitSet FOLLOW_37_in_command473 = new BitSet(new long[]{0x0008000221000000L});
-	public static final BitSet FOLLOW_exprs_in_command474 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_if__in_command495 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_while__in_command497 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_for__in_command499 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_foreach__in_command501 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_Variable_in_vars508 = new BitSet(new long[]{0x0000000800000002L});
-	public static final BitSet FOLLOW_35_in_vars510 = new BitSet(new long[]{0x0000000020000000L});
-	public static final BitSet FOLLOW_Variable_in_vars511 = new BitSet(new long[]{0x0000000800000002L});
-	public static final BitSet FOLLOW_expression_in_exprs525 = new BitSet(new long[]{0x0000000800000002L});
-	public static final BitSet FOLLOW_35_in_exprs527 = new BitSet(new long[]{0x0008000221000000L});
-	public static final BitSet FOLLOW_expression_in_exprs528 = new BitSet(new long[]{0x0000000800000002L});
-	public static final BitSet FOLLOW_48_in_if_548 = new BitSet(new long[]{0x0008000221000000L});
-	public static final BitSet FOLLOW_expression_in_if_549 = new BitSet(new long[]{0x0080000000000000L});
-	public static final BitSet FOLLOW_55_in_if_550 = new BitSet(new long[]{0x0211300020000000L});
-	public static final BitSet FOLLOW_then__in_if_551 = new BitSet(new long[]{0x00000C0000000000L});
-	public static final BitSet FOLLOW_42_in_if_554 = new BitSet(new long[]{0x0211300020000000L});
-	public static final BitSet FOLLOW_then__in_if_555 = new BitSet(new long[]{0x0000080000000000L});
-	public static final BitSet FOLLOW_43_in_if_558 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_commands_in_then_583 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_57_in_while_598 = new BitSet(new long[]{0x0008000221000000L});
-	public static final BitSet FOLLOW_expression_in_while_599 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_41_in_while_600 = new BitSet(new long[]{0x0211300020000000L});
-	public static final BitSet FOLLOW_commands_in_while_601 = new BitSet(new long[]{0x0020000000000000L});
-	public static final BitSet FOLLOW_53_in_while_602 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_44_in_for_623 = new BitSet(new long[]{0x0008000221000000L});
-	public static final BitSet FOLLOW_expression_in_for_624 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_41_in_for_625 = new BitSet(new long[]{0x0211300020000000L});
-	public static final BitSet FOLLOW_commands_in_for_626 = new BitSet(new long[]{0x0020000000000000L});
-	public static final BitSet FOLLOW_53_in_for_627 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_45_in_foreach_648 = new BitSet(new long[]{0x0000000020000000L});
-	public static final BitSet FOLLOW_Variable_in_foreach_654 = new BitSet(new long[]{0x0002000000000000L});
-	public static final BitSet FOLLOW_49_in_foreach_655 = new BitSet(new long[]{0x0008000221000000L});
-	public static final BitSet FOLLOW_expression_in_foreach_656 = new BitSet(new long[]{0x0000020000000000L});
-	public static final BitSet FOLLOW_41_in_foreach_657 = new BitSet(new long[]{0x0211300020000000L});
-	public static final BitSet FOLLOW_commands_in_foreach_658 = new BitSet(new long[]{0x0020000000000000L});
-	public static final BitSet FOLLOW_53_in_foreach_659 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_51_in_exprbase685 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_Variable_in_exprbase695 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_Symbol_in_exprbase708 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_33_in_exprbase724 = new BitSet(new long[]{0x0000010000000000L});
-	public static final BitSet FOLLOW_40_in_exprbase726 = new BitSet(new long[]{0x0008000621000000L});
-	public static final BitSet FOLLOW_lexpr_in_exprbase728 = new BitSet(new long[]{0x0000000400000000L});
-	public static final BitSet FOLLOW_34_in_exprbase730 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_33_in_exprbase742 = new BitSet(new long[]{0x0004000000000000L});
-	public static final BitSet FOLLOW_50_in_exprbase744 = new BitSet(new long[]{0x0008000621000000L});
-	public static final BitSet FOLLOW_lexpr_in_exprbase746 = new BitSet(new long[]{0x0000000400000000L});
-	public static final BitSet FOLLOW_34_in_exprbase748 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_33_in_exprbase763 = new BitSet(new long[]{0x0000800000000000L});
-	public static final BitSet FOLLOW_47_in_exprbase765 = new BitSet(new long[]{0x0008000221000000L});
-	public static final BitSet FOLLOW_exprbase_in_exprbase767 = new BitSet(new long[]{0x0000000400000000L});
-	public static final BitSet FOLLOW_34_in_exprbase769 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_33_in_exprbase780 = new BitSet(new long[]{0x0100000000000000L});
-	public static final BitSet FOLLOW_56_in_exprbase782 = new BitSet(new long[]{0x0008000221000000L});
-	public static final BitSet FOLLOW_exprbase_in_exprbase784 = new BitSet(new long[]{0x0000000400000000L});
-	public static final BitSet FOLLOW_34_in_exprbase786 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_33_in_exprbase801 = new BitSet(new long[]{0x0000000001000000L});
-	public static final BitSet FOLLOW_Symbol_in_exprbase805 = new BitSet(new long[]{0x0008000621000000L});
-	public static final BitSet FOLLOW_lexpr_in_exprbase807 = new BitSet(new long[]{0x0000000400000000L});
-	public static final BitSet FOLLOW_34_in_exprbase809 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_exprbase_in_expression830 = new BitSet(new long[]{0x0000008000000002L});
-	public static final BitSet FOLLOW_39_in_expression832 = new BitSet(new long[]{0x0008000221000000L});
-	public static final BitSet FOLLOW_exprbase_in_expression834 = new BitSet(new long[]{0x0000008000000002L});
-	public static final BitSet FOLLOW_exprbase_in_lexpr849 = new BitSet(new long[]{0x0008000221000002L});
+	public static final BitSet FOLLOW_program_in_start_rule92 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_function_in_program326 = new BitSet(new long[]{0x0000800000000002L});
+	public static final BitSet FOLLOW_47_in_function333 = new BitSet(new long[]{0x0000000002000000L});
+	public static final BitSet FOLLOW_Symbol_in_function339 = new BitSet(new long[]{0x0000002000000000L});
+	public static final BitSet FOLLOW_37_in_function341 = new BitSet(new long[]{0x0080000000000000L});
+	public static final BitSet FOLLOW_definition_in_function342 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_55_in_definition360 = new BitSet(new long[]{0x0000000240000000L});
+	public static final BitSet FOLLOW_input_in_definition362 = new BitSet(new long[]{0x0000000200000000L});
+	public static final BitSet FOLLOW_33_in_definition364 = new BitSet(new long[]{0x0422600040000000L});
+	public static final BitSet FOLLOW_commands_in_definition366 = new BitSet(new long[]{0x0000000200000000L});
+	public static final BitSet FOLLOW_33_in_definition368 = new BitSet(new long[]{0x0800000000000000L});
+	public static final BitSet FOLLOW_59_in_definition369 = new BitSet(new long[]{0x0000000040000000L});
+	public static final BitSet FOLLOW_output_in_definition370 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_inputSub_in_input394 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_Variable_in_inputSub417 = new BitSet(new long[]{0x0000001000000002L});
+	public static final BitSet FOLLOW_36_in_inputSub419 = new BitSet(new long[]{0x0000000040000000L});
+	public static final BitSet FOLLOW_Variable_in_inputSub420 = new BitSet(new long[]{0x0000001000000002L});
+	public static final BitSet FOLLOW_Variable_in_output434 = new BitSet(new long[]{0x0000001000000002L});
+	public static final BitSet FOLLOW_36_in_output436 = new BitSet(new long[]{0x0000000040000000L});
+	public static final BitSet FOLLOW_Variable_in_output437 = new BitSet(new long[]{0x0000001000000002L});
+	public static final BitSet FOLLOW_command_in_commands456 = new BitSet(new long[]{0x0000008000000002L});
+	public static final BitSet FOLLOW_39_in_commands458 = new BitSet(new long[]{0x0422600040000000L});
+	public static final BitSet FOLLOW_command_in_commands459 = new BitSet(new long[]{0x0000008000000002L});
+	public static final BitSet FOLLOW_53_in_command472 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_vars_in_command475 = new BitSet(new long[]{0x0000004000000000L});
+	public static final BitSet FOLLOW_38_in_command476 = new BitSet(new long[]{0x0010000442000000L});
+	public static final BitSet FOLLOW_exprs_in_command477 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_if__in_command498 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_while__in_command500 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_for__in_command502 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_foreach__in_command504 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_Variable_in_vars511 = new BitSet(new long[]{0x0000001000000002L});
+	public static final BitSet FOLLOW_36_in_vars513 = new BitSet(new long[]{0x0000000040000000L});
+	public static final BitSet FOLLOW_Variable_in_vars514 = new BitSet(new long[]{0x0000001000000002L});
+	public static final BitSet FOLLOW_expression_in_exprs528 = new BitSet(new long[]{0x0000001000000002L});
+	public static final BitSet FOLLOW_36_in_exprs530 = new BitSet(new long[]{0x0010000442000000L});
+	public static final BitSet FOLLOW_expression_in_exprs531 = new BitSet(new long[]{0x0000001000000002L});
+	public static final BitSet FOLLOW_49_in_if_551 = new BitSet(new long[]{0x0010000442000000L});
+	public static final BitSet FOLLOW_expression_in_if_552 = new BitSet(new long[]{0x0100000000000000L});
+	public static final BitSet FOLLOW_56_in_if_553 = new BitSet(new long[]{0x0422600040000000L});
+	public static final BitSet FOLLOW_then__in_if_554 = new BitSet(new long[]{0x0000180000000000L});
+	public static final BitSet FOLLOW_43_in_if_557 = new BitSet(new long[]{0x0422600040000000L});
+	public static final BitSet FOLLOW_then__in_if_558 = new BitSet(new long[]{0x0000100000000000L});
+	public static final BitSet FOLLOW_44_in_if_561 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_commands_in_then_586 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_58_in_while_601 = new BitSet(new long[]{0x0010000442000000L});
+	public static final BitSet FOLLOW_expression_in_while_602 = new BitSet(new long[]{0x0000040000000000L});
+	public static final BitSet FOLLOW_42_in_while_603 = new BitSet(new long[]{0x0422600040000000L});
+	public static final BitSet FOLLOW_commands_in_while_604 = new BitSet(new long[]{0x0040000000000000L});
+	public static final BitSet FOLLOW_54_in_while_605 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_45_in_for_626 = new BitSet(new long[]{0x0010000442000000L});
+	public static final BitSet FOLLOW_expression_in_for_627 = new BitSet(new long[]{0x0000040000000000L});
+	public static final BitSet FOLLOW_42_in_for_628 = new BitSet(new long[]{0x0422600040000000L});
+	public static final BitSet FOLLOW_commands_in_for_629 = new BitSet(new long[]{0x0040000000000000L});
+	public static final BitSet FOLLOW_54_in_for_630 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_46_in_foreach_651 = new BitSet(new long[]{0x0000000040000000L});
+	public static final BitSet FOLLOW_Variable_in_foreach_657 = new BitSet(new long[]{0x0004000000000000L});
+	public static final BitSet FOLLOW_50_in_foreach_658 = new BitSet(new long[]{0x0010000442000000L});
+	public static final BitSet FOLLOW_expression_in_foreach_659 = new BitSet(new long[]{0x0000040000000000L});
+	public static final BitSet FOLLOW_42_in_foreach_660 = new BitSet(new long[]{0x0422600040000000L});
+	public static final BitSet FOLLOW_commands_in_foreach_661 = new BitSet(new long[]{0x0040000000000000L});
+	public static final BitSet FOLLOW_54_in_foreach_662 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_52_in_exprbase688 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_Variable_in_exprbase698 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_Symbol_in_exprbase711 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_34_in_exprbase727 = new BitSet(new long[]{0x0000020000000000L});
+	public static final BitSet FOLLOW_41_in_exprbase729 = new BitSet(new long[]{0x0010000C42000000L});
+	public static final BitSet FOLLOW_lexpr_in_exprbase731 = new BitSet(new long[]{0x0000000800000000L});
+	public static final BitSet FOLLOW_35_in_exprbase733 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_34_in_exprbase745 = new BitSet(new long[]{0x0008000000000000L});
+	public static final BitSet FOLLOW_51_in_exprbase747 = new BitSet(new long[]{0x0010000C42000000L});
+	public static final BitSet FOLLOW_lexpr_in_exprbase749 = new BitSet(new long[]{0x0000000800000000L});
+	public static final BitSet FOLLOW_35_in_exprbase751 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_34_in_exprbase766 = new BitSet(new long[]{0x0001000000000000L});
+	public static final BitSet FOLLOW_48_in_exprbase768 = new BitSet(new long[]{0x0010000442000000L});
+	public static final BitSet FOLLOW_exprbase_in_exprbase770 = new BitSet(new long[]{0x0000000800000000L});
+	public static final BitSet FOLLOW_35_in_exprbase772 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_34_in_exprbase783 = new BitSet(new long[]{0x0200000000000000L});
+	public static final BitSet FOLLOW_57_in_exprbase785 = new BitSet(new long[]{0x0010000442000000L});
+	public static final BitSet FOLLOW_exprbase_in_exprbase787 = new BitSet(new long[]{0x0000000800000000L});
+	public static final BitSet FOLLOW_35_in_exprbase789 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_34_in_exprbase804 = new BitSet(new long[]{0x0000000002000000L});
+	public static final BitSet FOLLOW_Symbol_in_exprbase808 = new BitSet(new long[]{0x0010000C42000000L});
+	public static final BitSet FOLLOW_lexpr_in_exprbase810 = new BitSet(new long[]{0x0000000800000000L});
+	public static final BitSet FOLLOW_35_in_exprbase812 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_exprbase_in_expression834 = new BitSet(new long[]{0x0000010000000002L});
+	public static final BitSet FOLLOW_40_in_expression838 = new BitSet(new long[]{0x0010000442000000L});
+	public static final BitSet FOLLOW_exprbase_in_expression840 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_exprbase_in_lexpr860 = new BitSet(new long[]{0x0010000442000002L});
 }

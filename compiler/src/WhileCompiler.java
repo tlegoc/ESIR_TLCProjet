@@ -62,14 +62,14 @@ public class WhileCompiler {
         visitorTA.visit(ast);
         program = visitorTA.getProgram();
 
-//        System.out.println(program.getProgramString(true));
+        System.out.println(program.getProgramString(true));
 
         // Creating symbol table
         VisitorTS visitorTS = new VisitorTS();
         visitorTS.visit(ast);
         symbolTable = visitorTS.getST();
 
-//        symbolTable.printSymbolTable();
+        symbolTable.printSymbolTable();
 
         // On effectue la validation apres generation du code 3 adresses car simplifie
         // La verification.
@@ -231,15 +231,19 @@ public class WhileCompiler {
 
     public void clean()
     {
+        /*
         Path filepath = Paths.get(filename);
 
         // delete temporary
+
         File toDel = new File(filepath.getFileName() + ".cpp");
         if (toDel.exists() && !toDel.isDirectory())
             toDel.delete();
         toDel = new File(filepath.getFileName() + ".obj");
         if (toDel.exists() && !toDel.isDirectory())
             toDel.delete();
+
+         */
     }
 
     public void printProgram() {

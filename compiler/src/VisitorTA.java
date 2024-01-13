@@ -22,7 +22,7 @@ public class VisitorTA {
         CommonTree tree = (CommonTree) o;
         int line = tree.getLine();
         int charInLine = tree.getCharPositionInLine();
-        program.addComment("Line: " + line + ":" + charInLine + " (visit)");
+        //program.addComment("Line: " + line + ":" + charInLine + " (visit)");
         String token = String.valueOf(tree);
         switch (token) {
             case "CONS":
@@ -48,10 +48,17 @@ public class VisitorTA {
                 visit(tree.getChild(1));
                 break;
             case "FOR":
-                Argument cond_for = process(tree.getChild(0)).get(0);
+                Registre cond_for = process(tree.getChild(0)).get(0);
                 program.addLine(Line.Op.FORBEGIN, cond_for);
                 visit(tree.getChild(1));
                 program.addLine(Line.Op.FOREND, cond_for);
+                break;
+            case "FOREACH":
+                Registre var_foreach = process(tree.getChild(0)).get(0);
+                Registre cond_foreach = process(tree.getChild(1)).get(0);
+                program.addLine(Line.Op.FOREACHBEGIN, var_foreach, cond_foreach, new EmptyArgument());
+                visit(tree.getChild(2));
+                program.addLine(Line.Op.FOREACHBEGIN, var_foreach, cond_foreach, new EmptyArgument());
                 break;
             case "LIST":
                 program.addLine(Line.Op.ASSIGN, new Registre(), processLIST(o), new EmptyArgument());
@@ -83,14 +90,16 @@ public class VisitorTA {
         }
     }
     //TODO : FOREACH (eh ouais on l'a zappé)
-    //TODO : gestion de commentaires, je crois pas qu'on l'ai fait
     private List<Registre> process(Object o) {
         CommonTree tree = (CommonTree) o;
         int line = tree.getLine();
         int charInLine = tree.getCharPositionInLine();
-        program.addComment("Line: " + line + ":" + charInLine);
+        //program.addComment("Line: " + line + ":" + charInLine);
         List<Registre> arg = new ArrayList<>();
         switch (tree.toString()) {
+            case "EXPR":
+                arg.add(processEXPR(o));
+                break;
             case "LIST":
                 arg.add(processLIST(o));
                 break;
@@ -112,16 +121,26 @@ public class VisitorTA {
             case "CALL":
                 arg.addAll(processCALL(o));
                 break;
-            case "nil":
-                arg.add(processNIL(o));
-                break;
             default:
                 arg.add(processNIL(o));
                 break;
         }
         return arg;
     }
-
+private Registre processEXPR(Object o) {
+    CommonTree tree = (CommonTree) o;
+    Registre reg = new Registre();
+    if(tree.getChildCount() == 2) {
+        program.addLine(Line.Op.EQUALSINTER,
+                reg,
+                process(tree.getChild(0)).get(0),
+                process(tree.getChild(1)).get(0));
+    }
+    else {
+        program.addLine(Line.Op.ASSIGN, reg, process(tree.getChild(0)).get(0), new EmptyArgument());
+    }
+    return reg;
+}
     private Registre processNIL(Object o) {
         CommonTree tree = (CommonTree) o;
         Registre reg = new Registre();
@@ -164,16 +183,23 @@ public class VisitorTA {
         CommonTree tree = (CommonTree) o;
         Registre regRes = new Registre();
         int childCount = tree.getChildCount();
-        if (childCount == 1 && tree.getChild(0).getText().equals("VIDE")) {
-            program.addLine(Line.Op.ASSIGN, regRes, new Nil(), new EmptyArgument());
-        } else {
+
+        if(tree.getChild(0).getText().equals("VIDE")) {
+                program.addLine(Line.Op.ASSIGN, regRes, new Nil(), new EmptyArgument());
+        }
+        else {
             List<Registre> processRes = new ArrayList<>();
             for (int i = 0; i < tree.getChildCount(); i++) {
                 Object child = tree.getChild(i);
                 List<Registre> vars = process(child);
                 processRes.addAll(vars);
             }
-            program.addLine(Line.Op.ASSIGN, regRes, processCONCAT(processRes, false), new EmptyArgument());
+            if( processRes.size() == 1) {
+                program.addLine(Line.Op.ASSIGN, regRes, processRes.get(0), new EmptyArgument());
+            }
+            else {
+                program.addLine(Line.Op.ASSIGN, regRes, processCONCAT(processRes, false), new EmptyArgument());
+            }
         }
         return regRes;
     }
@@ -199,7 +225,6 @@ public class VisitorTA {
 
     private Registre processCONCAT(List<Registre> vars, boolean isList) {
         Registre regList = new Registre();
-
         if (isList) {
             Registre nil = new Registre();
             program.addLine(Line.Op.ASSIGN, nil, new Nil(), new EmptyArgument());
@@ -256,58 +281,15 @@ public class VisitorTA {
         for (int i = 0; i < ass_exp.getChildCount(); i++) {
             Object ass_var_child = ass_var.getChild(i);
             Object ass_exp_child = ass_exp.getChild(i);
-            switch (ass_exp.getChild(i).toString()) {
-                case "CONS":
-                    program.addLine(Line.Op.ASSIGN,
-                            new Variable(ass_var_child.toString()),
-                            processCONS(ass_exp_child),
-                            new EmptyArgument());
-                    break;
-                case "CALL":
-                    List<Registre> out = processCALL(ass_exp_child);
-                    for (int j = 0; j < out.size(); j++) {
-                        program.addLine(
-                                Line.Op.ASSIGN,
-                                new Variable(ass_var_child.toString()),
-                                out.get(i),
-                                new EmptyArgument());
-                    }
-                    break;
-                case "VARIABLE":
-                    program.addLine(
-                            Line.Op.ASSIGN,
-                            new Variable(ass_var_child.toString()),
-                            processVARIABLE(ass_exp_child),
-                            new EmptyArgument());
-                    break;
-                case "TL":
-                    program.addLine(
-                            Line.Op.ASSIGN,
-                            new Variable(ass_var_child.toString()),
-                            processTL(ass_exp_child),
-                            new EmptyArgument());
-                    break;
-                case "HD":
-                    program.addLine(
-                            Line.Op.ASSIGN,
-                            new Variable(ass_var_child.toString()),
-                            processHD(ass_exp_child),
-                            new EmptyArgument());
-                    break;
-                case "LIST":
-                    program.addLine(
-                            Line.Op.ASSIGN,
-                            new Variable(ass_var_child.toString()),
-                            processLIST(ass_exp_child),
-                            new EmptyArgument());
-                    break;
-                case "nil":
-                    program.addLine(
-                            Line.Op.ASSIGN,
-                            new Variable(ass_var_child.toString()),
-                            new Nil(),
-                            new EmptyArgument());
-                    break;
+
+            List<Registre> out = process(ass_exp_child);
+            for (int j = 0; j < out.size(); j++) {
+                program.addLine(
+                        Line.Op.ASSIGN,
+                        new Variable(ass_var_child.toString()),
+                        out.get(j),
+                        new EmptyArgument()
+                );
             }
         }
     }

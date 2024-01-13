@@ -1,0 +1,15 @@
+function testForeachetComm:
+read Op1
+%
+    Test1, Test2 := (cons), (cons nil nil);
+    Test2 := (cons) =? Op1
+
+%
+write Test1, Test2
+
+function main:
+read
+%
+    Result := (cons)
+%
+write Result

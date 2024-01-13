@@ -25,6 +25,7 @@ FOR;
 FOREACH;
 THEN;
 VARIABLE;
+EXPR;
 }
 
 start_rule: 	program; 
@@ -67,12 +68,16 @@ if_    :    'if'expression'then'then_ ('else'then_)?'fi'-> ^(IF expression then_
 then_     :    commands -> ^(COMMANDS commands);
 while_	:	'while'expression'do'commands'od' -> ^(WHILE expression ^(COMMANDS commands));
 for_	:	'for'expression'do'commands'od' -> ^(FOR expression ^(COMMANDS commands));
-foreach_	:	'foreach' i = Variable'in'expression'do'commands'od' -> ^(FOREACH $i expression ^(COMMANDS commands));
+foreach_	:	'foreach' i = Variable'in'expression'do'commands'od' -> ^(FOREACH ^(VARIABLE $i) expression ^(COMMANDS commands));
 exprbase:	 
 ('nil' -> ^('nil')|v=Variable -> ^(VARIABLE $v)|s=Symbol -> ^(SYMBOL $s))
  | ('(' 'cons' lexpr ')' -> ^(CONS lexpr) | '(' 'list' lexpr ')' -> ^(LIST lexpr))
  | ('(' 'hd' exprbase ')'-> ^(HD exprbase) | '(' 'tl' exprbase ')' -> ^(TL exprbase))
  | ('(' s=Symbol lexpr ')'  -> ^(CALL $s lexpr));
-expression :	 exprbase('=?' exprbase)* -> exprbase+;
+//expression : exprbase ('=?' exprbase)* -> exprbase+;
+//expression : exprbase ('=?' exprbase -> ^(EQUALSINTER exprbase))?;
+expression : exprbase ( '=?' exprbase)? -> ^(EXPR exprbase+);
+
+
 lexpr	:	 exprbase+ -> exprbase+ | -> ^(VIDE);
 	

@@ -160,9 +160,12 @@ public class CPPConverter {
         generatedCode.append("using namespace std;\n");
 
         int currentScope = 0;
+        int equalsInter = 0;
         for (int i = 0; i < program.getLineCount(); i++) {
             Line line = program.getLine(i);
             String result = sanitizeSymbol(line.res.toString());
+            String arg1 = sanitizeSymbol(line.arg1.toString());
+            String arg2 = sanitizeSymbol(line.arg2.toString());
 
             // Vive les switchs
             switch (line.op) {
@@ -199,9 +202,9 @@ public class CPPConverter {
                         generatedCode.append("Nil(").append(result).append(");\n");
                     }
                     else if (line.arg1 instanceof Symbol) {
-                        generatedCode.append("Symbol(").append(result).append(", \"").append(sanitizeSymbol(line.arg1.toString())).append("\");\n");
+                        generatedCode.append("Symbol(").append(result).append(", \"").append(arg1).append("\");\n");
                     } else {
-                        generatedCode.append(result).append(" = ").append(sanitizeSymbol(line.arg1.toString())).append(";\n");
+                        generatedCode.append(result).append(" = ").append(arg1).append(";\n");
                     }
                     break;
                 case IFBEGIN:
@@ -237,6 +240,11 @@ public class CPPConverter {
                     generatedCode.append("}\n");
                     currentScope++;
                     addVariableForScope(generatedCode, currentScope);
+                    break;
+                case FOREACHBEGIN:
+
+                    break;
+                case FOREACHEND:
                     break;
                 case CALLEND:
                     STFunc st_func = symbolTable.getFunc(line.res.toString());
@@ -279,15 +287,21 @@ public class CPPConverter {
                         if (line.arg1.toString().equals("Nil"))
                             generatedCode.append(", Nil()");
                         else
-                            generatedCode.append(", ").append(sanitizeSymbol(line.arg1.toString()));
+                            generatedCode.append(", ").append(arg1);
                         if (!line.arg2.toString().equals("EMPTY")) {
                             if (line.arg2.toString().equals("Nil"))
                                 generatedCode.append(", Nil()");
                             else
-                                generatedCode.append(", ").append(sanitizeSymbol(line.arg2.toString()));
+                                generatedCode.append(", ").append(arg2);
                         }
                     }
                     generatedCode.append(");\n");
+                    break;
+                case EQUALSINTER:
+                    generatedCode.append("Node ").append(result).append(" = Node();\n");
+                    generatedCode.append("bool _equalsInter_").append(equalsInter).append(" = ");
+                    generatedCode.append(arg1).append(" == ").append(arg2);
+
                     break;
                 case TL:
                     if (line.res instanceof Registre) {
