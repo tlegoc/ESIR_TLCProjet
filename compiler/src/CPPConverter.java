@@ -10,11 +10,6 @@ import java.util.List;
 
 public class CPPConverter {
 
-    private final Program program;
-    private final SymbolTable symbolTable;
-    private final String mainFunc;
-    private int index_for = 0;
-
     private static final String[] cpp_keywords = new String[]
             {
                     "alignas",
@@ -116,6 +111,11 @@ public class CPPConverter {
                     "xor_eq",
                     "main", // Evite d'avoir deux fois une fonction main.
             };
+    private final Program program;
+    private final SymbolTable symbolTable;
+    private final String mainFunc;
+    private int index_for = 0;
+    private int index_foreach = 0;
 
     public CPPConverter(Program program, SymbolTable st, String mf) {
         this.program = program;
@@ -195,6 +195,7 @@ public class CPPConverter {
                     generatedCode.append("return ").append(result).append(";\n");
                     break;
                 case ASSIGN:
+
                     if (line.res instanceof Registre) {
                         generatedCode.append("Node ").append(result).append(" = Node();\n");
                     }
@@ -242,9 +243,26 @@ public class CPPConverter {
                     addVariableForScope(generatedCode, currentScope);
                     break;
                 case FOREACHBEGIN:
-
+                    String nameb = "_foreach_" + index_foreach;
+                    index_foreach++;
+                    generatedCode.append("Node ").append(nameb).append(" = Node();\n");
+                    generatedCode.append(nameb).append(" = ").append(arg1).append(";\n");
+                    generatedCode.append("while (").append("toBool(").append(nameb).append(")) {\n");
+                    generatedCode.append("hd(").append(result).append(",").append(nameb).append(");\n");
+                    currentScope++;
+                    addVariableForScope(generatedCode, currentScope);
                     break;
                 case FOREACHEND:
+                    index_foreach --;
+                    String namee = "_foreach_" + index_foreach;
+                    String nametmp = "_tmp_" + namee;
+                    generatedCode.append("Node ").append(nametmp).append(" = Node();\n");
+
+                    generatedCode.append("tl(").append(nametmp).append(", ").append(namee).append(");\n");
+                    generatedCode.append(namee).append(" = ").append(nametmp).append(";\n");
+                    generatedCode.append("}\n");
+                    currentScope++;
+                    addVariableForScope(generatedCode, currentScope);
                     break;
                 case CALLEND:
                     STFunc st_func = symbolTable.getFunc(line.res.toString());
@@ -300,7 +318,7 @@ public class CPPConverter {
                 case EQUALSINTER:
                     generatedCode.append("Node ").append(result).append(" = Node();\n");
                     generatedCode.append("bool _equalsInter_").append(equalsInter).append(" = ");
-                    generatedCode.append(arg1).append(" == ").append(arg2);
+                    generatedCode.append(arg1).append(" == ").append(arg2).append(";\n");
 
                     break;
                 case TL:

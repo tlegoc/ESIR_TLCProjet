@@ -18,6 +18,9 @@ public class Registre implements Argument {
 //        } while (taken_ids.contains(name));
         name = "reg_" + ++current_reg;
     }
+    public Registre(String name) {
+        this.name = name;
+    }
 
     @Override
     public String toString() {

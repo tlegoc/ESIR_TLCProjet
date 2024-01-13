@@ -121,7 +121,7 @@ write Test1, Test2
 function testForeachetComm:
 read Op1, Op2, Op3
 %
-    Test1 := (cons);
+    //Test1 := (cons);
     foreach VFor in Op2 do
         Test1 := (cons VFor Test1)
     od;

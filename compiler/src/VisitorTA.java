@@ -54,11 +54,14 @@ public class VisitorTA {
                 program.addLine(Line.Op.FOREND, cond_for);
                 break;
             case "FOREACH":
-                Registre var_foreach = process(tree.getChild(0)).get(0);
+                //Registre var_foreach = process(tree.getChild(0)).get(0);
+                String name = tree.getChild(0).getChild(0).toString();
+                Registre var_foreach = new Registre(name);
+                program.addLine(Line.Op.ASSIGN, var_foreach, new Nil(), new EmptyArgument());
                 Registre cond_foreach = process(tree.getChild(1)).get(0);
                 program.addLine(Line.Op.FOREACHBEGIN, var_foreach, cond_foreach, new EmptyArgument());
                 visit(tree.getChild(2));
-                program.addLine(Line.Op.FOREACHBEGIN, var_foreach, cond_foreach, new EmptyArgument());
+                program.addLine(Line.Op.FOREACHEND, var_foreach, cond_foreach, new EmptyArgument());
                 break;
             case "LIST":
                 program.addLine(Line.Op.ASSIGN, new Registre(), processLIST(o), new EmptyArgument());
@@ -89,12 +92,13 @@ public class VisitorTA {
                 break;
         }
     }
-    //TODO : FOREACH (eh ouais on l'a zappé)
     private List<Registre> process(Object o) {
         CommonTree tree = (CommonTree) o;
+        /*
         int line = tree.getLine();
         int charInLine = tree.getCharPositionInLine();
-        //program.addComment("Line: " + line + ":" + charInLine);
+        program.addComment("Line: " + line + ":" + charInLine);
+         */
         List<Registre> arg = new ArrayList<>();
         switch (tree.toString()) {
             case "EXPR":
@@ -142,7 +146,6 @@ private Registre processEXPR(Object o) {
     return reg;
 }
     private Registre processNIL(Object o) {
-        CommonTree tree = (CommonTree) o;
         Registre reg = new Registre();
         program.addLine(Line.Op.ASSIGN, reg, new Nil(), new EmptyArgument());
         return reg;
@@ -153,6 +156,8 @@ private Registre processEXPR(Object o) {
         Registre reg = new Registre();
         if (!tree.toString().equals("VARIABLE"))
             throw new RuntimeException("processVARIABLE called on non variable token");
+        program.addComment("passage dans process variable");
+        program.addComment(tree.getChild(0).toString());
         program.addLine(Line.Op.ASSIGN, reg, new Variable(tree.getChild(0).toString()), new EmptyArgument());
         return reg;
     }
