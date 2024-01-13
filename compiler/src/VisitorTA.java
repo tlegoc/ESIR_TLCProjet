@@ -101,7 +101,7 @@ public class VisitorTA {
         List<Registre> arg = new ArrayList<>();
         switch (tree.toString()) {
             case "EXPR":
-                arg.add(processEXPR(o));
+                arg.addAll(processEXPR(o));
                 break;
             case "LIST":
                 arg.add(processLIST(o));
@@ -130,17 +130,18 @@ public class VisitorTA {
         }
         return arg;
     }
-private Registre processEXPR(Object o) {
+private List<Registre> processEXPR(Object o) {
     CommonTree tree = (CommonTree) o;
-    Registre reg = new Registre();
+    List<Registre> reg = new ArrayList<>();
     if(tree.getChildCount() == 2) {
+        reg.add(new Registre());
         program.addLine(Line.Op.EQUALSINTER,
-                reg,
+                reg.getFirst(),
                 process(tree.getChild(0)).get(0),
                 process(tree.getChild(1)).get(0));
     }
     else {
-        program.addLine(Line.Op.ASSIGN, reg, process(tree.getChild(0)).get(0), new EmptyArgument());
+        reg.addAll(process(tree.getChild(0)));
     }
     return reg;
 }
@@ -280,18 +281,20 @@ private Registre processEXPR(Object o) {
         CommonTree tree = (CommonTree) o;
         CommonTree ass_var = (CommonTree) tree.getChild(0);
         CommonTree ass_exp = (CommonTree) tree.getChild(1);
+        int consumed = 0;
         for (int i = 0; i < ass_exp.getChildCount(); i++) {
-            Object ass_var_child = ass_var.getChild(i);
             Object ass_exp_child = ass_exp.getChild(i);
 
             List<Registre> out = process(ass_exp_child);
+            program.addComment("Out size: " + out.size());
             for (int j = 0; j < out.size(); j++) {
                 program.addLine(
                         Line.Op.ASSIGN,
-                        new Variable(ass_var_child.toString()),
+                        new Variable(ass_var.getChild(consumed).toString()),
                         out.get(j),
                         new EmptyArgument()
                 );
+                consumed++;
             }
         }
     }

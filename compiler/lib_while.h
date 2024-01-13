@@ -10,165 +10,110 @@
 
 using namespace std;
 
-class Node;
-
-bool toBool(Node &node);
-
-class Node {
-
-public:
-    Node *left_child;
-    Node *right_child;
-    string val;
-
-    void setLeft(const Node &node) {
-        left_child = new Node(node);
-    }
-
-    void setRight(const Node &node) {
-        right_child = new Node(node);
-    }
-
-    bool isSymbol() {
-        return val != "" && val != "int" && val != "bool" && val != "string" && left_child == nullptr && right_child == nullptr;
-    }
-
-    Node() {
-        left_child = nullptr;
-        right_child = nullptr;
-        val = "";
-    };
-
-    Node(string _val) {
-        left_child = nullptr;
-        right_child = new Node();
-        right_child->val = _val;
-        val = "string";
-    };
-
-    Node(bool b) {
-        if (b) {
-            left_child = nullptr;
-            right_child = new Node();
-            right_child->val = "t";
-            val = "bool";
-            return;
-        }
-
-        left_child = nullptr;
-        right_child = nullptr;
-        val = "bool";
-    }
-
-    Node(int number) {
-        if (number == 0) {
-            left_child = nullptr;
-            right_child = nullptr;
-            val = "";
-            return;
-        }
-
-        left_child = nullptr;
-        right_child = new Node(number - 1);
-        val = "int";
-    }
-
-    // Copy
-    Node(const Node &node) {
-        if (&node == this) {
-            return;
-        }
-
-        if (node.left_child == nullptr)
-            left_child = nullptr;
-        else
-            left_child = new Node(*node.left_child);
-
-        if (node.right_child == nullptr)
-            right_child = nullptr;
-        else
-            right_child = new Node(*node.right_child);
-
-        val = node.val;
-    };
-
-    ~Node() {
-        delete left_child;
-        delete right_child;
-    }
-
-    Node &operator=(const Node &node) {
-        if (&node == this) {
-            return *this;
-        }
-
-        if (node.left_child == nullptr)
-            left_child = nullptr;
-        else
-            left_child = new Node(*node.left_child);
-
-        if (node.right_child == nullptr)
-            right_child = nullptr;
-        else
-            right_child = new Node(*node.right_child);
-
-        val = node.val;
-        return *this;
-    };
-
-    Node operator==(const Node &node) {
-        if (&node == this) {
-            Node n = Node("bool");
-            n.setRight(Node("t"));
-            return n;
-        }
-
-        if (node.left_child != nullptr && left_child != nullptr) {
-            Node n = *node.left_child == *left_child;
-            if (!toBool(n)) {
-                return Node();
-            }
-        }
-
-        if (node.right_child != nullptr && right_child != nullptr) {
-            Node n = *node.right_child == *right_child;
-            if (!toBool(n)) {
-                return Node();
-            }
-        }
-
-        if (node.val != val)
-        {
-            return Node();
-        }
-
-        Node r = Node("bool");
-        r.setRight(Node("t"));
-        return r;
-    };
+enum NodeType {
+    NTREE,
+    NSYMB,
+    NNIL
 };
 
-void Nil(Node &res);
 
-Node Nil();
+#define NODE shared_ptr<INode>
+#define TREE shared_ptr<CTree>
+#define MSTREE make_shared<CTree>
+#define SYMB shared_ptr<CSymb>
+#define MSSYMB make_shared<CSymb>
+#define NIL shared_ptr<CNil>
+#define MSNIL make_shared<CNil>
+#define MSTRUE make_shared<CTree>
+#define MSFALSE make_shared<CNil>
+#define COPY(x) x->clone()
 
-void Symbol(Node &res, string val);
+class INode {
+public:
+    explicit INode(const NodeType type) : m_type(type) {}
 
-bool isLeaf(Node &res);
+    virtual NODE clone() = 0;
 
-void Cons(Node &res);
+    const NodeType m_type;
+};
 
-void Cons(Node &res, Node T);
+class CTree : public INode {
+public:
+    NODE left_child = nullptr;
+    NODE right_child = nullptr;
 
-void Cons(Node &res, const Node A, const Node B);
+    CTree() : INode(NTREE) {}
 
-void hd(Node &res, const Node &T);
+    NODE clone() override {
+        TREE tree = MSTREE();
+        tree->left_child = left_child->clone();
+        tree->right_child = right_child->clone();
 
-void tl(Node &res, const Node &T);
+        return tree;
+    }
 
-int toInt(Node &node);
+    CTree &operator=(const CTree &other) {
+        if (this != &other) {
+            left_child = other.left_child->clone();
+            right_child = other.right_child->clone();
+        }
 
+        return *this;
+    }
+};
 
-std::string toString(Node &node);
+class CSymb : public INode {
+public:
+    string symb;
+
+    CSymb() : INode(NSYMB) {}
+
+    NODE clone() override {
+        SYMB s = MSSYMB();
+        s->symb = symb;
+        return s;
+    }
+};
+
+class CNil : public INode {
+public:
+    CNil() : INode(NNIL) {}
+
+    NODE clone() override {
+        return MSNIL();
+    }
+};
+
+bool toBool(NODE node);
+
+void Nil(NODE &res);
+
+NIL Nil();
+
+void Symbol(NODE &res, string val);
+
+bool isLeaf(NODE &res);
+
+void Cons(NODE &res);
+
+void Cons(NODE &res, NODE T);
+
+void Cons(NODE &res, NODE A, NODE B);
+
+void hd(NODE &res, NODE &T);
+
+void tl(NODE &res, NODE &T);
+
+int toInt(NODE &node);
+
+std::string toString(NODE &node);
+
+bool isNil(NODE &node);
+
+NODE equals(NODE &A, NODE &B);
+
+void pp(NODE &node);
+
+void ppln(NODE &node);
 
 #endif //LIB_LIB_WHILE_H

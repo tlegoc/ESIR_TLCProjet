@@ -125,8 +125,7 @@ read Op1, Op2, Op3
     foreach VFor in Op2 do
         Test1 := (cons VFor Test1)
     od;
-    Test2 := (cons) =? Test1
-
+    Test2 := (cons) =? (cons oui (cons non nil))
 %
 write Test1, Test2
 
@@ -134,6 +133,11 @@ function main:
 read
 %
     Result := (cons);
-    Result := (add nil (cons a))
+    Result := (add nil (cons a));
+    Var1 := (cons);
+    Var2 := (cons nil (cons a));
+    Var3 := (cons);
+    Var5, Result := (testForeachetComm Var1 Var2 Var3);
+    Result := (cons bool (cons nil nil))
 %
 write Result

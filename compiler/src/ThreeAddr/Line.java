@@ -18,7 +18,7 @@ public class Line {
         OUTPUTSET,
         FUNCBEGIN,
         FUNCEND,
-        OUTPUT,
+//        OUTPUT,
         CONS,
         ASSIGN,
         TL,
@@ -61,7 +61,7 @@ public class Line {
         else if (line.op == Op.FOREACHBEGIN || line.op == Op.FOREACHEND || line.op == Line.Op.FORBEGIN || line.op == Line.Op.FOREND || line.op == Line.Op.WHILEBEGIN || line.op == Line.Op.WHILEEND || line.op == Line.Op.IFBEGIN || line.op == Line.Op.IFEND || line.op == Line.Op.ELSEBEGIN || line.op == Line.Op.ELSEEND)
             result.append(ANSI_YELLOW);
         else if (line.op == Line.Op.CALL || line.op == Line.Op.PARAMSET || line.op == Line.Op.CALLEND || line.op == Op.OUTPUTSET) result.append(ANSI_RED);
-        else if (line.op == Line.Op.OUTPUT) result.append(ANSI_BLUE);
+//        else if (line.op == Line.Op.OUTPUT) result.append(ANSI_BLUE);
         else if (line.op == Line.Op.ASSIGN || line.op == Op.EQUALSINTER) result.append(ANSI_PURPLE);
         else if (line.op == Line.Op.IGNORE) result.append(ANSI_CYAN);
         else result.append(ANSI_RESET);
