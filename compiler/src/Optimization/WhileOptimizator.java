@@ -3,11 +3,7 @@ package Optimization;
 import SymbolTable.SymbolTable;
 import SymbolTable.STEntry;
 import SymbolTable.STFunc;
-import SymbolTable.STVariable;
-import SymbolTable.STBlockStart;
-import SymbolTable.STBlockEnd;
 
-import ThreeAddr.Argument;
 import ThreeAddr.Line;
 import ThreeAddr.Program;
 import ThreeAddr.Variable;
@@ -29,19 +25,16 @@ public class WhileOptimizator {
 
     private void createBlocks() {
         //TODO
-        List<Line> lines = new ArrayList<>();
-        List<Argument> inputs = new ArrayList<>();
-        List<Argument> outputs = new ArrayList<>();
+
+
         List<Block> blocksAbove = new ArrayList<>();
-        String currentFunc = "";
-        String[] funcOutputs = new String[0];
         Block block = new Block();
         for(Line line : program.lines) {
             switch (line.op) {
                 case FUNCBEGIN :
-                    currentFunc = line.res.toString();
                     for(STEntry symbol : symbolTable.symbols) {
-                        if (symbol instanceof STFunc func && func.name.equals(currentFunc)) {
+                        if (symbol instanceof STFunc func && func.name.equals( line.res.toString()))
+                        {
                             block = new Block();
                             for(String input : func.parameters){
                                 block.inputs.add(new Variable(input));
@@ -52,6 +45,7 @@ public class WhileOptimizator {
                             }
                         }
                     }
+                    blocksAbove.add(block);
                     break;
                 case FUNCEND:
                     block.optimizeBloc();
@@ -64,17 +58,24 @@ public class WhileOptimizator {
                     blocks.add(block);
                     blocksAbove.add(block);
                     block = new Block();
-                    block.addParent(blocksAbove.get(blocksAbove.size() - 1));
+                    block.setParent(blocksAbove.get(blocksAbove.size() - 1));
                     break;
-                case FOREND, WHILEEND, FOREACHEND, IFEND, ELSEEND:
+
+                case WHILEEND, FOREACHEND, IFEND, ELSEEND:
+                    block.lines.add(line);
                     block.optimizeBloc();
-                    if(!block.lines.isEmpty()) {
-                        blocks.add(block);
-                    }
+                    blocks.add(block);
                     blocksAbove.remove(blocksAbove.size() - 1);
                     block = new Block();
-                    block.addParent(blocksAbove.get(blocksAbove.size() - 1));
+                    block.setParent(blocksAbove.get(blocksAbove.size() - 1));
 
+                    break;
+                case FOREND:
+                    block.lines.add(line);
+                    block.optimizeBloc();
+                    blocks.add(block);
+                    block = new Block();
+                    block.setParent(blocksAbove.get(blocksAbove.size() - 1));
                     break;
                 default:
                     block.lines.add(line);

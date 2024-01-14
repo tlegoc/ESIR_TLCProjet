@@ -10,23 +10,18 @@ public class Block {
     public List<Line> lines;
     public List<Argument> inputs;
     public List<Argument> outputs;
-    private List<Block> parents;
-    public Block(List<Line> l, List<Block> p, List<Block> c) {
-        this.lines = l;
-        this.parents = p;
-        updateInputs();
-    }
+    private Block parent;
+
     public Block() {
         this.lines = new ArrayList<>();
-        this.parents = new ArrayList<>();
+        this.parent = new Block();
         updateInputs();
     }
 
     private void updateInputs() {
         inputs = new ArrayList<>();
-        for(Block parent : parents) {
-            inputs.addAll(parent.outputs);
-        }
+        inputs.addAll(parent.outputs);
+
     }
     private void updateOutputs(){
         //TODO
@@ -76,8 +71,8 @@ public class Block {
         updateOutputs();
     }
 
-    public void addParent(Block b) {
-        parents.add(b);
+    public void setParent(Block b) {
+        parent = b;
         updateInputs();
     }
 }

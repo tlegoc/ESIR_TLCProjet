@@ -5,6 +5,7 @@ read Op1, Op2
     Op3 := (cons nil nil);
     if Test1
     then
+    Test2 := (cons nil nil);
         if Test2
             then
                 Test3 := Test2;
@@ -17,7 +18,8 @@ read Op1, Op2
 
             else
                 Test3 := Test1
-        fi
+        fi;
+        Test5:= Op1
     else
         Test2 := (cons)
     fi;
