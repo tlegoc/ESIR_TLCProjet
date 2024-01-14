@@ -36,3 +36,5 @@ compiler/*.cpp
 compiler/resources/**.*
 
 lib/.idea/
+.idea/
+compiler/.idea/

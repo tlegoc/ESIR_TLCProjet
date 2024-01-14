@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="ESIR_TLCProjet:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/ESIR_TLCProjet_jar</output-path>
-    <root id="archive" name="ESIR_TLCProjet.jar">
-      <element id="module-output" name="ESIR_TLCProjet" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/compiler/antlr-3.5.3-complete-no-st3.jar" path-in-jar="/" />
-    </root>
-  </artifact>
-</component>
