@@ -154,7 +154,6 @@ public class WhileCompiler {
 
             if (!lib.exists() || !header.exists()) {
                 System.out.println(ANSI_RED + "Error: You must build the library first! If you're on windows, please run compile_windows.bat" + ANSI_RESET);
-                clean();
                 return false;
             }
 
@@ -208,7 +207,6 @@ public class WhileCompiler {
             // Check if the file exists
             if (!vcvarsallpath.toFile().exists()) {
                 System.out.println(ANSI_RED + "Error: could not find vcvarsall.bat in " + vcvarsallpath.toString() + ANSI_RESET);
-                clean();
                 return false;
             }
 
