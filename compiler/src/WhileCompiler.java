@@ -1,12 +1,19 @@
 import Optimization.WhileOptimizer;
 import SymbolTable.SymbolTable;
 import ThreeAddr.Program;
+
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -58,30 +65,29 @@ public class WhileCompiler {
             return false;
         }
 
+        // Creating symbol table and validation
+        VisitorTS visitorTS = new VisitorTS();
+        if (!visitorTS.visit(ast))
+        {
+            System.out.println(ANSI_RED + "Error: could not validate program" + ANSI_RESET);
+            return false;
+        }
+        symbolTable = visitorTS.getST();
+
+        if (symbolTable.getFunc("main") == null)
+        {
+            System.out.println(ANSI_RED + "Error: no main function." + ANSI_RESET);
+            return false;
+        }
+
+        symbolTable.printSymbolTable();
+
         // Creating intermediate code
         VisitorTA visitorTA = new VisitorTA();
         visitorTA.visit(ast);
         program = visitorTA.getProgram();
 
         System.out.println(program.getProgramString(true));
-
-        // Creating symbol table
-        VisitorTS visitorTS = new VisitorTS();
-        visitorTS.visit(ast);
-        symbolTable = visitorTS.getST();
-
-        symbolTable.printSymbolTable();
-
-        // On effectue la validation apres generation du code 3 adresses car simplifie
-        // La verification.
-        // En toute logique il serait preferable de le faire avant
-        WhileValidator wv = new WhileValidator(program, symbolTable, mainFunc);
-
-        // Validation
-        if (!wv.validate()) {
-            System.out.println(ANSI_RED + "Error, could not validate program" + ANSI_RESET);
-            return false;
-        }
 
         if (runOptimizations) {
             WhileOptimizer optimizer = new WhileOptimizer(program, symbolTable);

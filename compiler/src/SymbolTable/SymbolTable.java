@@ -19,16 +19,13 @@ public class SymbolTable {
             for (int i = 0; i < symbols.size(); i++) {
                 if (symbols.get(i) instanceof STBlockStart) {
                     depth++;
-                }
-                else if (symbols.get(i) instanceof STBlockEnd) {
+                } else if (symbols.get(i) instanceof STBlockEnd) {
                     depth--;
                     if (depth < found_depth) exists = false;
-                }
-                else if (symbols.get(i) instanceof STVariable && symbols.get(i).getSymbol().equals(entry.getSymbol())) {
+                } else if (symbols.get(i) instanceof STVariable && symbols.get(i).getSymbol().equals(entry.getSymbol())) {
                     found_depth = depth;
                     exists = true;
-                }
-                else if (symbols.get(i) instanceof STFunc func) {
+                } else if (symbols.get(i) instanceof STFunc func) {
                     for (String output : func.outputs) {
                         if (output.equals(entry.getSymbol())) {
                             found_depth = depth;
@@ -53,7 +50,13 @@ public class SymbolTable {
         if (!exists) symbols.add(entry);
     }
 
-    public List<STEntry> getEntriesForScope(int currentScope) {
+    /**
+     * Retourne les variables du block actuel seulement
+     *
+     * @param currentScope block actuel
+     * @return liste des variables du block actuel
+     */
+    public List<STEntry> getEntriesForScope(int currentScope, boolean considerParams, boolean considerOutputs) {
         if (currentScope > getScopeCount()) return new ArrayList<>();
 
         List<STEntry> entries = new ArrayList<>();
@@ -68,14 +71,69 @@ public class SymbolTable {
             if (scope == currentScope) {
                 if (symbols.get(i) instanceof STVariable)
                     entries.add(symbols.get(i));
+
+                else if (symbols.get(i) instanceof STFunc func) {
+                    if (considerParams)
+                        for (String params : func.parameters) {
+                            entries.add(new STVariable(params));
+                        }
+                    if (considerOutputs)
+                        for (String outputs : func.outputs) {
+                            entries.add(new STVariable(outputs));
+                        }
+                }
             }
         }
 
         return entries;
     }
 
+    public int getDepthAtScope(int scope) {
+        int depth = 0;
+        int current_scope = 0;
+        for (int i = 0; i < symbols.size(); i++) {
+            if (symbols.get(i) instanceof STBlockStart) {
+                current_scope++;
+                depth++;
+                if (current_scope > scope) break;
+            } else if (symbols.get(i) instanceof STBlockEnd) {
+                current_scope++;
+                depth--;
+                if (current_scope > scope) break;
+            }
+        }
+
+        return depth;
+    }
+
+    /**
+     * Retourne les variables accessibles dans le scope donné
+     *
+     * @param scope
+     * @return liste des variables accessibles dans le scope donné
+     */
+    // une variable accessible est une variable qui est dans un scope qui entoure le scope donné
+    public List<STEntry> getAccessibleEntries(int scope) {
+        if (scope >= getScopeCount()) return new ArrayList<>();
+
+        int depth = getDepthAtScope(scope);
+//        System.out.println("depth: " + depth);
+        List<STEntry> entries = new ArrayList<>();
+
+        for (int currentScope = scope; currentScope > 0; currentScope--) {
+            int currentDepth = getDepthAtScope(currentScope);
+//            System.out.println("currentDepth: " + currentDepth);
+            if (currentDepth <= 0) break;
+            if (currentDepth > depth) continue;
+
+            entries.addAll(getEntriesForScope(currentScope, true, true));
+        }
+
+        return entries;
+    }
+
     public int getScopeCount() {
-        int res = 0;
+        int res = 1;
         for (int i = 0; i < symbols.size(); i++) {
             if (symbols.get(i) instanceof STBlockStart || symbols.get(i) instanceof STBlockEnd) res++;
         }

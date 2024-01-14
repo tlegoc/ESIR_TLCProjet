@@ -94,6 +94,7 @@ public class VisitorTA {
 
     private List<Registre> process(Object o) {
         CommonTree tree = (CommonTree) o;
+        program.addComment("Line: " + tree.getLine() + ":" + tree.getCharPositionInLine());
         /*
         int line = tree.getLine();
         int charInLine = tree.getCharPositionInLine();

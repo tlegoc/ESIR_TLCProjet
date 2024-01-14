@@ -130,7 +130,13 @@ public class CPPConverter {
      * @param currentScope le block actuel
      */
     private void addVariableForScope(StringBuilder res, int currentScope) {
-        List<STEntry> symbols = symbolTable.getEntriesForScope(currentScope);
+        List<STEntry> symbols = symbolTable.getEntriesForScope(currentScope, false, false);
+
+        res.append("// Scope ").append(currentScope).append("\n//");
+        for (STEntry s : symbols) {
+            res.append(sanitizeSymbol(s.getSymbol())).append(" ");
+        }
+        res.append("\n");
 
         for (STEntry s : symbols) {
             res.append("NODE ").append(sanitizeSymbol(s.getSymbol())).append(" = MSNIL();\n");
@@ -169,6 +175,9 @@ public class CPPConverter {
 
             // Vive les switchs
             switch (line.op) {
+                case IGNORE:
+                    generatedCode.append("//").append(line.res.toString()).append("\n");
+                    break;
                 case FUNCBEGIN:
                     generatedCode.append("void ").append(result).append("(");
 
@@ -183,12 +192,14 @@ public class CPPConverter {
                         generatedCode.append("NODE ").append(sanitizeSymbol(func.parameters[j]));
                     }
                     generatedCode.append(" ) {\n");
-                    currentScope++;
+                    // Les fonctions ont un scope de 2
+                    currentScope+=2;
                     addVariableForScope(generatedCode, currentScope);
                     break;
                 case FUNCEND:
                     generatedCode.append("}\n");
-                    currentScope++;
+                    // Les fonctions ont un scope de 2
+                    currentScope+=2;
                     addVariableForScope(generatedCode, currentScope);
                     break;
 //                case OUTPUT:
@@ -331,7 +342,7 @@ public class CPPConverter {
                     }
                     generatedCode.append("hd(").append(result).append(", ").append(result).append(");\n");
                     break;
-                case IGNORE:
+//                case IGNORE:
                 default:
                     break;
             }

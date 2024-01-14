@@ -18,7 +18,16 @@ write Result
 function usingunknownvar :
 read 
 %
-    Result := (cons AhBahNon)
+    Result := (cons AhBahNon);
+    Result2 := (cons Result Result);
+
+    for AhBahNonToujoursPas do
+        Result := (cons nil Result)
+    od;
+
+    while AhBahNonToujoursPasLERETOUR do
+        Result := (cons nil Result)
+    od
 %
 write Result
 
@@ -32,7 +41,14 @@ write Result
 function callfunctionwithwrongparams:
 read
 %
-    Result := (returnvardoesnotexist (cons))
+    Result := (returnvardoesnotexist (cons) (cons) (cons));
+    for (returnvardoesnotexist (cons)) do
+        Result := (cons nil Result)
+    od;
+
+    foreach VFor in Bahahah do
+        Result := (cons VFor Result)
+    od
 %
 write Result
 
