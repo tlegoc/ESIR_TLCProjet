@@ -11,7 +11,10 @@ popd
 rem Compiling objects
 cl /EHsc /c lib_while.cpp /I ./
 rem Actual library compilation
-lib /OUT:../compiler/while.lib lib_while.obj
+lib /OUT:while.lib lib_while.obj
 
 rem Copying lib_while.h
 copy "lib_while.h" "../compiler/lib_while.h"
+copy "lib_while.h" "../compiler/resources/lib_while.h"
+copy "while.lib" "../compiler/while.lib"
+copy "while.lib" "../compiler/resources/while.lib"
