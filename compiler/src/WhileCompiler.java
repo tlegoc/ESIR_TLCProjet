@@ -109,8 +109,9 @@ public class WhileCompiler {
         // Pre compilation steps
         Path tmpDir;
 
+        // If we're in a jar, we need to extract the resources
         if (Main.class.getResource("Main.class").toString().startsWith("jar")) {
-            // Create temporary directory
+            // Create temporary directory, avoiding collisions
             try {
                 tmpDir = Files.createTempDirectory("whilec").toAbsolutePath();
             } catch (IOException e) {
@@ -132,6 +133,8 @@ public class WhileCompiler {
                 System.out.println(ANSI_RED + "Error: could not copy while.lib to temporary directory." + ANSI_RESET);
                 return false;
             }
+
+            // Copy header from resources to tmpDir
             try (InputStream in = getClass().getResourceAsStream("lib_while.h")) {
                 System.out.println("Copying lib_while.h to " + tmpDir);
                 if (in != null)
@@ -144,6 +147,8 @@ public class WhileCompiler {
                 System.out.println(ANSI_RED + "Error: could not copy lib_while.h to temporary directory." + ANSI_RESET);
                 return false;
             }
+
+            // We're in the IDE so we can just use the files that are created next to the jar (compile_windows.bat)
         } else {
             tmpDir = Paths.get(".").toAbsolutePath();
 
