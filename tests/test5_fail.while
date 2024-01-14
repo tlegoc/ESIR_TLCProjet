@@ -27,6 +27,10 @@ read
 
     while AhBahNonToujoursPasLERETOUR do
         Result := (cons nil Result)
+    od;
+
+    foreach VFor in Bahahah do
+        Result := (cons VFor Result)
     od
 %
 write Result
@@ -44,10 +48,6 @@ read
     Result := (returnvardoesnotexist (cons) (cons) (cons));
     for (returnvardoesnotexist (cons)) do
         Result := (cons nil Result)
-    od;
-
-    foreach VFor in Bahahah do
-        Result := (cons VFor Result)
     od
 %
 write Result
