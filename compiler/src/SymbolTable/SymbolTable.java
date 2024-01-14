@@ -13,11 +13,13 @@ public class SymbolTable {
             //TODO verif pour STFunc
         }
         //verif pour STVariable
-        else if (entry instanceof  STVariable) {
+        else if (entry instanceof STVariable) {
             int found_depth = 0;
             int depth = 0;
             for (int i = 0; i < symbols.size(); i++) {
-                if (symbols.get(i) instanceof STBlockStart) depth++;
+                if (symbols.get(i) instanceof STBlockStart) {
+                    depth++;
+                }
                 else if (symbols.get(i) instanceof STBlockEnd) {
                     depth--;
                     if (depth < found_depth) exists = false;

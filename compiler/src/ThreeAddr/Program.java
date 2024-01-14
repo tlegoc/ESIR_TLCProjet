@@ -34,8 +34,8 @@ public class Program {
         addLine(Line.Op.IGNORE, new Text(comment));
     }
 
-    public boolean optimize() {
-        return false;
+    public void optimize() {
+
     }
 
     @Override

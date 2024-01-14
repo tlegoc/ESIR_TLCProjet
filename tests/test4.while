@@ -1,3 +1,33 @@
+function f :
+read Op1, Op2
+%
+    Test1 := (cons);
+    Op3 := (cons nil nil);
+    if Test1
+    then
+        if Test2
+            then
+                Test3 := Test2;
+                for Op1 do
+                    Op3 := (cons a Op3);
+                    Test4 := (cons a b)
+                    od;
+                Test4 := Op3;
+                Op3 := Test4
+
+            else
+                Test3 := Test1
+        fi
+    else
+        Test2 := (cons)
+    fi;
+    Test3 := (cons);
+    Op3 := Test1;
+    Op4 := Test3
+
+%
+write Op3, Op4
+
 function add :
 read Op1, Op2
 %
