@@ -53,35 +53,21 @@ public class SymbolTable {
     /**
      * Retourne les variables du block actuel seulement
      *
-     * @param currentScope block actuel
+     * @param scope block actuel
      * @return liste des variables du block actuel
      */
-    public List<STEntry> getEntriesForScope(int currentScope, boolean considerParams, boolean considerOutputs) {
-        if (currentScope > getScopeCount()) return new ArrayList<>();
-
+    public List<STEntry> getEntriesForScope(int scope) {
         List<STEntry> entries = new ArrayList<>();
-
-        int scope = 0;
-        for (int i = 0; i < symbols.size() && scope < currentScope + 1 && scope < getScopeCount(); i++) {
-            if (symbols.get(i) instanceof STBlockStart || symbols.get(i) instanceof STBlockEnd) {
-                scope++;
-                continue;
-            }
-
-            if (scope == currentScope) {
-                if (symbols.get(i) instanceof STVariable)
-                    entries.add(symbols.get(i));
-
-                else if (symbols.get(i) instanceof STFunc func) {
-                    if (considerParams)
-                        for (String params : func.parameters) {
-                            entries.add(new STVariable(params));
-                        }
-                    if (considerOutputs)
-                        for (String outputs : func.outputs) {
-                            entries.add(new STVariable(outputs));
-                        }
-                }
+        int current_scope = 0;
+        for (int i = 0; i < symbols.size(); i++) {
+            if (symbols.get(i) instanceof STBlockStart) {
+                current_scope++;
+                if (current_scope > scope) break;
+            } else if (symbols.get(i) instanceof STBlockEnd) {
+                current_scope++;
+                if (current_scope > scope) break;
+            } else if (current_scope == scope) {
+                entries.add(symbols.get(i));
             }
         }
 
@@ -112,24 +98,43 @@ public class SymbolTable {
      * @param scope
      * @return liste des variables accessibles dans le scope donné
      */
-    // une variable accessible est une variable qui est dans un scope qui entoure le scope donné
-    public List<STEntry> getAccessibleEntries(int scope) {
-        if (scope >= getScopeCount()) return new ArrayList<>();
+    public List<STEntry> getAccessibleEntries(int scope, boolean considerParams, boolean considerOutputs) {
+        if (scope > getScopeCount()) return new ArrayList<>();
 
-        int depth = getDepthAtScope(scope);
-//        System.out.println("depth: " + depth);
-        List<STEntry> entries = new ArrayList<>();
+        List<STEntry> res = new ArrayList<>();
 
-        for (int currentScope = scope; currentScope > 0; currentScope--) {
-            int currentDepth = getDepthAtScope(currentScope);
-//            System.out.println("currentDepth: " + currentDepth);
-            if (currentDepth <= 0) break;
-            if (currentDepth > depth) continue;
+        int currentScope = 0;
 
-            entries.addAll(getEntriesForScope(currentScope, true, true));
+        for (int i = 0; i < symbols.size(); i++) {
+            if (symbols.get(i) instanceof STBlockStart) {
+                currentScope++;
+                if (currentScope > scope) break;
+                res.add(new STBlockStart());
+            } else if (symbols.get(i) instanceof STBlockEnd) {
+                for (int j = res.size() - 1; j >= 0; j--) {
+                    if (!(res.get(j) instanceof STBlockStart))
+                        res.remove(j);
+                    else {
+                        res.remove(j);
+                        break;
+                    }
+                }
+                currentScope++;
+            } else if (symbols.get(i) instanceof STVariable var) {
+                res.add(var);
+            } else if (symbols.get(i) instanceof STFunc func) {
+                if (considerParams)
+                    for (String param : func.parameters) {
+                        res.add(new STVariable(param));
+                    }
+                if (considerOutputs)
+                    for (String output : func.outputs) {
+                        res.add(new STVariable(output));
+                    }
+            }
         }
 
-        return entries;
+        return res.stream().filter((entry) -> entry instanceof STVariable).toList();
     }
 
     public int getScopeCount() {
@@ -153,10 +158,18 @@ public class SymbolTable {
     public void printSymbolTable() {
         StringBuilder s = new StringBuilder();
 
+        int depth = 0;
         for (STEntry entry : symbols) {
+            if (entry instanceof STBlockEnd) {
+                depth--;
+            }
+            s.append("  ".repeat(Math.max(0, depth)));
             //String name = entry.getClass().getName();
             s.append(entry.toString());
             s.append("\n");
+            if (entry instanceof STBlockStart) {
+                depth++;
+            }
         }
 
         System.out.println(s);

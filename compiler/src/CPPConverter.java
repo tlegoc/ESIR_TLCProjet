@@ -130,7 +130,7 @@ public class CPPConverter {
      * @param currentScope le block actuel
      */
     private void addVariableForScope(StringBuilder res, int currentScope) {
-        List<STEntry> symbols = symbolTable.getEntriesForScope(currentScope, false, false);
+        List<STEntry> symbols = symbolTable.getEntriesForScope(currentScope);
 
         res.append("// Scope ").append(currentScope).append("\n//");
         for (STEntry s : symbols) {

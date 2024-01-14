@@ -80,14 +80,14 @@ public class WhileCompiler {
             return false;
         }
 
-        symbolTable.printSymbolTable();
+//        symbolTable.printSymbolTable();
 
         // Creating intermediate code
         VisitorTA visitorTA = new VisitorTA();
         visitorTA.visit(ast);
         program = visitorTA.getProgram();
 
-        System.out.println(program.getProgramString(true));
+//        System.out.println(program.getProgramString(true));
 
         if (runOptimizations) {
             WhileOptimizer optimizer = new WhileOptimizer(program, symbolTable);

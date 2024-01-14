@@ -95,12 +95,13 @@ public class VisitorTS {
             case "VARIABLE":
 //                System.out.println(ANSI_RED + "VARIABLE " + Helpers.getFormattedPosition(tree) + ANSI_RESET);
 //                System.out.println("Scope: " + (st.getScopeCount() - 1));
-                List<STEntry> entries = st.getAccessibleEntries(st.getScopeCount() - 1);
+                List<STEntry> entries = st.getAccessibleEntries(st.getScopeCount() - 1, true, true);
 
                 // map to string
                 List<String> entries_str = new ArrayList<>();
                 for (STEntry entry : entries) {
                     entries_str.add(entry.getSymbol());
+//                    System.out.println(entry.getSymbol());
                 }
 
                 if (!entries_str.contains(tree.getChild(0).toString())) {
