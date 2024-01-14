@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="whilec:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/whilec_jar</output-path>
+    <root id="archive" name="whilec.jar">
+      <element id="module-output" name="whilec" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/compiler/antlr-3.5.3-complete-no-st3.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

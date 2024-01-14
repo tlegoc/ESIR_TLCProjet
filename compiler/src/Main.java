@@ -8,13 +8,6 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("While Compiler cyberviking 2019");
 
-        if (Main.class.getResource("Main.class").toString().startsWith("jar")) {
-            // Extract resources from jar and put it next to the jar
-
-        } else {
-            System.out.println(ANSI_RED + "Running from IDE" + ANSI_RESET);
-        }
-
         if (args.length <= 0) {
             System.out.println(ANSI_RED + "Error: Wrong numbers of parameters. Please add FILEPATH as an argument." + ANSI_RESET);
             return;
@@ -40,7 +33,7 @@ public class Main {
         boolean succes = compiler.compile(main, true, false);
 
         if (!succes) {
-            System.out.println(ANSI_RED + "Error, could not compile program" + ANSI_RESET);
+            System.out.println(ANSI_RED + "Error: could not compile program" + ANSI_RESET);
             return;
         }
     }

@@ -7,13 +7,8 @@ import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -43,9 +38,9 @@ public class WhileCompiler {
      */
     public boolean compile(String mainFunc, boolean compileToExe, boolean runOptimizations) {
         Object ast;
-
         Path filepath = Paths.get(filename);
 
+        // Generate AST
         try {
             CharStream input = new ANTLRFileStream(filename);
 
@@ -65,35 +60,35 @@ public class WhileCompiler {
             return false;
         }
 
+
         // Creating symbol table and validation
         VisitorTS visitorTS = new VisitorTS();
-        if (!visitorTS.visit(ast))
-        {
+        if (!visitorTS.visit(ast)) {
             System.out.println(ANSI_RED + "Error: could not validate program" + ANSI_RESET);
             return false;
         }
         symbolTable = visitorTS.getST();
 
-        if (symbolTable.getFunc("main") == null)
-        {
+        if (symbolTable.getFunc("main") == null) {
             System.out.println(ANSI_RED + "Error: no main function." + ANSI_RESET);
             return false;
         }
 
-//        symbolTable.printSymbolTable();
 
         // Creating intermediate code
         VisitorTA visitorTA = new VisitorTA();
         visitorTA.visit(ast);
         program = visitorTA.getProgram();
 
-//        System.out.println(program.getProgramString(true));
 
+        // Optimizing
         if (runOptimizations) {
             WhileOptimizer optimizer = new WhileOptimizer(program, symbolTable);
             program = optimizer.optimize();
         }
 
+
+        // Creating C++ code
         CPPConverter cppConverter = new CPPConverter(getProgram(), symbolTable, mainFunc);
         cpp_output = cppConverter.convert();
 
@@ -111,21 +106,67 @@ public class WhileCompiler {
             return true;
         }
 
+        // Pre compilation steps
+        Path tmpDir;
+
+        if (Main.class.getResource("Main.class").toString().startsWith("jar")) {
+            // Create temporary directory
+            try {
+                tmpDir = Files.createTempDirectory("whilec").toAbsolutePath();
+            } catch (IOException e) {
+                System.out.println(ANSI_RED + "Error: could not create temporary directory." + ANSI_RESET);
+                return false;
+            }
+
+            // Extract resources from jar and put it next to the jar
+            // Copy lib from resources to tmpDir
+            try (InputStream in = getClass().getResourceAsStream("while.lib.res")) {
+                System.out.println("Copying while.lib to " + tmpDir);
+                if (in != null)
+                    Files.copy(in, Paths.get(tmpDir.toString(), "while.lib"));
+                else {
+                    System.out.println(ANSI_RED + "Error: could not copy while.lib to temporary directory." + ANSI_RESET);
+                    return false;
+                }
+            } catch (IOException e) {
+                System.out.println(ANSI_RED + "Error: could not copy while.lib to temporary directory." + ANSI_RESET);
+                return false;
+            }
+            try (InputStream in = getClass().getResourceAsStream("lib_while.h")) {
+                System.out.println("Copying lib_while.h to " + tmpDir);
+                if (in != null)
+                    Files.copy(in, Paths.get(tmpDir.toString(), "lib_while.h"));
+                else {
+                    System.out.println(ANSI_RED + "Error: could not copy lib_while.h to temporary directory." + ANSI_RESET);
+                    return false;
+                }
+            } catch (IOException e) {
+                System.out.println(ANSI_RED + "Error: could not copy lib_while.h to temporary directory." + ANSI_RESET);
+                return false;
+            }
+        } else {
+            tmpDir = Paths.get(".").toAbsolutePath();
+
+            // Check if the library exists
+            File lib = new File("./while.lib");
+            // Check if the header exists
+            File header = new File("./lib_while.h");
+
+            if (!lib.exists() || !header.exists()) {
+                System.out.println(ANSI_RED + "Error: You must build the library first! If you're on windows, please run compile_windows.bat" + ANSI_RESET);
+                clean();
+                return false;
+            }
+
+        }
+
+        Path cppFilePath = Paths.get(tmpDir.toAbsolutePath().toString(), filepath.getFileName() + ".cpp");
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(filepath.getFileName() + ".cpp"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(cppFilePath.toString()));
             writer.write(cpp_output);
             writer.close();
         } catch (IOException e) {
             System.out.println(ANSI_RED + "Error: could not write .cpp file." + ANSI_RESET);
-            return false;
-        }
-
-        // Check if the library exists
-        File lib = new File("./while.lib");
-
-        if (!lib.exists()) {
-            System.out.println(ANSI_RED + "Error: You must build the library first! If you're on windows, please run compile_windows.bat" + ANSI_RESET);
-            clean();
             return false;
         }
 
@@ -182,16 +223,17 @@ public class WhileCompiler {
             // I hate msvc using command line
             commands.add("/MT");
 
-            commands.add(filepath.getFileName() + ".cpp");
+            commands.add(cppFilePath.toAbsolutePath().toString());
 
-            commands.add("/I");
-            commands.add("./");
+            // Useless
+//            commands.add("/I");
+//            commands.add("./");
 
             commands.add("/o");
             commands.add(filepath.toString() + ".exe");
 
             commands.add("/link");
-            commands.add("while.lib");
+            commands.add(Paths.get(tmpDir.toString(), "while.lib").toAbsolutePath().toString());
 
         } else {
             commands.add("g++");
@@ -238,8 +280,7 @@ public class WhileCompiler {
         return true;
     }
 
-    public void clean()
-    {
+    public void clean() {
         /*
         Path filepath = Paths.get(filename);
 
