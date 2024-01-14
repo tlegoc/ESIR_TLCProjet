@@ -267,33 +267,14 @@ public class WhileCompiler {
 
             if (exitCode != 0) {
                 System.out.println(ANSI_RED + "Error: compiler returned non-zero exit code." + ANSI_RESET);
-                clean();
                 return false;
             }
         } catch (IOException | InterruptedException e) {
             System.out.println(ANSI_RED + "Error: unknown IO error - " + e.getLocalizedMessage() + ANSI_RESET);
-            clean();
             return false;
         }
 
-        clean();
         return true;
-    }
-
-    public void clean() {
-        /*
-        Path filepath = Paths.get(filename);
-
-        // delete temporary
-
-        File toDel = new File(filepath.getFileName() + ".cpp");
-        if (toDel.exists() && !toDel.isDirectory())
-            toDel.delete();
-        toDel = new File(filepath.getFileName() + ".obj");
-        if (toDel.exists() && !toDel.isDirectory())
-            toDel.delete();
-
-         */
     }
 
     public void printProgram() {
