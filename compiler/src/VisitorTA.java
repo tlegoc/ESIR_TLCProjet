@@ -91,6 +91,7 @@ public class VisitorTA {
                 break;
         }
     }
+
     private List<Registre> process(Object o) {
         CommonTree tree = (CommonTree) o;
         /*
@@ -130,21 +131,22 @@ public class VisitorTA {
         }
         return arg;
     }
-private List<Registre> processEXPR(Object o) {
-    CommonTree tree = (CommonTree) o;
-    List<Registre> reg = new ArrayList<>();
-    if(tree.getChildCount() == 2) {
-        reg.add(new Registre());
-        program.addLine(Line.Op.EQUALSINTER,
-                reg.getFirst(),
-                process(tree.getChild(0)).get(0),
-                process(tree.getChild(1)).get(0));
+
+    private List<Registre> processEXPR(Object o) {
+        CommonTree tree = (CommonTree) o;
+        List<Registre> reg = new ArrayList<>();
+        if (tree.getChildCount() == 2) {
+            reg.add(new Registre());
+            program.addLine(Line.Op.EQUALSINTER,
+                    reg.get(0),
+                    process(tree.getChild(0)).get(0),
+                    process(tree.getChild(1)).get(0));
+        } else {
+            reg.addAll(process(tree.getChild(0)));
+        }
+        return reg;
     }
-    else {
-        reg.addAll(process(tree.getChild(0)));
-    }
-    return reg;
-}
+
     private Registre processNIL(Object o) {
         Registre reg = new Registre();
         program.addLine(Line.Op.ASSIGN, reg, new Nil(), new EmptyArgument());
@@ -187,20 +189,18 @@ private List<Registre> processEXPR(Object o) {
         Registre regRes = new Registre();
         int childCount = tree.getChildCount();
 
-        if(tree.getChild(0).getText().equals("VIDE")) {
-                program.addLine(Line.Op.ASSIGN, regRes, new Nil(), new EmptyArgument());
-        }
-        else {
+        if (tree.getChild(0).getText().equals("VIDE")) {
+            program.addLine(Line.Op.ASSIGN, regRes, new Nil(), new EmptyArgument());
+        } else {
             List<Registre> processRes = new ArrayList<>();
             for (int i = 0; i < tree.getChildCount(); i++) {
                 Object child = tree.getChild(i);
                 List<Registre> vars = process(child);
                 processRes.addAll(vars);
             }
-            if( processRes.size() == 1) {
+            if (processRes.size() == 1) {
                 program.addLine(Line.Op.ASSIGN, regRes, processRes.get(0), new EmptyArgument());
-            }
-            else {
+            } else {
                 program.addLine(Line.Op.ASSIGN, regRes, processCONCAT(processRes, false), new EmptyArgument());
             }
         }
@@ -258,7 +258,7 @@ private List<Registre> processEXPR(Object o) {
         program.addLine(Line.Op.CALL, funcName);
         for (int i = 1; i < tree.getChildCount(); i++) {
             Object child = tree.getChild(i);
-            if(child.toString().equals("VIDE")) {
+            if (child.toString().equals("VIDE")) {
                 continue;
             }
             List<Registre> arg = new ArrayList<>(process(child));
