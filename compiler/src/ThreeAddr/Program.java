@@ -34,9 +34,6 @@ public class Program {
         addLine(Line.Op.IGNORE, new Text(comment));
     }
 
-    public void optimize() {
-
-    }
 
     @Override
     public String toString() {

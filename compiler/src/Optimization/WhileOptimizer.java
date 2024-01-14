@@ -11,13 +11,13 @@ import ThreeAddr.Variable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WhileOptimizator {
+public class WhileOptimizer {
 
     private Program program;
     private SymbolTable symbolTable;
     private List<Block> blocks;
 
-    WhileOptimizator(Program p, SymbolTable s) {
+    public WhileOptimizer(Program p, SymbolTable s) {
         this.program = p;
         this.symbolTable = s;
         createBlocks();
@@ -84,12 +84,21 @@ public class WhileOptimizator {
         }
     }
 
-    public void optimizeLoc() {
+    private void optimizeLoc() {
         for(Block block : blocks) {
             block.optimizeBloc();
         }
     }
-    public void optimizeGlob() {
+    private void optimizeGlob() {
         //TODO
+    }
+    private void blocksIntoProgram() {
+        //TODO
+    }
+    public Program optimize() {
+        optimizeLoc();
+        optimizeGlob();
+        blocksIntoProgram();
+        return program;
     }
 }

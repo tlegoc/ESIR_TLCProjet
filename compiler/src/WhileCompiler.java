@@ -1,3 +1,4 @@
+import Optimization.WhileOptimizer;
 import SymbolTable.SymbolTable;
 import ThreeAddr.Program;
 import org.antlr.runtime.ANTLRFileStream;
@@ -82,8 +83,10 @@ public class WhileCompiler {
             return false;
         }
 
-        // TODO optimisation
-        if (runOptimizations) program.optimize();
+        if (runOptimizations) {
+            WhileOptimizer optimizer = new WhileOptimizer(program, symbolTable);
+            program = optimizer.optimize();
+        }
 
         CPPConverter cppConverter = new CPPConverter(getProgram(), symbolTable, mainFunc);
         cpp_output = cppConverter.convert();
