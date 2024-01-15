@@ -11,7 +11,7 @@ Dépot git du projet de TLC de Robin Gaignoux, Rémi Cazoulat, Kilian Marcelin e
 
 # Prérequis
 
-Java version 21 recommandé, devrait fonctionner avec Java 17
+Java version 17 et supérieure.
 
 ## Linux
 - GCC installé et trouvable dans le PATH
