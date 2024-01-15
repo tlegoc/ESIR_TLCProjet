@@ -32,9 +32,13 @@ replay_pid*
 *.a
 *.exe
 *.tmp
-compiler/**/*.cpp
-compiler/**/*.h
+*.o
+compiler/lib_while.h
+compiler/libwhile.a
+compiler/while.lib
 
 lib/.idea/
 
 compiler/resources/while.lib.res
+compiler/resources/libwhile.a.res
+compiler/resources/lib_while.h

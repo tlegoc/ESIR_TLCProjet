@@ -1,4 +1,6 @@
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 public class Main {
@@ -14,23 +16,19 @@ public class Main {
         }
 
         String filename = args[0];
-        File f = new File(filename);
+        Path filenamePath = Paths.get(filename);
+        File f = filenamePath.toFile();
         if (!f.exists()) {
-            System.out.println(ANSI_RED + "Error: input doesn't exist." + ANSI_RESET);
+            System.out.println(ANSI_RED + "Error: input " + filenamePath.toAbsolutePath() + " doesn't exist." + ANSI_RESET);
         } else if (f.isDirectory()) {
             System.out.println(ANSI_RED + "Error: input is a directory" + ANSI_RESET);
         }
-        String main;
-        /*
-        if (args.length > 1) main = args[1];
-        else main = "main";
-         */
-        main = "main";
-        System.out.println("Compiling " + filename + " with main function " + main);
+
+        System.out.println("Compiling " + filename);
 
         WhileCompiler compiler = new WhileCompiler(f.getAbsolutePath());
 
-        boolean succes = compiler.compile(main, true, false);
+        boolean succes = compiler.compile(true, false);
 
         if (!succes) {
             System.out.println(ANSI_RED + "Error: could not compile program" + ANSI_RESET);

@@ -36,9 +36,10 @@ public class WhileCompiler {
      * @param runOptimizations If set to true, the compiler will try to optimize the three address code
      * @return true if the program compiled, false otherwise
      */
-    public boolean compile(String mainFunc, boolean compileToExe, boolean runOptimizations) {
+    public boolean compile(boolean compileToExe, boolean runOptimizations) {
         Object ast;
         Path filepath = Paths.get(filename);
+        boolean isWindows = System.getProperty("os.name").contains("Windows");
 
         // Generate AST
         try {
@@ -69,6 +70,7 @@ public class WhileCompiler {
         }
         symbolTable = visitorTS.getST();
 
+        // Check if main function exists
         if (symbolTable.getFunc("main") == null) {
             System.out.println(ANSI_RED + "Error: no main function." + ANSI_RESET);
             return false;
@@ -89,7 +91,7 @@ public class WhileCompiler {
 
 
         // Creating C++ code
-        CPPConverter cppConverter = new CPPConverter(getProgram(), symbolTable, mainFunc);
+        CPPConverter cppConverter = new CPPConverter(getProgram(), symbolTable);
         cpp_output = cppConverter.convert();
 
         // If we don't want to compile to exe, we just write the cpp file next to the .while file
@@ -106,14 +108,16 @@ public class WhileCompiler {
             return true;
         }
 
+
         // Pre compilation steps
-        Path tmpDir;
+        Path workingDir;
+        Path libPath;
 
         // If we're in a jar, we need to extract the resources
         if (Main.class.getResource("Main.class").toString().startsWith("jar")) {
             // Create temporary directory, avoiding collisions
             try {
-                tmpDir = Files.createTempDirectory("whilec").toAbsolutePath();
+                workingDir = Files.createTempDirectory("whilec").toAbsolutePath();
             } catch (IOException e) {
                 System.out.println(ANSI_RED + "Error: could not create temporary directory." + ANSI_RESET);
                 return false;
@@ -121,50 +125,38 @@ public class WhileCompiler {
 
             // Extract resources from jar and put it next to the jar
             // Copy lib from resources to tmpDir
-            try (InputStream in = getClass().getResourceAsStream("while.lib.res")) {
-                System.out.println("Copying while.lib to " + tmpDir);
-                if (in != null)
-                    Files.copy(in, Paths.get(tmpDir.toString(), "while.lib"));
-                else {
-                    System.out.println(ANSI_RED + "Error: could not copy while.lib to temporary directory." + ANSI_RESET);
-                    return false;
-                }
-            } catch (IOException e) {
-                System.out.println(ANSI_RED + "Error: could not copy while.lib to temporary directory." + ANSI_RESET);
-                return false;
-            }
+            String resource = "libwhile.a.res";
+            if (isWindows)
+                resource = "while.lib.res";
 
-            // Copy header from resources to tmpDir
-            try (InputStream in = getClass().getResourceAsStream("lib_while.h")) {
-                System.out.println("Copying lib_while.h to " + tmpDir);
-                if (in != null)
-                    Files.copy(in, Paths.get(tmpDir.toString(), "lib_while.h"));
-                else {
-                    System.out.println(ANSI_RED + "Error: could not copy lib_while.h to temporary directory." + ANSI_RESET);
-                    return false;
-                }
-            } catch (IOException e) {
-                System.out.println(ANSI_RED + "Error: could not copy lib_while.h to temporary directory." + ANSI_RESET);
-                return false;
-            }
+            libPath = Paths.get(workingDir.toString() , "libwhile.a");
+            if (isWindows)
+                libPath = Paths.get(workingDir.toString() , "while.lib");
 
-            // We're in the IDE so we can just use the files that are created next to the jar (compile_windows.bat)
+            if (extractResource(resource, libPath)) return false;
+
+            if (extractResource("lib_while.h", Paths.get(workingDir.toString(), "lib_while.h"))) return false;
+
+        // We're in the IDE so we can just use the files that are created next to the jar (compile_windows.bat)
         } else {
-            tmpDir = Paths.get(".").toAbsolutePath();
+            workingDir = Paths.get(".").toAbsolutePath();
 
-            // Check if the library exists
-            File lib = new File("./while.lib");
-            // Check if the header exists
-            File header = new File("./lib_while.h");
+            libPath = Paths.get(workingDir.toString(), "libwhile.a");
+            if (isWindows)
+                libPath = Paths.get(workingDir.toString(), "while.lib");
+
+            File lib = new File(libPath.toAbsolutePath().toString());
+            File header = new File(workingDir.toAbsolutePath().toString() + "/lib_while.h");
 
             if (!lib.exists() || !header.exists()) {
-                System.out.println(ANSI_RED + "Error: You must build the library first! If you're on windows, please run compile_windows.bat" + ANSI_RESET);
+                System.out.println(ANSI_RED + "Error: You must build the library first! If you're on windows, please run compile_windows.bat, or compile_linux.sh on Linux." + ANSI_RESET);
                 return false;
             }
 
         }
 
-        Path cppFilePath = Paths.get(tmpDir.toAbsolutePath().toString(), filepath.getFileName() + ".cpp");
+        // Writing cpp file
+        Path cppFilePath = Paths.get(workingDir.toAbsolutePath().toString(), filepath.getFileName() + ".cpp");
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(cppFilePath.toString()));
             writer.write(cpp_output);
@@ -176,7 +168,7 @@ public class WhileCompiler {
 
         // Retrieve Visual Studio path on windows
         String compilerPath = "";
-        if (System.getProperty("os.name").contains("Windows")) {
+        if (isWindows) {
             // Check if we have a saved path
             File f = new File("vspath.tmp");
             if (f.exists() && !f.isDirectory()) {
@@ -206,7 +198,7 @@ public class WhileCompiler {
         // Appel du compilateur cpp
         List<String> commands = new ArrayList<>();
         System.out.println("Calling C++ compiler...");
-        if (System.getProperty("os.name").contains("Windows")) {
+        if (isWindows) {
             Path cp = Paths.get(compilerPath);
             Path vcvarsallpath = Paths.get(cp.toString(), "VC", "Auxiliary", "Build", "vcvarsall.bat");
             // Check if the file exists
@@ -233,21 +225,21 @@ public class WhileCompiler {
 //            commands.add("./");
 
             commands.add("/o");
-            commands.add(filepath.toString() + ".exe");
+            commands.add(filepath + ".exe");
 
             commands.add("/link");
-            commands.add(Paths.get(tmpDir.toString(), "while.lib").toAbsolutePath().toString());
+            commands.add(libPath.toAbsolutePath().toString());
 
         } else {
             commands.add("g++");
 
-            commands.add(filepath.getFileName() + ".cpp");
+            commands.add(cppFilePath.toAbsolutePath().toString());
 
             commands.add("-o");
-            commands.add(filepath.toString() + ".exe");
+            commands.add(filepath.toString().substring(0, filepath.toString().lastIndexOf('.')));
 
             commands.add("-Bstatic");
-            commands.add("-L./");
+            commands.add("-L" + libPath.toAbsolutePath().getParent());
             commands.add("-lwhile");
         }
 
@@ -278,6 +270,22 @@ public class WhileCompiler {
         }
 
         return true;
+    }
+
+    private boolean extractResource(String resource, Path outRes) {
+        try (InputStream in = getClass().getResourceAsStream(resource)) {
+            System.out.println("Copying library to " + outRes);
+            if (in != null)
+                Files.copy(in, outRes);
+            else {
+                System.out.println(ANSI_RED + "Error: could not copy " + resource + " to temporary directory." + ANSI_RESET);
+                return true;
+            }
+        } catch (IOException e) {
+            System.out.println(ANSI_RED + "Error: could not copy " + resource + " to temporary directory." + ANSI_RESET);
+            return true;
+        }
+        return false;
     }
 
     public void printProgram() {

@@ -113,14 +113,12 @@ public class CPPConverter {
             };
     private final Program program;
     private final SymbolTable symbolTable;
-    private final String mainFunc;
     private int index_for = 0;
     private int index_foreach = 0;
 
-    public CPPConverter(Program program, SymbolTable st, String mf) {
+    public CPPConverter(Program program, SymbolTable st) {
         this.program = program;
         this.symbolTable = st;
-        this.mainFunc = mf;
     }
 
     /***
@@ -351,7 +349,7 @@ public class CPPConverter {
         // Au cas ou on a pas de fonction s'appelant main.
 
         generatedCode.append("int main() { NODE node;\n");
-        generatedCode.append(sanitizeSymbol(mainFunc)).append("(node); ppln(node);\n");
+        generatedCode.append(sanitizeSymbol("main")).append("(node); ppln(node);\n");
         generatedCode.append("return 0; \n}\n");
 
         return generatedCode.toString();
