@@ -36,6 +36,7 @@ replay_pid*
 compiler/lib_while.h
 compiler/libwhile.a
 compiler/while.lib
+compiler/*.cpp
 
 lib/.idea/
 
