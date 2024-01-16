@@ -15,7 +15,7 @@ public class WhileOptimizer {
 
     private Program program;
     private SymbolTable symbolTable;
-    private List<Block> blocks;
+    private List<Block> blocks = new ArrayList<>();
 
     public WhileOptimizer(Program p, SymbolTable s) {
         this.program = p;
@@ -24,9 +24,6 @@ public class WhileOptimizer {
     }
 
     private void createBlocks() {
-        //TODO
-
-
         List<Block> blocksAbove = new ArrayList<>();
         Block block = new Block();
         for(Line line : program.lines) {
@@ -47,58 +44,76 @@ public class WhileOptimizer {
                     }
                     blocksAbove.add(block);
                     break;
+
                 case FUNCEND:
                     block.optimizeBloc();
                     blocks.add(block);
                     blocksAbove.remove(blocksAbove.size() - 1);
                     break;
+
                 case FORBEGIN, WHILEBEGIN, FOREACHBEGIN, IFBEGIN, ELSEBEGIN:
-                    block.lines.add(line);
+                    block.addLine(line);
                     block.optimizeBloc();
                     blocks.add(block);
                     blocksAbove.add(block);
                     block = new Block();
-                    block.setParent(blocksAbove.get(blocksAbove.size() - 1));
+                    block.addParent(blocksAbove);
                     break;
 
                 case WHILEEND, FOREACHEND, IFEND, ELSEEND:
-                    block.lines.add(line);
+                    block.addLine(line);
                     block.optimizeBloc();
                     blocks.add(block);
                     blocksAbove.remove(blocksAbove.size() - 1);
                     block = new Block();
-                    block.setParent(blocksAbove.get(blocksAbove.size() - 1));
-
+                    block.addParent(blocksAbove);
                     break;
+
                 case FOREND:
-                    block.lines.add(line);
+                    block.addLine(line);
                     block.optimizeBloc();
                     blocks.add(block);
                     block = new Block();
-                    block.setParent(blocksAbove.get(blocksAbove.size() - 1));
+                    block.addParent(blocksAbove);
+                    break;
+                case CALL, IGNORE:
                     break;
                 default:
-                    block.lines.add(line);
+                    block.addLine(line);
 
             }
         }
     }
 
     private void optimizeLoc() {
+        int i = 0;
         for(Block block : blocks) {
+            System.out.println("Optimizing bloc " + i + "out of " + blocks.size());
             block.optimizeBloc();
         }
     }
     private void optimizeGlob() {
         //TODO
     }
-    private void blocksIntoProgram() {
-        //TODO
-    }
+
     public Program optimize() {
         optimizeLoc();
         optimizeGlob();
-        blocksIntoProgram();
-        return program;
+
+        return blocksIntoProgram();
+    }
+    private Program blocksIntoProgram() {
+        Program optiProg = new Program();
+        for(Block block : blocks) {
+            for(Line line : block.getLines()) {
+                optiProg.addLine(line);
+            }
+        }
+        return optiProg;
+    }
+    public String toString() {
+        String result = "";
+        //TODO
+        return result;
     }
 }

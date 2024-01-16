@@ -28,7 +28,7 @@ public class Main {
 
         WhileCompiler compiler = new WhileCompiler(f.getAbsolutePath());
 
-        boolean succes = compiler.compile(true, false);
+        boolean succes = compiler.compile(true, true);
 
         if (!succes) {
             System.out.println(ANSI_RED + "Error: could not compile program" + ANSI_RESET);

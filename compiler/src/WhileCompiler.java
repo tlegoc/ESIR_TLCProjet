@@ -85,8 +85,13 @@ public class WhileCompiler {
 
         // Optimizing
         if (runOptimizations) {
+            printProgram();
             WhileOptimizer optimizer = new WhileOptimizer(program, symbolTable);
             program = optimizer.optimize();
+            System.out.println("=============================================");
+            System.out.println("=============================================");
+            System.out.println("=============================================");
+            printProgram();
         }
 
 

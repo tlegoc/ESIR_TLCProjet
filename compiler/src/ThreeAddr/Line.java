@@ -77,6 +77,16 @@ public class Line {
 
         return result.toString();
     }
+    public boolean compareArgs(Line l) {
+        return  this.arg1.toString().equals(l.arg1.toString()) &&
+                this.arg2.toString().equals(this.arg2.toString());
+    }
+    public boolean compareRes(Line l) {
+        return  this.res.toString().equals(l.res.toString());
+    }
+    public boolean compare(Line l) {
+        return compareArgs(l) && compareRes(l);
+    }
 
     public String toString()
     {
