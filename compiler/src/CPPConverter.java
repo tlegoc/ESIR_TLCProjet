@@ -237,7 +237,7 @@ public class CPPConverter {
                     break;
                 case FORBEGIN:
 
-                    generatedCode.append("for (int _for_").append(index_for).append(" = 0; _for_").append(index_for).append("<= toInt(").append(result).append("); _for_").append(index_for).append("++ ) {\n");
+                    generatedCode.append("for (int _for_").append(index_for).append(" = 0; _for_").append(index_for).append("< toInt(").append(result).append("); _for_").append(index_for).append("++ ) {\n");
                     index_for++;
                     currentScope++;
                     addVariableForScope(generatedCode, currentScope);
