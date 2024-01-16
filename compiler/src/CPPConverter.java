@@ -191,13 +191,13 @@ public class CPPConverter {
                     }
                     generatedCode.append(" ) {\n");
                     // Les fonctions ont un scope de 2
-                    currentScope+=2;
+                    currentScope += 2;
                     addVariableForScope(generatedCode, currentScope);
                     break;
                 case FUNCEND:
                     generatedCode.append("}\n");
                     // Les fonctions ont un scope de 2
-                    currentScope+=2;
+                    currentScope += 2;
                     addVariableForScope(generatedCode, currentScope);
                     break;
 //                case OUTPUT:
@@ -209,8 +209,7 @@ public class CPPConverter {
                     }
                     if (line.arg1.toString().equals("Nil")) {
                         generatedCode.append("Nil(").append(result).append(");\n");
-                    }
-                    else if (line.arg1 instanceof Symbol) {
+                    } else if (line.arg1 instanceof Symbol) {
                         generatedCode.append("Symbol(").append(result).append(", \"").append(line.arg1.toString()).append("\");\n");
                     } else {
                         generatedCode.append(result).append(" = ").append(arg1).append(";\n");
@@ -261,7 +260,7 @@ public class CPPConverter {
                     addVariableForScope(generatedCode, currentScope);
                     break;
                 case FOREACHEND:
-                    index_foreach --;
+                    index_foreach--;
                     String namee = "_foreach_" + index_foreach;
                     String nametmp = "_tmp" + namee;
                     generatedCode.append("NODE ").append(nametmp).append(" = MSNIL();\n");
@@ -277,18 +276,18 @@ public class CPPConverter {
 
                     generatedCode.append(result).append("(");
                     int nbrParams = st_func.parameters.length;
-                    while(!assigns.isEmpty()) {
+                    while (!assigns.isEmpty()) {
                         if (assigns.size() == 1) {
                             generatedCode.append(sanitizeSymbol(assigns.remove(0)));
                         } else {
                             generatedCode.append(sanitizeSymbol(assigns.remove(0))).append(", ");
                         }
                     }
-                    if(nbrParams > 0) {
+                    if (nbrParams > 0) {
                         generatedCode.append(",");
                     }
 
-                    while(!params.isEmpty()) {
+                    while (!params.isEmpty()) {
                         if (params.size() == 1) {
                             generatedCode.append(sanitizeSymbol(params.remove(0)));
                         } else {
@@ -346,10 +345,28 @@ public class CPPConverter {
             }
         }
 
-        // Au cas ou on a pas de fonction s'appelant main.
+        int paramCount = symbolTable.getFunc("main").parameters.length;
+        int outputCount = symbolTable.getFunc("main").outputs.length;
+        generatedCode.append("int main(int argc, char **argv) {\n");
 
-        generatedCode.append("int main() { NODE node;\n");
-        generatedCode.append(sanitizeSymbol("main")).append("(node); ppln(node);\n");
+        for (int i = 0; i < outputCount; i++)
+            generatedCode.append("NODE result").append(i).append(";\n");
+        generatedCode.append("vector<NODE> nodes;\n");
+        generatedCode.append("if (!parseParameters(nodes, argc, argv)) return 1;\n");
+        generatedCode.append("if (nodes.size() != ").append(paramCount).append(") { cout << \"Wrong number of parameters\" << endl; return 1; }");
+        generatedCode.append("main_sanitized(");
+        for (int i = 0; i < outputCount; i++) {
+            generatedCode.append("result").append(i);
+
+            if (i < outputCount - 1)
+                generatedCode.append(", ");
+        }
+        for (int i = 0; i < paramCount; i++) {
+            generatedCode.append(", ").append("nodes[").append(i).append("]");
+        }
+        generatedCode.append(");");
+        for (int i = 0; i < outputCount; i++)
+            generatedCode.append("cout << \"Result").append(i).append(": \";").append("ppln(result").append(i).append(");");
         generatedCode.append("return 0; \n}\n");
 
         return generatedCode.toString();

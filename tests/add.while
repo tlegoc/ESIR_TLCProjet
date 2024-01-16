@@ -1,0 +1,17 @@
+function add :
+read Op1, Op2
+%
+    Result := Op1 ;
+    for Op2 do
+        Result := ( cons nil Result )
+    od
+%
+write Result
+
+function main :
+read Param1, Param2
+%
+    Result := (add Param1 Param2);
+    Out := (cons int Result)
+%
+write Out
