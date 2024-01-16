@@ -13,6 +13,8 @@ Dépot git du projet de TLC de Robin Gaignoux, Rémi Cazoulat, Kilian Marcelin e
 
 Java version 17 et supérieure.
 
+Vous pouvez récupérer une version précompilée sur [la page release du git](https://github.com/tlegoc/ESIR_TLCProjet/releases)
+
 ## Linux
 - GCC installé et trouvable dans le PATH
 
