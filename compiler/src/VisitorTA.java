@@ -18,11 +18,16 @@ public class VisitorTA {
      * Parcours l'AST pour generer le code 3 adresses
      * @param o L'arbre
      */
+
+    private int block_ind = -1;
     public void visit(Object o) {
         CommonTree tree = (CommonTree) o;
+
         int line = tree.getLine();
         int charInLine = tree.getCharPositionInLine();
-        //program.addComment("Line: " + line + ":" + charInLine + " (visit)");
+        program.addComment("Line: " + line + ":" + charInLine + " (visit)");
+
+
         String token = String.valueOf(tree);
         switch (token) {
             case "CONS":
@@ -48,39 +53,60 @@ public class VisitorTA {
                 visit(tree.getChild(1));
                 break;
             case "FOR":
+                BlockName for_enter = new BlockName("for_enter_"+ ++block_ind);
                 Registre cond_for = process(tree.getChild(0)).get(0);
-                program.addLine(Line.Op.FORBEGIN, cond_for);
+                program.addLine(Line.Op.BLOCK, for_enter);
                 visit(tree.getChild(1));
-                program.addLine(Line.Op.FOREND, cond_for);
+                program.addLine(Line.Op.TL, cond_for, cond_for);
+                program.addLine(Line.Op.JGREATER, for_enter, cond_for, new Nil());
+                program.addLine(Line.Op.BLOCKEND, for_enter);
                 break;
             case "FOREACH":
+                BlockName foreach_enter = new BlockName("foreach_enter_"+ ++block_ind);
                 String name = tree.getChild(0).getChild(0).toString();
-                Registre var_foreach = new Registre(name);
-                program.addLine(Line.Op.ASSIGN, var_foreach, new Nil(), new EmptyArgument());
                 Registre cond_foreach = process(tree.getChild(1)).get(0);
-                program.addLine(Line.Op.FOREACHBEGIN, var_foreach, cond_foreach, new EmptyArgument());
+                Variable var_foreach = new Variable(name);
+                program.addLine(Line.Op.BLOCK, foreach_enter);
+                program.addLine(Line.Op.HD, var_foreach, cond_foreach);
                 visit(tree.getChild(2));
-                program.addLine(Line.Op.FOREACHEND, var_foreach, cond_foreach, new EmptyArgument());
+                program.addLine(Line.Op.TL, cond_foreach, cond_foreach);
+                program.addLine(Line.Op.JGREATER, foreach_enter, cond_foreach, new Nil());
+                program.addLine(Line.Op.BLOCKEND,foreach_enter);
                 break;
             case "LIST":
                 program.addLine(Line.Op.ASSIGN, new Registre(), processLIST(o), new EmptyArgument());
                 break;
             case "WHILE":
+                BlockName while_enter = new BlockName("while_enter_"+ ++block_ind);
                 Argument cond_while = process(tree.getChild(0)).get(0);
-                program.addLine(Line.Op.WHILEBEGIN, cond_while);
+                program.addLine(Line.Op.BLOCK, while_enter);
                 visit(tree.getChild(1));
-                program.addLine(Line.Op.WHILEEND, cond_while);
+                program.addLine(Line.Op.JGREATER, while_enter, cond_while, new Nil());
+                program.addLine(Line.Op.BLOCKEND,while_enter);
+
                 break;
             case "IF":
-                Argument condition = process(tree.getChild(0)).get(0);
-                program.addLine(Line.Op.IFBEGIN, condition);
-                visit(tree.getChild(1));
-                program.addLine(Line.Op.IFEND, condition);
-                if (tree.getChildCount() > 2) {
-                    program.addLine(Line.Op.ELSEBEGIN, condition);
-                    visit(tree.getChild(2));
-                    program.addLine(Line.Op.ELSEEND, condition);
+                BlockName if_enter = new BlockName("if_enter_"+ ++block_ind);
+                BlockName if_quit = new BlockName("if_quit_"+ block_ind);
+                //BlockName else_quit = new BlockName("else_quit_" + block_ind);
+                if(tree.getChildCount() > 2 ) {
+                    if_quit = new BlockName("else_enter_" + block_ind);
                 }
+                Argument cond_if = process(tree.getChild(0)).get(0);
+
+                program.addLine(Line.Op.JEQUALS, if_quit , cond_if, new Nil());
+                program.addLine(Line.Op.JGREATER, if_enter, cond_if, new Nil());
+
+                program.addLine(Line.Op.BLOCK, if_enter);
+                visit(tree.getChild(1));
+                program.addLine(Line.Op.BLOCKEND, if_enter);
+                program.addLine(Line.Op.BLOCK, if_quit);
+
+                if (tree.getChildCount() > 2) {
+                    visit(tree.getChild(2));
+                }
+                program.addLine(Line.Op.BLOCKEND,if_quit);
+
                 break;
             default:
                 if (token.equals("nil")) {
@@ -94,12 +120,6 @@ public class VisitorTA {
 
     private List<Registre> process(Object o) {
         CommonTree tree = (CommonTree) o;
-        program.addComment("Line: " + tree.getLine() + ":" + tree.getCharPositionInLine());
-        /*
-        int line = tree.getLine();
-        int charInLine = tree.getCharPositionInLine();
-        program.addComment("Line: " + line + ":" + charInLine);
-         */
         List<Registre> arg = new ArrayList<>();
         switch (tree.toString()) {
             case "EXPR":
@@ -188,7 +208,6 @@ public class VisitorTA {
     private Registre processCONS(Object o) {
         CommonTree tree = (CommonTree) o;
         Registre regRes = new Registre();
-        int childCount = tree.getChildCount();
 
         if (tree.getChild(0).getText().equals("VIDE")) {
             program.addLine(Line.Op.ASSIGN, regRes, new Nil(), new EmptyArgument());

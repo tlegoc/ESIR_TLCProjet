@@ -50,8 +50,8 @@ public class WhileOptimizer {
                     blocks.add(block);
                     blocksAbove.remove(blocksAbove.size() - 1);
                     break;
-
-                case FORBEGIN, WHILEBEGIN, FOREACHBEGIN, IFBEGIN, ELSEBEGIN:
+                    //anciennement FORBEGIN, WHILEBEGIN, etc...
+                case BLOCK:
                     block.addLine(line);
                     block.optimizeBloc();
                     blocks.add(block);
@@ -59,8 +59,9 @@ public class WhileOptimizer {
                     block = new Block();
                     block.addParent(blocksAbove);
                     break;
+                //anciennement WHILEEND, etc...
 
-                case WHILEEND, FOREACHEND, IFEND, ELSEEND:
+                case JEQUALS:
                     block.addLine(line);
                     block.optimizeBloc();
                     blocks.add(block);
@@ -68,8 +69,8 @@ public class WhileOptimizer {
                     block = new Block();
                     block.addParent(blocksAbove);
                     break;
-
-                case FOREND:
+                //Anciennement FOREND
+                case JGREATER:
                     block.addLine(line);
                     block.optimizeBloc();
                     blocks.add(block);

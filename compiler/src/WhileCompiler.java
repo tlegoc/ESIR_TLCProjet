@@ -81,11 +81,11 @@ public class WhileCompiler {
         VisitorTA visitorTA = new VisitorTA();
         visitorTA.visit(ast);
         program = visitorTA.getProgram();
-
+        printProgram();
+        printSymbolTable();
 
         // Optimizing
         if (runOptimizations) {
-            printProgram();
             WhileOptimizer optimizer = new WhileOptimizer(program, symbolTable);
             program = optimizer.optimize();
             System.out.println("=============================================");
@@ -98,6 +98,7 @@ public class WhileCompiler {
         // Creating C++ code
         CPPConverter cppConverter = new CPPConverter(getProgram(), symbolTable);
         cpp_output = cppConverter.convert();
+
 
         // If we don't want to compile to exe, we just write the cpp file next to the .while file
         if (!compileToExe) {

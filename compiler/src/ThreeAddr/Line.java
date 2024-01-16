@@ -18,25 +18,18 @@ public class Line {
         OUTPUTSET,
         FUNCBEGIN,
         FUNCEND,
-//        OUTPUT,
         CONS,
         ASSIGN,
         TL,
         HD,
-        IFBEGIN,
-        IFEND,
-        ELSEBEGIN,
-        ELSEEND,
-        WHILEBEGIN,
-        WHILEEND,
-        FORBEGIN,
-        FOREND,
-        FOREACHBEGIN,
-        FOREACHEND,
         CALL,
         CALLEND,
         EQUALSINTER,
-        IGNORE
+        IGNORE,
+        BLOCK,
+        BLOCKEND,
+        JGREATER,
+        JEQUALS,
     }
     public Argument res;
     public Argument arg1;
@@ -58,7 +51,7 @@ public class Line {
         if (!colored);
         else if (line.op == Line.Op.FUNCBEGIN || line.op == Line.Op.FUNCEND)
             result.append(ANSI_GREEN);
-        else if (line.op == Op.FOREACHBEGIN || line.op == Op.FOREACHEND || line.op == Line.Op.FORBEGIN || line.op == Line.Op.FOREND || line.op == Line.Op.WHILEBEGIN || line.op == Line.Op.WHILEEND || line.op == Line.Op.IFBEGIN || line.op == Line.Op.IFEND || line.op == Line.Op.ELSEBEGIN || line.op == Line.Op.ELSEEND)
+        else if (line.op == Op.BLOCK || line.op == Op.BLOCKEND || line.op == Op.JEQUALS || line.op == Op.JGREATER )
             result.append(ANSI_YELLOW);
         else if (line.op == Line.Op.CALL || line.op == Line.Op.PARAMSET || line.op == Line.Op.CALLEND || line.op == Op.OUTPUTSET) result.append(ANSI_RED);
 //        else if (line.op == Line.Op.OUTPUT) result.append(ANSI_BLUE);

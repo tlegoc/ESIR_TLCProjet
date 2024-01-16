@@ -1,8 +1,5 @@
 import SymbolTable.*;
-import ThreeAddr.Line;
-import ThreeAddr.Program;
-import ThreeAddr.Registre;
-import ThreeAddr.Symbol;
+import ThreeAddr.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -162,15 +159,12 @@ public class CPPConverter {
 
         generatedCode.append("#include \"lib_while.h\"\n");
         generatedCode.append("using namespace std;\n");
-
         int currentScope = 0;
-        int equalsInter = 0;
         for (int i = 0; i < program.getLineCount(); i++) {
             Line line = program.getLine(i);
             String result = sanitizeSymbol(line.res.toString());
             String arg1 = sanitizeSymbol(line.arg1.toString());
             String arg2 = sanitizeSymbol(line.arg2.toString());
-
             // Vive les switchs
             switch (line.op) {
                 case IGNORE:
@@ -190,19 +184,18 @@ public class CPPConverter {
                         generatedCode.append("NODE ").append(sanitizeSymbol(func.parameters[j]));
                     }
                     generatedCode.append(" ) {\n");
+
                     // Les fonctions ont un scope de 2
                     currentScope+=2;
                     addVariableForScope(generatedCode, currentScope);
                     break;
                 case FUNCEND:
+
                     generatedCode.append("}\n");
                     // Les fonctions ont un scope de 2
                     currentScope+=2;
                     addVariableForScope(generatedCode, currentScope);
                     break;
-//                case OUTPUT:
-//                    generatedCode.append("return ").append(result).append(";\n");
-//                    break;
                 case ASSIGN:
                     if (line.res instanceof Registre) {
                         generatedCode.append("NODE ").append(result).append(" = MSNIL();\n");
@@ -211,66 +204,46 @@ public class CPPConverter {
                         generatedCode.append("Nil(").append(result).append(");\n");
                     }
                     else if (line.arg1 instanceof Symbol) {
-                        generatedCode.append("Symbol(").append(result).append(", \"").append(line.arg1.toString()).append("\");\n");
+                        generatedCode.append("Symbol(").append(result).append(", \"").append(line.arg1).append("\");\n");
                     } else {
                         generatedCode.append(result).append(" = ").append(arg1).append(";\n");
                     }
                     break;
-                case IFBEGIN:
-                    generatedCode.append("if (toBool(").append(result).append(")) {\n");
-                    currentScope++;
+                case BLOCK:
+                    String blockName = line.res.toString();
+                    generatedCode.append(blockName).append(" :\n");
+                    generatedCode.append("{\n");
+                    currentScope+=1;
                     addVariableForScope(generatedCode, currentScope);
                     break;
-                case ELSEBEGIN:
-                    generatedCode.append("\nelse {\n");
-                    currentScope++;
-                    addVariableForScope(generatedCode, currentScope);
-                    break;
-                case ELSEEND, WHILEEND, IFEND:
+                case BLOCKEND:
                     generatedCode.append("}\n");
-                    currentScope++;
+                    currentScope+=1;
                     addVariableForScope(generatedCode, currentScope);
                     break;
-                case WHILEBEGIN:
-                    generatedCode.append("while (").append("toBool(").append(result).append(")) {\n");
-                    currentScope++;
-                    addVariableForScope(generatedCode, currentScope);
-                    break;
-                case FORBEGIN:
+                case JEQUALS:
+                    String arg1_equ = line.arg1.toString();
+                    String arg2_equ = line.arg2.toString();
+                    String destination_equ = line.res.toString();
+                    if(arg1_equ.equals("Nil")) arg1_equ = "0";
+                    else arg1_equ = "toInt("+line.arg1.toString()+")";
+                    if(arg2_equ.equals("Nil")) arg2_equ = "0";
+                    else arg2_equ = "toInt("+line.arg2.toString()+")";
 
-                    generatedCode.append("for (int _for_").append(index_for).append(" = 0; _for_").append(index_for).append("<= toInt(").append(result).append("); _for_").append(index_for).append("++ ) {\n");
-                    index_for++;
-                    currentScope++;
-                    addVariableForScope(generatedCode, currentScope);
+                    generatedCode.append("if (").append(arg1_equ).append(" == ").append(arg2_equ).append(") ");
+                    generatedCode.append("goto ").append(destination_equ).append(";\n");
                     break;
-                case FOREND:
+                case JGREATER:
+                    String arg1_gr = line.arg1.toString();
+                    String arg2_gr = line.arg2.toString();
+                    String destination_gr = line.res.toString();
+                    if(arg1_gr.equals("Nil")) arg1_gr = "0";
+                    else arg1_gr = "toInt("+line.arg1.toString()+")";
+                    if(arg2_gr.equals("Nil")) arg2_gr = "0";
+                    else arg2_gr = "toInt("+line.arg2.toString()+")";
 
-                    index_for--;
-                    generatedCode.append("}\n");
-                    currentScope++;
-                    addVariableForScope(generatedCode, currentScope);
-                    break;
-                case FOREACHBEGIN:
-                    String nameb = "_foreach_" + index_foreach;
-                    index_foreach++;
-                    generatedCode.append("NODE ").append(nameb).append(" = MSNIL();\n");
-                    generatedCode.append(nameb).append(" = ").append(arg1).append(";\n");
-                    generatedCode.append("while (").append("toBool(").append(nameb).append(")) {\n");
-                    generatedCode.append("hd(").append(result).append(",").append(nameb).append(");\n");
-                    currentScope++;
-                    addVariableForScope(generatedCode, currentScope);
-                    break;
-                case FOREACHEND:
-                    index_foreach --;
-                    String namee = "_foreach_" + index_foreach;
-                    String nametmp = "_tmp" + namee;
-                    generatedCode.append("NODE ").append(nametmp).append(" = MSNIL();\n");
-
-                    generatedCode.append("tl(").append(nametmp).append(", ").append(namee).append(");\n");
-                    generatedCode.append(namee).append(" = ").append(nametmp).append(";\n");
-                    generatedCode.append("}\n");
-                    currentScope++;
-                    addVariableForScope(generatedCode, currentScope);
+                    generatedCode.append("if (").append(arg1_gr).append(" > ").append(arg2_gr).append(") ");
+                    generatedCode.append("goto ").append(destination_gr).append(";\n");
                     break;
                 case CALLEND:
                     STFunc st_func = symbolTable.getFunc(line.res.toString());

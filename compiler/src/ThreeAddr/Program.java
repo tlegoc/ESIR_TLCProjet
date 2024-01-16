@@ -21,6 +21,9 @@ public class Program {
     public void addLine(Line.Op op, Argument res) {
         addLine(op, res, new EmptyArgument(), new EmptyArgument());
     }
+    public void addLine(Line.Op op, Argument res, Argument arg1) {
+        addLine(new Line(op, res, arg1, new EmptyArgument()));
+    }
 
     public void addLine(Line.Op op, Argument res, Argument arg1, Argument arg2) {
         addLine(new Line(op, res, arg1, arg2));
@@ -31,7 +34,7 @@ public class Program {
     }
 
     public void addComment(String comment) {
-        addLine(Line.Op.IGNORE, new Text(comment));
+       addLine(Line.Op.IGNORE, new Text(comment));
     }
 
 

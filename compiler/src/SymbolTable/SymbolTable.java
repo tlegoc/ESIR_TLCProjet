@@ -74,6 +74,11 @@ public class SymbolTable {
         return entries;
     }
 
+    /***
+     *
+     * @param scope
+     * @return
+     */
     public int getDepthAtScope(int scope) {
         int depth = 0;
         int current_scope = 0;

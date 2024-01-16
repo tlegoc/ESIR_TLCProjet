@@ -6,6 +6,7 @@ read Op1, Op2
     if Test1
     then
         Test2 := (cons nil nil);
+
         if Test2
             then
                 Test3 := Test2;
@@ -13,19 +14,19 @@ read Op1, Op2
                     Op3 := (cons a Op3);
                     Test4 := (cons a b)
                     od;
-                Test4 := Op3;
-                Op3 := Test4
+                Test5 := Op3;
+                Op3 := Test5
 
             else
-                Test3 := Test1
+                Test6 := Test1
         fi;
-        Test5:= Op1
+        Test7:= Op1
     else
-        Test2 := (cons)
+        Test8 := (cons)
     fi;
-    Test3 := (cons);
+    Test9 := (cons);
     Op3 := Test1;
-    Op4 := Test3
+    Op4 := Test9
 
 %
 write Op3, Op4
