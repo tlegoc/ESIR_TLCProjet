@@ -8,6 +8,7 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include <vector>
 
 using namespace std;
 
@@ -107,6 +108,8 @@ void tl(NODE &res, NODE &T);
 
 int toInt(NODE &node);
 
+NODE fromInt(int n);
+
 std::string toString(NODE &node);
 
 bool isNil(NODE &node);
@@ -116,5 +119,9 @@ NODE equals(NODE &A, NODE &B);
 void pp(NODE &node);
 
 void ppln(NODE &node);
+
+NODE parseString(const string &s, bool &valid);
+
+bool parseParameters(vector<NODE > &nodes, int argc, char **argv);
 
 #endif //LIB_LIB_WHILE_H

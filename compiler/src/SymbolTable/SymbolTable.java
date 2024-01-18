@@ -8,12 +8,9 @@ public class SymbolTable {
 
     public void add(STEntry entry) {
         boolean exists = false;
-        //verif pour STFunc
-        if (entry instanceof STFunc) {
-            //TODO verif pour STFunc
-        }
+        //verif pour STFunc pas nécessaire car validation
         //verif pour STVariable
-        else if (entry instanceof STVariable) {
+        if (entry instanceof STVariable) {
             int found_depth = 0;
             int depth = 0;
             for (int i = 0; i < symbols.size(); i++) {

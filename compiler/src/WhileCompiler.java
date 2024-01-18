@@ -221,6 +221,8 @@ public class WhileCompiler {
 
             commands.add("cl");
 
+            commands.add("/EHsc");
+
             // I hate msvc using command line
             commands.add("/MT");
 
