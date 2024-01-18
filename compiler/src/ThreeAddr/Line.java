@@ -27,7 +27,8 @@ public class Line {
         EQUALSINTER,
         IGNORE,
         BLOCK,
-        BLOCKEND,
+        CONTB,
+        CONTE,
         JGREATER,
         JEQUALS,
     }
@@ -51,7 +52,7 @@ public class Line {
         if (!colored);
         else if (line.op == Line.Op.FUNCBEGIN || line.op == Line.Op.FUNCEND)
             result.append(ANSI_GREEN);
-        else if (line.op == Op.BLOCK || line.op == Op.BLOCKEND || line.op == Op.JEQUALS || line.op == Op.JGREATER )
+        else if (line.op == Op.BLOCK || line.op == Op.JEQUALS || line.op == Op.JGREATER )
             result.append(ANSI_YELLOW);
         else if (line.op == Line.Op.CALL || line.op == Line.Op.PARAMSET || line.op == Line.Op.CALLEND || line.op == Op.OUTPUTSET) result.append(ANSI_RED);
 //        else if (line.op == Line.Op.OUTPUT) result.append(ANSI_BLUE);

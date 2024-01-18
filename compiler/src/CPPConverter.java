@@ -212,11 +212,12 @@ public class CPPConverter {
                 case BLOCK:
                     String blockName = line.res.toString();
                     generatedCode.append(blockName).append(" :\n");
-                    generatedCode.append("{\n");
                     currentScope+=1;
                     addVariableForScope(generatedCode, currentScope);
                     break;
-                case BLOCKEND:
+                case CONTB:
+                    generatedCode.append("{\n");
+                case CONTE:
                     generatedCode.append("}\n");
                     currentScope+=1;
                     addVariableForScope(generatedCode, currentScope);

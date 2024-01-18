@@ -9,11 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Block {
-    private List<Line> lines = new ArrayList<>();
-    private List<Block> parents = new ArrayList<>();
+    private final List<Line> lines = new ArrayList<>();
+    private final List<Block> parents = new ArrayList<>();
     public List<Argument> inputs = new ArrayList<>();
     public List<Argument> outputs = new ArrayList<>();
-
     public void optimizeBloc(){
         System.out.println("================ OPT Start ====================");
         System.out.println(("BLOCK BEFORE OPTI : ---------------------------"));
@@ -25,8 +24,7 @@ public class Block {
             System.out.println("modifs = " + modifs);
             modifs = elimExpr();
             modifs += propagCopies();
-            //int modifs_alive = elimDeadCode();
-            int modifs_alive = 0;
+            int modifs_alive = elimDeadCode();
             modifs += modifs_alive;
 
             while(modifs_alive > 0 ) {
@@ -188,8 +186,8 @@ public class Block {
         return modifs;
     }
 
-    public void addParent(List<Block> b) {
-        parents.addAll(b);
+    public void addParent(Block b) {
+        parents.add(b);
         updateInputs();
     }
     public void addLine(Line l) {
