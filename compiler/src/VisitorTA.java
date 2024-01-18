@@ -57,7 +57,9 @@ public class VisitorTA {
                 Registre cond_for = process(tree.getChild(0)).get(0);
                 program.addLine(Line.Op.BLOCK, for_enter);
                 visit(tree.getChild(1));
-                program.addLine(Line.Op.TL, cond_for, cond_for);
+                Registre tmp = new Registre();
+                program.addLine(Line.Op.TL, tmp, cond_for);
+                program.addLine(Line.Op.ASSIGN, cond_for, tmp);
                 program.addLine(Line.Op.JGREATER, for_enter, cond_for, new Nil());
                 program.addLine(Line.Op.BLOCKEND, for_enter);
                 break;
@@ -69,7 +71,9 @@ public class VisitorTA {
                 program.addLine(Line.Op.BLOCK, foreach_enter);
                 program.addLine(Line.Op.HD, var_foreach, cond_foreach);
                 visit(tree.getChild(2));
-                program.addLine(Line.Op.TL, cond_foreach, cond_foreach);
+                Registre tmp_foreach = new Registre();
+                program.addLine(Line.Op.TL, tmp_foreach, cond_foreach);
+                program.addLine(Line.Op.ASSIGN, cond_foreach, tmp_foreach);
                 program.addLine(Line.Op.JGREATER, foreach_enter, cond_foreach, new Nil());
                 program.addLine(Line.Op.BLOCKEND,foreach_enter);
                 break;
@@ -81,7 +85,7 @@ public class VisitorTA {
                 Argument cond_while = process(tree.getChild(0)).get(0);
                 program.addLine(Line.Op.BLOCK, while_enter);
                 visit(tree.getChild(1));
-                program.addLine(Line.Op.JGREATER, while_enter, cond_while, new Nil());
+                program.addLine(Line.Op.JEQUALS, while_enter, cond_while, new Nil());
                 program.addLine(Line.Op.BLOCKEND,while_enter);
 
                 break;

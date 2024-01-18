@@ -114,7 +114,7 @@ std::string toString(NODE &node);
 
 bool isNil(NODE &node);
 
-NODE equals(NODE &A, NODE &B);
+NODE equals(NODE A, NODE B);
 
 void pp(NODE &node);
 

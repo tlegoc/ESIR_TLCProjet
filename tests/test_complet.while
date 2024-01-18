@@ -15,10 +15,10 @@ read Var1, Var2, Var3, Var4
 	Test4 := (test Test1 Test2);
 
 	for Var1 do
-		Test5 := (cons nil Test5)
+		Test5 := (cons nil nil)
 	od;
 
-	Test5 := (cons nil Test5);
+	Test5 := (cons nil nil);
 
 	Test6 := nil;
 

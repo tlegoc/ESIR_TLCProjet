@@ -95,7 +95,7 @@ bool isNil(NODE &node) {
     return node->m_type == NNIL;
 }
 
-NODE equals(NODE &A, NODE &B) {
+NODE equals(NODE A, NODE B) {
     if (A->m_type == NNIL && B->m_type == NNIL) {
         return MSTRUE();
     } else if (A->m_type == NSYMB && B->m_type == NSYMB) {
@@ -124,6 +124,12 @@ void ppln(NODE &node) {
 }
 
 void pp(NODE &node) {
+    if (node == nullptr)
+    {
+        cout << "nullptr";
+        return;
+    }
+
     if (node->m_type == NTREE) {
         TREE t = static_pointer_cast<CTree>(node);
         if (t->left_child->m_type == NSYMB) {

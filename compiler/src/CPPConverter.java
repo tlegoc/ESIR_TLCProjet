@@ -197,8 +197,11 @@ public class CPPConverter {
                     addVariableForScope(generatedCode, currentScope);
                     break;
                 case ASSIGN:
-                    if (line.res instanceof Registre) {
-                        generatedCode.append("NODE ").append(result).append(" = MSNIL();\n");
+                    if (line.res instanceof Registre reg) {
+                        if (!reg.isInitialized) {
+                            reg.isInitialized = true;
+                            generatedCode.append("NODE ").append(result).append(" = MSNIL();\n");
+                        }
                     }
                     if (line.arg1.toString().equals("Nil")) {
                         generatedCode.append("Nil(").append(result).append(");\n");
@@ -222,15 +225,13 @@ public class CPPConverter {
                     addVariableForScope(generatedCode, currentScope);
                     break;
                 case JEQUALS:
-                    String arg1_equ = line.arg1.toString();
-                    String arg2_equ = line.arg2.toString();
                     String destination_equ = line.res.toString();
-                    if(arg1_equ.equals("Nil")) arg1_equ = "0";
-                    else arg1_equ = "toInt("+line.arg1.toString()+")";
-                    if(arg2_equ.equals("Nil")) arg2_equ = "0";
-                    else arg2_equ = "toInt("+line.arg2.toString()+")";
+                    String true_arg1 = arg1;
+                    String true_arg2 = arg2;
+                    if (arg2.equals("Nil")) true_arg2 = "Nil()";
+                    if (arg1.equals("Nil")) true_arg1 = "Nil()";
 
-                    generatedCode.append("if (").append(arg1_equ).append(" == ").append(arg2_equ).append(") ");
+                    generatedCode.append("if (toBool(equals(").append(true_arg1).append(", ").append(true_arg2).append("))) ");
                     generatedCode.append("goto ").append(destination_equ).append(";\n");
                     break;
                 case JGREATER:
@@ -278,8 +279,11 @@ public class CPPConverter {
                     assigns.add(result);
                     break;
                 case CONS:
-                    if (line.res instanceof Registre) {
-                        generatedCode.append("NODE ").append(result).append(" = MSNIL();\n");
+                    if (line.res instanceof Registre reg) {
+                        if (!reg.isInitialized) {
+                            reg.isInitialized = true;
+                            generatedCode.append("NODE ").append(result).append(" = MSNIL();\n");
+                        }
                     }
                     generatedCode.append("Cons(").append(result);
                     if (!line.arg1.toString().equals("EMPTY")) {
@@ -297,21 +301,28 @@ public class CPPConverter {
                     generatedCode.append(");\n");
                     break;
                 case EQUALSINTER:
+                    // TODO ????
                     generatedCode.append("NODE ").append(result).append(" = equals(");
                     generatedCode.append(arg1).append(", ").append(arg2).append(");\n");
 
                     break;
                 case TL:
-                    if (line.res instanceof Registre) {
-                        generatedCode.append("NODE ").append(result).append(" = MSNIL();\n");
+                    if (line.res instanceof Registre reg) {
+                        if (!reg.isInitialized) {
+                            reg.isInitialized = true;
+                            generatedCode.append("NODE ").append(result).append(" = MSNIL();\n");
+                        }
                     }
-                    generatedCode.append("tl(").append(result).append(", ").append(result).append(");\n");
+                    generatedCode.append("tl(").append(result).append(", ").append(arg1).append(");\n");
                     break;
                 case HD:
-                    if (line.res instanceof Registre) {
-                        generatedCode.append("NODE ").append(result).append(" = MSNIL();\n");
+                    if (line.res instanceof Registre reg) {
+                        if (!reg.isInitialized) {
+                            reg.isInitialized = true;
+                            generatedCode.append("NODE ").append(result).append(" = MSNIL();\n");
+                        }
                     }
-                    generatedCode.append("hd(").append(result).append(", ").append(result).append(");\n");
+                    generatedCode.append("hd(").append(result).append(", ").append(arg1).append(");\n");
                     break;
 //                case IGNORE:
                 default:
