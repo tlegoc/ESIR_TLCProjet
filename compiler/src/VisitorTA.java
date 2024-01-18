@@ -279,7 +279,6 @@ public class VisitorTA {
     private List<Registre> processCALL(Object o) {
         CommonTree tree = (CommonTree) o;
         Symbol funcName = new Symbol(tree.getChild(0).toString());
-        program.addLine(Line.Op.CALL, funcName);
         for (int i = 1; i < tree.getChildCount(); i++) {
             Object child = tree.getChild(i);
             if (child.toString().equals("VIDE")) {
@@ -297,7 +296,7 @@ public class VisitorTA {
             outRegs.add(outReg);
             program.addLine(Line.Op.OUTPUTSET, outReg);
         }
-        program.addLine(Line.Op.CALLEND, funcName);
+        program.addLine(Line.Op.CALL, funcName);
         return outRegs;
     }
 

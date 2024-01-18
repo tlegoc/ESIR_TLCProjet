@@ -246,7 +246,7 @@ public class CPPConverter {
                     generatedCode.append("if (").append(arg1_gr).append(" > ").append(arg2_gr).append(") ");
                     generatedCode.append("goto ").append(destination_gr).append(";\n");
                     break;
-                case CALLEND:
+                case CALL:
                     STFunc st_func = symbolTable.getFunc(line.res.toString());
 
                     generatedCode.append(result).append("(");

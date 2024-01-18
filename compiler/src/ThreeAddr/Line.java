@@ -23,7 +23,6 @@ public class Line {
         TL,
         HD,
         CALL,
-        CALLEND,
         EQUALSINTER,
         IGNORE,
         BLOCK,
@@ -53,7 +52,7 @@ public class Line {
             result.append(ANSI_GREEN);
         else if (line.op == Op.BLOCK || line.op == Op.BLOCKEND || line.op == Op.JEQUALS || line.op == Op.JGREATER )
             result.append(ANSI_YELLOW);
-        else if (line.op == Line.Op.CALL || line.op == Line.Op.PARAMSET || line.op == Line.Op.CALLEND || line.op == Op.OUTPUTSET) result.append(ANSI_RED);
+        else if (line.op == Line.Op.CALL || line.op == Line.Op.PARAMSET || line.op == Op.OUTPUTSET) result.append(ANSI_RED);
 //        else if (line.op == Line.Op.OUTPUT) result.append(ANSI_BLUE);
         else if (line.op == Line.Op.ASSIGN || line.op == Op.EQUALSINTER) result.append(ANSI_PURPLE);
         else if (line.op == Line.Op.IGNORE) result.append(ANSI_CYAN);
