@@ -3,6 +3,7 @@ import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.Tree;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class VisitorTS {
@@ -43,6 +44,13 @@ public class VisitorTS {
 
                 for (int i = 0; i < output_count; i++) {
                     outputs[i] = out.getChild(i).toString();
+                }
+
+                for (int i = 0; i < outputs.length; i++) {
+                    if (Arrays.asList(parameters).contains(outputs[i])) {
+                        System.out.println(ANSI_RED + "Error: function " + func_name + " has a variable as both parameter and output (" + outputs[i] + ")." + ANSI_RESET);
+                        valid = false;
+                    }
                 }
 
                 if (st.getFunc(func_name) != null) {
@@ -122,8 +130,7 @@ public class VisitorTS {
                 // get the number of parameters
                 if (tree.getChild(1).toString().equals("VIDE")) paramCount = 0;
 
-                if (func != null && func.parameters.length != paramCount)
-                {
+                if (func != null && func.parameters.length != paramCount) {
                     System.out.println(ANSI_RED + "Error: call to function " + func_name2 + " with wrong numbers of parameters, got " + (tree.getChildCount() - 1) + ", expected " + func.parameters.length + " at " + Helpers.getFormattedPosition(tree.getChild(0)) + ANSI_RESET);
                     valid = false;
                 }
