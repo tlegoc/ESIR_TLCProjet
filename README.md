@@ -64,7 +64,7 @@ Ce programme va prendre en paramètres 2 entiers ou arbre, puis les sommer en co
 
 # Erreurs connues, TODO
 
-- Une fonction ne peut pas avoir une variable de retour et de sortie partageant le même nom, bug au niveau de la compilation en C++ (fixé par un check additionnel dans la V3, peut être ajouté à la V2.1).
+- ~~Une fonction ne peut pas avoir une variable de retour et de sortie partageant le même nom, bug au niveau de la compilation en C++.~~
 - L'utilisation d'une variable de retour avant qu'elle soit initialisée fait crash le programme (ajouter une validation).
 - ~~Variables mal assignées en C++ (lorsqu'on fait var1 = var2, on a simplement une copie du pointeur. Au final ça ne copie pas réellement la valeur).~~
 - ~~Programmer le main comme expliqué dans la spécification (à savoir entrée en paramètres, appel de la fonction nommée main dans le programme while).~~
