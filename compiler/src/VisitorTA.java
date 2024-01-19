@@ -7,8 +7,6 @@ import java.util.List;
 
 
 // S'occupe de creer le code intermediaire
-// Pourrait etre BEAUCOUP plus optimise
-// mais il marche
 public class VisitorTA {
     private final Program program = new Program();
     private final HashMap<String, Integer> functionOutputs = new HashMap<>();
@@ -21,20 +19,15 @@ public class VisitorTA {
      */
     public void visit(Object o) {
         CommonTree tree = (CommonTree) o;
-
+        /*
         int line = tree.getLine();
         int charInLine = tree.getCharPositionInLine();
-        //program.addComment("Line: " + line + ":" + charInLine + " (visit)");
+        program.addComment("Line: " + line + ":" + charInLine + " (visit)");
+        */
+
 
         String token = String.valueOf(tree);
         switch (token) {
-            /*
-            case "CONS":
-                //program.addLine(Line.Op.CONS, processCONS(o), new EmptyArgument(), new EmptyArgument());
-
-                break;
-
-             */
             case "ASSIGN":
                 processASSIGN(o);
                 break;
