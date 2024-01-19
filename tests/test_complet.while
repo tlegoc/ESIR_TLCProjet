@@ -10,15 +10,14 @@ read Var1, Var2, Var3, Var4
 %
 	Test1 := (cons string ceci est un texte);
 	Test2 := (cons bool nil);
-	Test2 := (cons int (cons nil (cons nil nil)));
+	Test3 := (cons int (cons nil (cons nil nil)));
 
 	Test4 := (test Test1 Test2);
 
+	Test5 := nil;
 	for Var1 do
-		Test5 := (cons nil nil)
+		Test5 := (cons nil Test5)
 	od;
-
-	Test5 := (cons nil nil);
 
 	Test6 := nil;
 
@@ -32,7 +31,7 @@ read Var1, Var2, Var3, Var4
 			Test7 := nil
 		od
 	else 
-		nop;
+		nop
 	fi;
 
 	Test7 := (list ah ah ah ah ah ah ah Var3);
