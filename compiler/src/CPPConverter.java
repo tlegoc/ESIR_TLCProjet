@@ -223,6 +223,7 @@ public class CPPConverter {
                     String blockName = line.res.toString();
                     generatedCode.append(blockName).append(" :\n");
                     generatedCode.append("i = 0;\n");
+                    //generatedCode.append("cout<<\"in block \"<<\"").append(blockName).append("\"<<endl;\n");
                     //currentScope+=1;
                     //addVariableForScope(generatedCode, currentScope);
                     break;
