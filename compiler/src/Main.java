@@ -30,6 +30,10 @@ public class Main {
         //optimization broken for the moment
         boolean succes = compiler.compile(true, false);
 
+        // Vous pouvez décommenter pour afficher le code 3 adresses et la table des symboles.
+//        compiler.printProgram();
+//        compiler.printSymbolTable();
+
         if (!succes) {
             System.out.println(ANSI_RED + "Error: could not compile program" + ANSI_RESET);
             return;
