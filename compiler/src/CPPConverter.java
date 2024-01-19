@@ -184,25 +184,32 @@ public class CPPConverter {
                         generatedCode.append("NODE ").append(sanitizeSymbol(func.parameters[j]));
                     }
                     generatedCode.append(" ) {\n");
+                    generatedCode.append("int i = 0;\n");
 
                     // Les fonctions ont un scope de 2
-                    currentScope += 2;
-                    addVariableForScope(generatedCode, currentScope);
+                    //currentScope += 2;
+                    //addVariableForScope(generatedCode, currentScope);
                     break;
                 case FUNCEND:
 
                     generatedCode.append("}\n");
                     // Les fonctions ont un scope de 2
-                    currentScope += 2;
-                    addVariableForScope(generatedCode, currentScope);
+                    //currentScope += 2;
+                    //addVariableForScope(generatedCode, currentScope);
+                    break;
+                case INIT:
+                    generatedCode.append("NODE ").append(result).append(" = MSNIL();\n");
                     break;
                 case ASSIGN:
+                    /*
                     if (line.res instanceof Registre reg) {
                         if (!reg.isInitialized) {
                             reg.isInitialized = true;
                             generatedCode.append("NODE ").append(result).append(" = MSNIL();\n");
                         }
                     }
+
+                     */
                     if (line.arg1.toString().equals("Nil")) {
                         generatedCode.append("Nil(").append(result).append(");\n");
                     }
@@ -215,15 +222,21 @@ public class CPPConverter {
                 case BLOCK:
                     String blockName = line.res.toString();
                     generatedCode.append(blockName).append(" :\n");
+                    generatedCode.append("i = 0;\n");
+                    //currentScope+=1;
+                    //addVariableForScope(generatedCode, currentScope);
+                    break;
+                case SCOPEBEGIN:
                     generatedCode.append("{\n");
-                    currentScope+=1;
-                    addVariableForScope(generatedCode, currentScope);
+                    //currentScope+=1;
+                    //addVariableForScope(generatedCode, currentScope);
                     break;
-                case BLOCKEND:
+                case SCOPEEND:
+                    //currentScope+=1;
                     generatedCode.append("}\n");
-                    currentScope+=1;
-                    addVariableForScope(generatedCode, currentScope);
+
                     break;
+
                 case JEQUALS:
                     String destination_equ = line.res.toString();
                     String true_arg1 = arg1;
@@ -275,16 +288,19 @@ public class CPPConverter {
                     params.add(result);
                     break;
                 case OUTPUTSET:
-                    generatedCode.append("NODE ").append(result).append(" = MSNIL();\n");
+                    //generatedCode.append("NODE ").append(result).append(" = MSNIL();\n");
                     assigns.add(result);
                     break;
                 case CONS:
+                    /*
                     if (line.res instanceof Registre reg) {
                         if (!reg.isInitialized) {
                             reg.isInitialized = true;
                             generatedCode.append("NODE ").append(result).append(" = MSNIL();\n");
                         }
                     }
+
+                     */
                     generatedCode.append("Cons(").append(result);
                     if (!line.arg1.toString().equals("EMPTY")) {
                         if (line.arg1.toString().equals("Nil"))
@@ -302,26 +318,32 @@ public class CPPConverter {
                     break;
                 case EQUALSINTER:
                     // TODO ????
-                    generatedCode.append("NODE ").append(result).append(" = equals(");
+                    generatedCode.append(result).append(" = equals(");
                     generatedCode.append(arg1).append(", ").append(arg2).append(");\n");
 
                     break;
                 case TL:
+                    /*
                     if (line.res instanceof Registre reg) {
                         if (!reg.isInitialized) {
                             reg.isInitialized = true;
                             generatedCode.append("NODE ").append(result).append(" = MSNIL();\n");
                         }
                     }
+
+                     */
                     generatedCode.append("tl(").append(result).append(", ").append(arg1).append(");\n");
                     break;
                 case HD:
+                    /*
                     if (line.res instanceof Registre reg) {
                         if (!reg.isInitialized) {
                             reg.isInitialized = true;
                             generatedCode.append("NODE ").append(result).append(" = MSNIL();\n");
                         }
                     }
+
+                     */
                     generatedCode.append("hd(").append(result).append(", ").append(arg1).append(");\n");
                     break;
 //                case IGNORE:

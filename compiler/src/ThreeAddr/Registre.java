@@ -10,7 +10,6 @@ public class Registre implements Argument {
 //    public static Set<String> taken_ids = new HashSet<>();
     public static int current_reg = -1;
 
-    public boolean isInitialized = false;
 
     public Registre() {
 //        Random r = new Random();
