@@ -24,7 +24,7 @@ public class VisitorTA {
 
         int line = tree.getLine();
         int charInLine = tree.getCharPositionInLine();
-        program.addComment("Line: " + line + ":" + charInLine + " (visit)");
+        //program.addComment("Line: " + line + ":" + charInLine + " (visit)");
 
         String token = String.valueOf(tree);
         switch (token) {
@@ -376,7 +376,6 @@ public class VisitorTA {
             Object ass_exp_child = ass_exp.getChild(i);
 
             List<Registre> out = process(ass_exp_child);
-            program.addComment("Out size: " + out.size());
             for (Registre registre : out) {
                 addInKnown(ass_var.getChild(consumed).toString(),true);
                 program.addLine(
