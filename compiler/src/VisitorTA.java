@@ -109,16 +109,14 @@ public class VisitorTA {
                 BlockName while_exit = new BlockName("while_exit_"+ block_ind);
 
                 Argument cond_while = process(tree.getChild(0)).get(0);
-                //pas très beau mais un while ne peut prendre que une variable en indice sinon boucle infinie !
-                String cond_while_name = tree.getChild(0).getChild(0).getChild(0).toString();
-                program.addLine(Line.Op.JEQUALS, while_exit, new Variable(cond_while_name), new Nil());
+                program.addLine(Line.Op.JEQUALS, while_exit, cond_while, new Nil());
                 program.addLine(Line.Op.BLOCK, while_enter);
                 program.addLine(Line.Op.SCOPEBEGIN, new EmptyArgument());
                 knownArg.add(new ArrayList<>());
 
                 visit(tree.getChild(1));
-
-                program.addLine(Line.Op.JGREATER, while_enter,  new Variable(cond_while_name), new Nil());
+                cond_while = process(tree.getChild(0)).get(0);
+                program.addLine(Line.Op.JGREATER, while_enter, cond_while, new Nil());
                 program.addLine(Line.Op.SCOPEEND, new EmptyArgument());
                 knownArg.remove(knownArg.size() - 1);
 
