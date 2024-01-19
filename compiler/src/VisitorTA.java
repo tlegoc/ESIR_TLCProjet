@@ -414,7 +414,7 @@ public class VisitorTA {
         if(!isIn) {
             if(init) program.addLine(Line.Op.INIT, new Text(arg));
             knownArg.get(knownArg.size() - 1).add(arg);
-            printKnownArg();
+//            printKnownArg();
         }
     }
 

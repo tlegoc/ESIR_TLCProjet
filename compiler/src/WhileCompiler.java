@@ -81,17 +81,17 @@ public class WhileCompiler {
         VisitorTA visitorTA = new VisitorTA();
         visitorTA.visit(ast);
         program = visitorTA.getProgram();
-        printProgram();
-        printSymbolTable();
+//        printProgram();
+//        printSymbolTable();
 
         // Optimizing
         if (runOptimizations) {
             WhileOptimizer optimizer = new WhileOptimizer(program, symbolTable);
             program = optimizer.optimize();
-            System.out.println("=============================================");
-            System.out.println("=============================================");
-            System.out.println("=============================================");
-            printProgram();
+//            System.out.println("=============================================");
+//            System.out.println("=============================================");
+//            System.out.println("=============================================");
+//            printProgram();
         }
 
 
